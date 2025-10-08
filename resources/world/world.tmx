@@ -461,7 +461,7 @@
   <object id="418" gid="93" x="581" y="636" width="19" height="46"/>
   <object id="420" gid="93" x="579" y="550.5" width="19" height="46"/>
   <object id="421" gid="93" x="540.5" y="557.5" width="19" height="46"/>
-  <object id="422" gid="92" x="550.5" y="529.5" width="33" height="73"/>
+  <object id="422" gid="92" x="551.167" y="517.5" width="33" height="73"/>
   <object id="429" gid="93" x="506.5" y="604" width="19" height="46"/>
   <object id="434" gid="93" x="600" y="639" width="19" height="46"/>
   <object id="438" gid="93" x="520.5" y="582.5" width="19" height="46"/>
@@ -470,7 +470,6 @@
   <object id="454" gid="93" x="609.5" y="579.5" width="19" height="46"/>
   <object id="455" gid="93" x="620" y="534" width="19" height="46"/>
   <object id="456" gid="93" x="598" y="543" width="19" height="46"/>
-  <object id="463" name="hidden treasure" gid="106" x="957" y="650.5" width="32" height="32"/>
   <object id="468" gid="69" x="1410.67" y="1057" width="96" height="130"/>
   <object id="469" gid="65" x="1441" y="982" width="47" height="43"/>
   <object id="470" gid="65" x="1451.67" y="974" width="47" height="43"/>
@@ -539,6 +538,7 @@
   <object id="542" gid="95" x="1088" y="648" width="30" height="40"/>
   <object id="543" gid="95" x="1014" y="363" width="30" height="40"/>
   <object id="532" gid="70" x="535" y="1212" width="57" height="42"/>
+  <object id="463" name="hidden door" gid="106" x="957" y="650.5" width="32" height="32"/>
  </objectgroup>
  <objectgroup id="3" name="areas">
   <object id="54" name="house" x="1213.33" y="1336.67" width="49.333" height="92.667"/>
@@ -548,7 +548,7 @@
    <point/>
   </object>
   <object id="379" name="cemetery" x="614.667" y="1352" width="162.667" height="105.333"/>
-  <object id="415" name="dungeon" x="554.5" y="508.5" width="27.5" height="34.5"/>
+  <object id="415" name="dungeon" x="556.5" y="499.167" width="27.5" height="34.5"/>
   <object id="467" name="scheleton" x="790.75" y="1406.94">
    <point/>
   </object>
@@ -556,7 +556,7 @@
    <point/>
   </object>
   <object id="534" name="river" x="562" y="1161" width="22" height="24"/>
-  <object id="544" name="infernal_fire" x="568" y="530">
+  <object id="544" name="infernal_fire" x="412.667" y="480">
    <point/>
   </object>
   <object id="548" name="bat_1" x="1334" y="690">

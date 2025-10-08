@@ -94,6 +94,10 @@ class Game:
 
                 # Special handling for fish - pick random spawn point
                 if obj.name == 'fish':
+                    existing_fish = [sprite for sprite in self.all_sprites if
+                                     isinstance(sprite, NPC) and sprite.name == 'fish']
+                    if existing_fish:
+                        continue
                     fish_areas = [o for o in self.current_map.get_layer_by_name('areas') if o.name == 'fish']
                     spawn_area = random.choice(fish_areas)
                     spawn_pos = (spawn_area.x, spawn_area.y)
@@ -103,7 +107,7 @@ class Game:
                 self.monster = NPC(spawn_pos, self.enemies_images[obj.name],
                                    self.all_sprites, obj.name, enemies_speed[obj.name],
                                    True, self.enemies_life[obj.name], self.enemies_direction[obj.name],
-                                   follow_player=obj.name in ['scheleton', 'dragon', 'bat_1', 'flame_1'])
+                                   follow_player=obj.name in ['scheleton', 'dragon', 'bat_1', 'flame_1','infernal_fire'])
                 self.monster.player = self.player
                 
     def enter_area_check(self,event):
@@ -153,6 +157,8 @@ class Game:
                         self.player.inventory['runes dust']+= 1
                         obj.kill()
                         self.last_item = 'runes dust'
+                    elif obj.name == "hidden door":
+                        print('hidden door')
                     else:
                         choice = random.choices(self.game_objects,weights=self.weights,k=1)[0]
                         self.player.inventory[choice]+= 1
