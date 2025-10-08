@@ -1,0 +1,11 @@
+[project]
+name = "my-last-game"
+version = "0.1.0"
+description = "these are the requirement for my last piece of art"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "pygame-ce>=2.5.5",
+    "pymunk>=7.0.1",
+    "pytmx>=3.32",
+]

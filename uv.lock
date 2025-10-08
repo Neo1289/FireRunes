@@ -1,0 +1,102 @@
+version = 1
+revision = 2
+requires-python = ">=3.13"
+resolution-markers = [
+    "sys_platform != 'emscripten'",
+    "sys_platform == 'emscripten'",
+]
+
+[[package]]
+name = "cffi"
+version = "1.17.1"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "pycparser" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/fc/97/c783634659c2920c3fc70419e3af40972dbaf758daa229a7d6ea6135c90d/cffi-1.17.1.tar.gz", hash = "sha256:1c39c6016c32bc48dd54561950ebd6836e1670f2ae46128f67cf49e789c52824", size = 516621, upload_time = "2024-09-04T20:45:21.852Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/8d/f8/dd6c246b148639254dad4d6803eb6a54e8c85c6e11ec9df2cffa87571dbe/cffi-1.17.1-cp313-cp313-macosx_10_13_x86_64.whl", hash = "sha256:f3a2b4222ce6b60e2e8b337bb9596923045681d71e5a082783484d845390938e", size = 182989, upload_time = "2024-09-04T20:44:28.956Z" },
+    { url = "https://files.pythonhosted.org/packages/8b/f1/672d303ddf17c24fc83afd712316fda78dc6fce1cd53011b839483e1ecc8/cffi-1.17.1-cp313-cp313-macosx_11_0_arm64.whl", hash = "sha256:0984a4925a435b1da406122d4d7968dd861c1385afe3b45ba82b750f229811e2", size = 178802, upload_time = "2024-09-04T20:44:30.289Z" },
+    { url = "https://files.pythonhosted.org/packages/0e/2d/eab2e858a91fdff70533cab61dcff4a1f55ec60425832ddfdc9cd36bc8af/cffi-1.17.1-cp313-cp313-manylinux_2_12_i686.manylinux2010_i686.manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:d01b12eeeb4427d3110de311e1774046ad344f5b1a7403101878976ecd7a10f3", size = 454792, upload_time = "2024-09-04T20:44:32.01Z" },
+    { url = "https://files.pythonhosted.org/packages/75/b2/fbaec7c4455c604e29388d55599b99ebcc250a60050610fadde58932b7ee/cffi-1.17.1-cp313-cp313-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:706510fe141c86a69c8ddc029c7910003a17353970cff3b904ff0686a5927683", size = 478893, upload_time = "2024-09-04T20:44:33.606Z" },
+    { url = "https://files.pythonhosted.org/packages/4f/b7/6e4a2162178bf1935c336d4da8a9352cccab4d3a5d7914065490f08c0690/cffi-1.17.1-cp313-cp313-manylinux_2_17_ppc64le.manylinux2014_ppc64le.whl", hash = "sha256:de55b766c7aa2e2a3092c51e0483d700341182f08e67c63630d5b6f200bb28e5", size = 485810, upload_time = "2024-09-04T20:44:35.191Z" },
+    { url = "https://files.pythonhosted.org/packages/c7/8a/1d0e4a9c26e54746dc08c2c6c037889124d4f59dffd853a659fa545f1b40/cffi-1.17.1-cp313-cp313-manylinux_2_17_s390x.manylinux2014_s390x.whl", hash = "sha256:c59d6e989d07460165cc5ad3c61f9fd8f1b4796eacbd81cee78957842b834af4", size = 471200, upload_time = "2024-09-04T20:44:36.743Z" },
+    { url = "https://files.pythonhosted.org/packages/26/9f/1aab65a6c0db35f43c4d1b4f580e8df53914310afc10ae0397d29d697af4/cffi-1.17.1-cp313-cp313-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:dd398dbc6773384a17fe0d3e7eeb8d1a21c2200473ee6806bb5e6a8e62bb73dd", size = 479447, upload_time = "2024-09-04T20:44:38.492Z" },
+    { url = "https://files.pythonhosted.org/packages/5f/e4/fb8b3dd8dc0e98edf1135ff067ae070bb32ef9d509d6cb0f538cd6f7483f/cffi-1.17.1-cp313-cp313-musllinux_1_1_aarch64.whl", hash = "sha256:3edc8d958eb099c634dace3c7e16560ae474aa3803a5df240542b305d14e14ed", size = 484358, upload_time = "2024-09-04T20:44:40.046Z" },
+    { url = "https://files.pythonhosted.org/packages/f1/47/d7145bf2dc04684935d57d67dff9d6d795b2ba2796806bb109864be3a151/cffi-1.17.1-cp313-cp313-musllinux_1_1_x86_64.whl", hash = "sha256:72e72408cad3d5419375fc87d289076ee319835bdfa2caad331e377589aebba9", size = 488469, upload_time = "2024-09-04T20:44:41.616Z" },
+    { url = "https://files.pythonhosted.org/packages/bf/ee/f94057fa6426481d663b88637a9a10e859e492c73d0384514a17d78ee205/cffi-1.17.1-cp313-cp313-win32.whl", hash = "sha256:e03eab0a8677fa80d646b5ddece1cbeaf556c313dcfac435ba11f107ba117b5d", size = 172475, upload_time = "2024-09-04T20:44:43.733Z" },
+    { url = "https://files.pythonhosted.org/packages/7c/fc/6a8cb64e5f0324877d503c854da15d76c1e50eb722e320b15345c4d0c6de/cffi-1.17.1-cp313-cp313-win_amd64.whl", hash = "sha256:f6a16c31041f09ead72d69f583767292f750d24913dadacf5756b966aacb3f1a", size = 182009, upload_time = "2024-09-04T20:44:45.309Z" },
+]
+
+[[package]]
+name = "my-last-game"
+version = "0.1.0"
+source = { virtual = "." }
+dependencies = [
+    { name = "pygame-ce" },
+    { name = "pymunk" },
+    { name = "pytmx" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "pygame-ce", specifier = ">=2.5.5" },
+    { name = "pymunk", specifier = ">=7.0.1" },
+    { name = "pytmx", specifier = ">=3.32" },
+]
+
+[[package]]
+name = "pycparser"
+version = "2.22"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/1d/b2/31537cf4b1ca988837256c910a668b553fceb8f069bedc4b1c826024b52c/pycparser-2.22.tar.gz", hash = "sha256:491c8be9c040f5390f5bf44a5b07752bd07f56edf992381b05c701439eec10f6", size = 172736, upload_time = "2024-03-30T13:22:22.564Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/13/a3/a812df4e2dd5696d1f351d58b8fe16a405b234ad2886a0dab9183fb78109/pycparser-2.22-py3-none-any.whl", hash = "sha256:c3702b6d3dd8c7abc1afa565d7e63d53a1d0bd86cdc24edd75470f4de499cfcc", size = 117552, upload_time = "2024-03-30T13:22:20.476Z" },
+]
+
+[[package]]
+name = "pygame-ce"
+version = "2.5.5"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/c9/be/af69521e694442dbde5db29069953f25367ddacaa50d9ae644745853d37c/pygame_ce-2.5.5.tar.gz", hash = "sha256:a7f297c223c6e35f16d65d47a19757005763ea7e90795ccc37c0bc562364ae6b", size = 5821935, upload_time = "2025-06-07T07:33:03.501Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/13/d6/b72511c35d3c3ed07072cee07a1dea34e950375a225d181276c4b2316d3a/pygame_ce-2.5.5-cp313-cp313-macosx_10_13_x86_64.whl", hash = "sha256:32008bef532318c7f8d97fb087a16b44c0d5140969963b6afbf0f9521d18f3dc", size = 12403252, upload_time = "2025-06-07T07:32:00.325Z" },
+    { url = "https://files.pythonhosted.org/packages/5d/0e/23b4ea53172d8841cfaee5b5274581b2b7fa96426e6029dda0e37b369f86/pygame_ce-2.5.5-cp313-cp313-macosx_11_0_arm64.whl", hash = "sha256:00004956921641d9dc7e628be77ea7f23333b839e48ec981704b6516537bd67f", size = 11654505, upload_time = "2025-06-07T07:32:02.91Z" },
+    { url = "https://files.pythonhosted.org/packages/5c/95/a58928af657fbba391d1691ce66f2afede3e8c65cb021b42e4488f6fd490/pygame_ce-2.5.5-cp313-cp313-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:255efe334dc69a78c3b7986b9c893ef86cead5aaf8c61cb6990949b4fca84142", size = 12286043, upload_time = "2025-06-07T07:32:05.147Z" },
+    { url = "https://files.pythonhosted.org/packages/5a/61/499b2d078c62c9b91a6ccd2e63805ac884e1715d307d083e54bbbd75a24d/pygame_ce-2.5.5-cp313-cp313-manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:c4b90f01d3ae8ae0f84361480531323bbd06e10be75f4e67478b999b43f8a1f9", size = 12821547, upload_time = "2025-06-07T07:32:07.347Z" },
+    { url = "https://files.pythonhosted.org/packages/d7/19/7f9a37b7ff55dc34a8f727b86b89800a1fdb4b1436e601dea66f89764472/pygame_ce-2.5.5-cp313-cp313-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:e37bfd4545fb057ce24d06e13d1262989ca0ece3b12010c585130607e3c2bbf8", size = 12463330, upload_time = "2025-06-07T07:32:10.136Z" },
+    { url = "https://files.pythonhosted.org/packages/fa/f5/5ad50c34f042bbc135312cd75d86d156bf18f54b72ae8947498acbda8cbd/pygame_ce-2.5.5-cp313-cp313-win32.whl", hash = "sha256:476a1b56b19f5023ddd0512716f11c413c3587b93dfd4aebd40869f261d3b8b7", size = 9799763, upload_time = "2025-06-07T07:32:12.332Z" },
+    { url = "https://files.pythonhosted.org/packages/a8/88/89cfcaf55c8ccab5a2d59f206bf7b7d4336c4b27d9b63531a0e274cac817/pygame_ce-2.5.5-cp313-cp313-win_amd64.whl", hash = "sha256:8568fab6d43e23ca209fb860f7d387f2f89bd4047a4fa617ed0951fd9739109c", size = 10376053, upload_time = "2025-06-07T07:32:14.526Z" },
+]
+
+[[package]]
+name = "pymunk"
+version = "7.0.1"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "cffi" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/a0/63/1a725ec05e8b8a56f663c8045f990bfff0846b2d5bd2ccd9dd48f0d22540/pymunk-7.0.1.tar.gz", hash = "sha256:96a38e8123f4d89f8820b43640f1f623d6844f1f97eea09c4660f031780a9ff8", size = 3355002, upload_time = "2025-06-07T20:35:57.528Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/55/74/9ce98d4bc39fe6ceabe4fcb82e6529a0a4fca5115b427a65b97a1e4a9df1/pymunk-7.0.1-cp313-cp313-ios_13_0_arm64_iphoneos.whl", hash = "sha256:bcf500614af65ef2db28a0843a3cddbb7f625431a87439599347217213a9bad7", size = 283570, upload_time = "2025-06-07T20:34:43.093Z" },
+    { url = "https://files.pythonhosted.org/packages/33/75/b5ae9ace894f43ee3bbad9634f72e7a74c08a5c820e8b1798691b61ef88d/pymunk-7.0.1-cp313-cp313-ios_13_0_arm64_iphonesimulator.whl", hash = "sha256:04e26c13c69700ff58f78d45e3122ba32235527e0dd433a7e3ec3569e78cca66", size = 288619, upload_time = "2025-06-07T20:34:44.54Z" },
+    { url = "https://files.pythonhosted.org/packages/af/41/8b452c5efab5223e1a473e28e43a709d7936befbd1fe96393bec536c2bff/pymunk-7.0.1-cp313-cp313-macosx_10_13_x86_64.whl", hash = "sha256:3ad9ca36d9a01696213c34b071dae82aa51dded4993e30d02b57845ef0dacb9c", size = 367366, upload_time = "2025-06-07T20:34:46.297Z" },
+    { url = "https://files.pythonhosted.org/packages/0b/4c/4cc678c6ad53ad7cba8a2c4524cfc056d98df368b31e932e69d804c3d656/pymunk-7.0.1-cp313-cp313-macosx_11_0_arm64.whl", hash = "sha256:3078e2300c1b95f04b2147820d9cf7af3379c129e2899b5866cdaf371be7b3e5", size = 350167, upload_time = "2025-06-07T20:34:48.035Z" },
+    { url = "https://files.pythonhosted.org/packages/3a/6c/b4d15a47732f680c32dadb6136634132d8462c2bd09557f60050e698b7be/pymunk-7.0.1-cp313-cp313-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:5bcc8bca81d90be7157d1d0ddc0312a6e8d7425891d4c3700e9e2b51e952ce04", size = 1032875, upload_time = "2025-06-07T20:34:51.64Z" },
+    { url = "https://files.pythonhosted.org/packages/08/b7/0729950c01c55e06c94e3451b8613063f5a0f3a07b5c1deb182b34a549e0/pymunk-7.0.1-cp313-cp313-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:559405a2715bd3a9343bbb4d09fd86031e8bcc26e00c0317d9be192491a2315b", size = 1065835, upload_time = "2025-06-07T20:34:54.578Z" },
+    { url = "https://files.pythonhosted.org/packages/7d/29/7a902a2f5638de7815c011be740b26abf773a5ef38a5ba1d8e528ea20b90/pymunk-7.0.1-cp313-cp313-manylinux_2_5_i686.manylinux1_i686.manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:36510e84546d3e38212b395a28f7ab0ca45bc86449b92dac0d066248e61693e2", size = 986948, upload_time = "2025-06-07T20:34:57.048Z" },
+    { url = "https://files.pythonhosted.org/packages/fb/19/4d41bb443d62ffae886bcb6f34feedbb0ce437f98088eaac7d9d4fa49def/pymunk-7.0.1-cp313-cp313-musllinux_1_2_aarch64.whl", hash = "sha256:01591e2a14883aa8bd809e75eb9bf3937e835bbdb9968cf23ee242ed1420c800", size = 989332, upload_time = "2025-06-07T20:34:59.723Z" },
+    { url = "https://files.pythonhosted.org/packages/24/79/c88bcb71fa96753ec9ffb9fc24053a9cd65107436fa57ee0828bb44f894d/pymunk-7.0.1-cp313-cp313-musllinux_1_2_i686.whl", hash = "sha256:056c4d0558705323971bc8e5b1a82eba8952d0c954d3bc098b7b2c5416a043b3", size = 945137, upload_time = "2025-06-07T20:35:02.551Z" },
+    { url = "https://files.pythonhosted.org/packages/62/35/5b17ab2541614e478e5b98c267507305c9252e860ddf7cf6717eae0978c7/pymunk-7.0.1-cp313-cp313-musllinux_1_2_x86_64.whl", hash = "sha256:0aeb1118af51ac27c108ab77983360be0585a7cbaf6147987c14ae93cbbcafa8", size = 1016217, upload_time = "2025-06-07T20:35:05.351Z" },
+    { url = "https://files.pythonhosted.org/packages/9f/51/b45761ece3721bce12778d8f9793f4f534b8ea22b729a241329c0d66a4f8/pymunk-7.0.1-cp313-cp313-win32.whl", hash = "sha256:5f138a9da273b728da5b1bbee58308dd036ce74c7738660ae0d783e001b0f976", size = 317787, upload_time = "2025-06-07T20:35:07.05Z" },
+    { url = "https://files.pythonhosted.org/packages/8a/11/4018355f11c20c29c53797a9e333c3bd64b965120ba7c16d16d5bf1a1cf5/pymunk-7.0.1-cp313-cp313-win_amd64.whl", hash = "sha256:56eaae39a186621ebed6efdda85180c0ab3415e4ac415ab35f09a52add46f754", size = 369895, upload_time = "2025-06-07T20:35:08.572Z" },
+]
+
+[[package]]
+name = "pytmx"
+version = "3.32"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/04/4c/b5f720f7b7c4dc601365e1b2464a4434b2c5516ca22c59cb3c26a9ce4947/PyTMX-3.32.tar.gz", hash = "sha256:858fd8338f8e7de0e7967604f008022c26735ab98780b2c5d94d2e2c2f5809ca", size = 28026, upload_time = "2023-06-13T15:46:58.119Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/35/e0/fd0a2d2b93599dec876158fe7fccb8c3e8096844a5a4110dd5bc67377128/PyTMX-3.32-py3-none-any.whl", hash = "sha256:4da4c01133dfcb2746cb4e7f46ea1aef21d56119ab044f8f77b9906dea5fbccb", size = 24468, upload_time = "2023-06-13T15:46:56.341Z" },
+]
