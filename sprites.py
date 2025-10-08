@@ -8,7 +8,6 @@ class TimeUpdate:
         if hasattr(self, 'spawn_time') and (current_time - self.spawn_time) >= self.lasting_time[name]:
             self.kill()
 
-
 class ShootFire:
     def __init__(self, fire_frames, group):
         self.fire_frames = fire_frames
