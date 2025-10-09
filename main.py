@@ -11,7 +11,6 @@ from words_library import phrases,instructions,trade,items
 from player import Player
 from camera import allSpritesOffset
 from sprites import GeneralSprite,AreaSprite,NPC,Rune,Fire
-from hiddendoor import HiddenDoorScreen
 
 pygame.init()
 
@@ -27,10 +26,10 @@ class Game:
         self.key_dict = key_dict
         self.last_time_guard = 0
 
-        self.maps = maps
+        self.maps = maps ## maps dictionary coming for the settings file
         self.current_map = None
         self.current_area = "world"
-        self.area_group = {}
+        self.area_group = {} ###dictionary with the areas where is possible to enter in a map
         self.transition_bool = True
         self.phrases = phrases
         self.enemies_images = enemies_images
@@ -53,15 +52,20 @@ class Game:
 
         self.custom_event = pygame.event.custom_type()
 
-    def mapping(self):
+    def cleaning_area(self):
 
         self.all_sprites.empty()
         self.collision_sprites.empty()
         self.area_group.clear()
 
-        for name, map in self.maps.items():
-            if name == self.current_area:
-                self.current_map = map
+    def detecting_area_name(self):
+        if self.current_area in self.maps:
+            self.current_map = self.maps[self.current_area]
+
+    def mapping(self):
+
+        self.cleaning_area()
+
         ###ground
         for x, y, image in self.current_map.get_layer_by_name('ground').tiles():
             GeneralSprite((x * TILE_SIZE, y * TILE_SIZE), image, self.all_sprites,True)
@@ -81,6 +85,25 @@ class Game:
                 self.area_group[obj.name] = AreaSprite(obj.x, obj.y, obj.width, obj.height, self.all_sprites,obj.name)
             else:
                 self.monsters()
+
+    def enter_area_check(self, event):
+        for name, area in self.area_group.items():
+            ###check if the player pressed yes key to enter the area
+            if area.rect.colliderect(self.player.rect) and self.key_down(event, "y"):
+                if name not in ('forbidden forest', 'exit'):
+                    self.current_area = name
+                    self.transition_bool = True
+                elif name == 'forbidden forest' and self.player.inventory['keys'] > 4:
+                    self.player.inventory['keys'] -= 5
+                    self.transition_bool = True
+
+        ###perform the actual transition between areas
+        if self.transition_bool:
+            self.detecting_area_name()
+            self.mapping()
+            self.transition_bool = False
+
+            pygame.time.set_timer(self.custom_event, self.spawning_time[self.current_area])
 
     def monsters(self):
         # Handle all enemies including fish
@@ -110,23 +133,6 @@ class Game:
                                    True, self.enemies_life[obj.name], self.enemies_direction[obj.name],
                                    follow_player=obj.name in ['scheleton', 'dragon', 'bat_1', 'flame_1','infernal_fire'])
                 self.monster.player = self.player
-                
-    def enter_area_check(self,event):
-        for name, area in self.area_group.items():
-        ###check if the player pressed yes key to enter the area
-            if area.rect.colliderect(self.player.rect) and self.key_down(event,"y"):
-                if name not in ('forbidden forest','exit'):
-                    self.transition_bool = True
-                elif name == 'forbidden forest' and self.player.inventory['keys'] > 4:
-                    self.player.inventory['keys'] -= 5
-                    self.transition_bool = True
-
-        ###perform the actual transition between areas
-        if self.transition_bool:
-            self.mapping()
-            self.transition_bool = False
-
-            pygame.time.set_timer(self.custom_event, self.spawning_time[self.current_area])
 
     def rendering(self):
         self.text_surface = None
@@ -134,7 +140,6 @@ class Game:
         for name, area in self.area_group.items():
             if area.rect.colliderect(self.player.rect):
                     if name not in ('danger area','recall'):
-                        self.current_area = name
                         self.text = f"{self.phrases['text_8']}{name}"
                         self.text_surface = font.render(self.text,True,"white")
 
@@ -150,9 +155,6 @@ class Game:
             text_rect = self.text_surface.get_rect(center=(WINDOW_WIDTH // 3, WINDOW_HEIGHT // 4))
             self.display_surface.blit(self.text_surface, text_rect)
 
-    def special_game(self):
-        action = HiddenDoorScreen()
-        action.run()
 
     def collect_resources(self,event):
         for obj in self.collision_sprites:
@@ -162,9 +164,6 @@ class Game:
                         self.player.inventory['runes dust']+= 1
                         obj.kill()
                         self.last_item = 'runes dust'
-                    elif obj.name == "hidden door":
-                        self.special_game()
-                        obj.resources += 1
                     else:
                         choice = random.choices(self.game_objects,weights=self.weights,k=1)[0]
                         self.player.inventory[choice]+= 1
@@ -387,4 +386,3 @@ class Game:
 if __name__ == '__main__':
     main_game = Game()
     main_game.run()
-    main_game.mapping()
