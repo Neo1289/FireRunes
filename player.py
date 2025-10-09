@@ -31,14 +31,14 @@ class Player(pygame.sprite.Sprite):
         self._setup_rects(pos)
 
         self.inventory = {
-            'potion': 1,
-            'crystal ball': 1,
-            'coin': 1,
-            'keys': 5,
-            'holy water': 1,
-            'runes dust': 1,
+            'potion': 0,
+            'crystal ball': 0,
+            'coin': 0,
+            'keys': 0,
+            'holy water': 0,
+            'runes dust': 0,
             'nothing useful': 0,
-            'fire dust': 1
+            'fire dust': 0
         }
 
     def _setup_rects(self, pos):

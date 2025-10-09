@@ -11,6 +11,7 @@ from words_library import phrases,instructions,trade,items
 from player import Player
 from camera import allSpritesOffset
 from sprites import GeneralSprite,AreaSprite,NPC,Rune,Fire
+from hiddendoor import HiddenDoorScreen
 
 pygame.init()
 
@@ -149,6 +150,10 @@ class Game:
             text_rect = self.text_surface.get_rect(center=(WINDOW_WIDTH // 3, WINDOW_HEIGHT // 4))
             self.display_surface.blit(self.text_surface, text_rect)
 
+    def special_game(self):
+        action = HiddenDoorScreen()
+        action.run()
+
     def collect_resources(self,event):
         for obj in self.collision_sprites:
             if self.object_id(obj):
@@ -158,7 +163,8 @@ class Game:
                         obj.kill()
                         self.last_item = 'runes dust'
                     elif obj.name == "hidden door":
-                        print('hidden door')
+                        self.special_game()
+                        obj.resources += 1
                     else:
                         choice = random.choices(self.game_objects,weights=self.weights,k=1)[0]
                         self.player.inventory[choice]+= 1
