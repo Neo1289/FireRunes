@@ -107,21 +107,6 @@ for file_name in listdir(infernal_folder):
     surf.set_colorkey((31, 16, 42))
     infernal.append(surf)
 
-
-# ---------------------------
-# enemies dictionary images
-# ---------------------------
-enemies_life = {"dragon":500,"scheleton": 10,"bat":10,"ice":1000,"flame":100000,"bat_1":10,"fish":10,"flame_1":100,"infernal_fire":10000}
-enemies_images = {"dragon":dragon,"bat":bat,"scheleton":scheleton,"flame":flame,"ice":ice,"bat_1":bat,"fish":fish,"flame_1":flame,"infernal_fire":infernal}
-enemies_speed = {"dragon":110,"bat":80,"scheleton":30,"flame":0,"ice":100,"bat_1":80,"fish":5,"flame_1":7,"infernal_fire":100}
-enemies_direction = {"dragon": [-1,1] ,"bat":[-1,1] ,"scheleton":[-1,1] ,"flame":[-1,1],"ice":[-1,1],"bat_1":[-1,1],"fish":[-1,1],"flame_1":[-1,1],"infernal_fire":[-1,1]}
-spawning_time =  {'world':20000,'house':0,'forest':0,'cemetery':5000,
-                  'dungeon' : 100000000, 'maze' : 2500, 'abandoned house': 5000,'river':2000,'forbidden forest': 5000,'exit': 0, 'hidden door':1000}
-
-lasting_time = {'Rune': 1000, 'scheleton': 30000, 'flame': 300000000,'dragon': 3000000,'ice': 5000,'bat_1': 50000,'bat': 10000,'fire':1000,'fish':1000,"flame_1":100000,"infernal_fire": 10000}
-
-key_dict = {'1':[0,'potion',2], '3':[50,'holy water',1],'2':[1,'crystal ball',0],'4':[1,'runes dust',0]}
-
 # ---------------------------
 # player flame images
 # ---------------------------
@@ -145,3 +130,20 @@ for file_name in listdir(fire_flame_folder):
     surf = pygame.image.load(full_path).convert()
     surf.set_colorkey((31, 16, 42))
     fire_frames.append(surf)
+
+# ------------------------------------
+# dictionaries and lists of useful stuff
+# -------------------------------------
+
+enemies_life = {"dragon":500,"scheleton": 10,"bat":10,"ice":1000,"flame":100000,"bat_1":10,"fish":10,"flame_1":100,"infernal_fire":10000}
+enemies_images = {"dragon":dragon,"bat":bat,"scheleton":scheleton,"flame":flame,"ice":ice,"bat_1":bat,"fish":fish,"flame_1":flame,"infernal_fire":infernal}
+enemies_speed = {"dragon":110,"bat":80,"scheleton":30,"flame":0,"ice":100,"bat_1":80,"fish":5,"flame_1":7,"infernal_fire":100}
+enemies_direction = {"dragon": [-1,1] ,"bat":[-1,1] ,"scheleton":[-1,1] ,"flame":[-1,1],"ice":[-1,1],"bat_1":[-1,1],"fish":[-1,1],"flame_1":[-1,1],"infernal_fire":[-1,1]}
+spawning_time =  {'world':20000,'house':0,'forest':0,'cemetery':5000,
+                  'dungeon' : 100000000, 'maze' : 2500, 'abandoned house': 5000,'river':2000,'forbidden forest': 5000,'exit': 0, 'hidden door':1000}
+
+lasting_time = {'Rune': 1000, 'scheleton': 30000, 'flame': 300000000,'dragon': 3000000,'ice': 5000,'bat_1': 50000,'bat': 10000,'fire':1000,'fish':1000,"flame_1":100000,"infernal_fire": 10000}
+
+key_dict = {'1':[0,'potion',2], '3':[50,'holy water',1],'2':[1,'crystal ball',0],'4':[1,'runes dust',0]}
+
+game_objects = ['potion','crystal ball','coin','runes dust','nothing useful','holy water','fire dust']

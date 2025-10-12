@@ -4,7 +4,7 @@ from libraries_and_settings import (pygame,
                                     random)
 ###CONFIGURATIONS
 from libraries_and_settings import (display_surface, maps, TILE_SIZE, WINDOW_HEIGHT,WINDOW_WIDTH,
-                                    font,enemies_images,enemies_speed,enemies_direction,spawning_time,key_dict,player_flame_frames,enemies_life)
+                                    font,enemies_images,enemies_speed,enemies_direction,spawning_time,key_dict,player_flame_frames,enemies_life,game_objects)
 from words_library import phrases,instructions,trade,items
 
 ###SPRITES
@@ -46,21 +46,49 @@ class Game:
 
         self.spawning_time = spawning_time
 
-        self.game_objects = ['potion','crystal ball','coin','runes dust','nothing useful','holy water','fire dust']
+        self.game_objects = game_objects
         self.weights = [0.4,0.1,0.49,0.01,1,0.00001,0.3]
         self.last_item = ''
 
         self.custom_event = pygame.event.custom_type()
 
-    def cleaning_area(self):
+    def cleaning_area(self): ####removes all elements within groups
 
         self.all_sprites.empty()
         self.collision_sprites.empty()
         self.area_group.clear()
 
-    def detecting_area_name(self):
+    def detecting_area_name(self): ####assigns the map based on the current area name
+
         if self.current_area in self.maps:
             self.current_map = self.maps[self.current_area]
+
+    def assign_current_area(self):
+
+        for name, area in self.area_group.items():
+            if area.rect.colliderect(self.player.rect):
+                if name != 'exit':
+                    self.current_area = name
+
+        print(self.current_area)
+
+    def enter_area_check(self, event):
+        for name, area in self.area_group.items():
+            if area.rect.colliderect(self.player.rect) and self.key_down(event, "y"):
+                if name == 'forbidden forest':
+                    if self.player.inventory['keys'] > 4:
+                        self.player.inventory['keys'] -= 5
+                        self.transition_bool = True
+                else:
+                    self.transition_bool = True
+
+        ###perform the actual transition between areas
+        if self.transition_bool:
+            self.detecting_area_name()
+            self.mapping()
+            self.transition_bool = False
+
+            pygame.time.set_timer(self.custom_event, self.spawning_time[self.current_area])
 
     def mapping(self):
 
@@ -85,25 +113,6 @@ class Game:
                 self.area_group[obj.name] = AreaSprite(obj.x, obj.y, obj.width, obj.height, self.all_sprites,obj.name)
             else:
                 self.monsters()
-
-    def enter_area_check(self, event):
-        for name, area in self.area_group.items():
-            ###check if the player pressed yes key to enter the area
-            if area.rect.colliderect(self.player.rect) and self.key_down(event, "y"):
-                if name not in ('forbidden forest', 'exit'):
-                    self.current_area = name
-                    self.transition_bool = True
-                elif name == 'forbidden forest' and self.player.inventory['keys'] > 4:
-                    self.player.inventory['keys'] -= 5
-                    self.transition_bool = True
-
-        ###perform the actual transition between areas
-        if self.transition_bool:
-            self.detecting_area_name()
-            self.mapping()
-            self.transition_bool = False
-
-            pygame.time.set_timer(self.custom_event, self.spawning_time[self.current_area])
 
     def monsters(self):
         # Handle all enemies including fish
@@ -154,7 +163,6 @@ class Game:
         if self.text_surface:
             text_rect = self.text_surface.get_rect(center=(WINDOW_WIDTH // 3, WINDOW_HEIGHT // 4))
             self.display_surface.blit(self.text_surface, text_rect)
-
 
     def collect_resources(self,event):
         for obj in self.collision_sprites:
@@ -378,6 +386,7 @@ class Game:
             self.collision_detection()
             self.check_enemies_collision()
             self.player_buffers()
+            self.assign_current_area()
 
             pygame.display.update()
 
