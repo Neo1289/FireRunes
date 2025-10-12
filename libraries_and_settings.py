@@ -136,10 +136,11 @@ for file_name in listdir(fire_flame_folder):
 # dictionaries and lists of useful stuff
 # -------------------------------------
 
-enemies_life = {"dragon": 500, "scheleton": 10, "bat": 10, "ice": 1000, "flame": 100000, "bat_1": 10, "fish": 10, "flame_1": 100, "infernal_fire": 10000}
-enemies_images = {"dragon": dragon, "bat": bat, "scheleton": scheleton, "flame": flame, "ice": ice, "bat_1": bat, "fish": fish, "flame_1": flame, "infernal_fire": infernal}
-enemies_speed = {"dragon": 110, "bat": 80, "scheleton": 30, "flame": 0, "ice": 100, "bat_1": 80, "fish": 5, "flame_1": 7, "infernal_fire": 100}
-enemies_direction = {"dragon": [-1, 1], "bat": [-1, 1], "scheleton": [-1, 1], "flame": [-1, 1], "ice": [-1, 1], "bat_1": [-1, 1], "fish": [-1, 1], "flame_1": [-1, 1], "infernal_fire": [-1, 1]}
+enemies_damage = {"dragon": 4, "bat": 0.5, "bat_1": 1, "scheleton": 0.5, "fish": 0.1, "flame": 3, "flame_1": 3, "ice": 3, "infernal_fire": 5}
+enemies_life = {"dragon": 500, "bat": 10, "bat_1": 10, "scheleton": 10, "fish": 10, "flame": 100000, "flame_1": 100, "ice": 1000, "infernal_fire": 10000}
+enemies_images = {"dragon": dragon, "bat": bat, "bat_1": bat, "scheleton": scheleton, "fish": fish, "flame": flame, "flame_1": flame, "ice": ice, "infernal_fire": infernal}
+enemies_speed = {"dragon": 110, "bat": 80, "bat_1": 80, "scheleton": 30, "fish": 5, "flame": 0, "flame_1": 7, "ice": 100, "infernal_fire": 100}
+enemies_direction = {"dragon": [-1, 1], "bat": [-1, 1], "bat_1": [-1, 1], "scheleton": [-1, 1], "fish": [-1, 1], "flame": [-1, 1], "flame_1": [-1, 1], "ice": [-1, 1], "infernal_fire": [-1, 1]}
 spawning_time = {'world': 20000, 'house': 0, 'forest': 0, 'cemetery': 5000,
                  'dungeon': 100000000, 'maze': 2500, 'abandoned house': 5000, 'river': 2000, 'forbidden forest': 5000, 'exit': 0, 'hidden door': 1000}
 

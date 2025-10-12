@@ -4,7 +4,8 @@ from libraries_and_settings import (pygame,
                                      random)
 ###CONFIGURATIONS
 from libraries_and_settings import (display_surface, maps, TILE_SIZE, WINDOW_HEIGHT, WINDOW_WIDTH,
-                                     font, enemies_images, enemies_speed, enemies_direction, spawning_time, key_dict, player_flame_frames, enemies_life, game_objects)
+                                     font, enemies_images, enemies_speed, enemies_direction, spawning_time, key_dict, player_flame_frames, enemies_life, game_objects,
+                                    enemies_damage)
 from words_library import phrases, instructions, trade, items
 
 ###SPRITES
@@ -37,6 +38,7 @@ class Game:
         self.enemies_direction = enemies_direction
         self.enemies_list = list(self.enemies_images.keys())
         self.enemies_life = enemies_life
+        self.enemies_damage = enemies_damage
         self.instructions = instructions
         self.trade = trade
         self.items = items
@@ -70,8 +72,6 @@ class Game:
             if area.rect.colliderect(self.player.rect):
                 if name != 'exit':
                     self.current_area = name
-
-        print(self.current_area)
 
     def enter_area_check(self, event):
         for name, area in self.area_group.items():
@@ -140,7 +140,7 @@ class Game:
 
                 self.monster = NPC(spawn_pos, self.enemies_images[obj.name],
                                    self.all_sprites, obj.name, enemies_speed[obj.name],
-                                   True, self.enemies_life[obj.name], self.enemies_direction[obj.name],
+                                   True, self.enemies_life[obj.name], self.enemies_damage[obj.name], self.enemies_direction[obj.name],
                                    follow_player=obj.name in ['scheleton', 'dragon', 'bat_1', 'flame_1', 'infernal_fire'])
                 self.monster.player = self.player
 
@@ -232,7 +232,7 @@ class Game:
         for obj in self.all_sprites:
             if obj.rect.colliderect(self.player.rect):
                 if hasattr(obj, "dangerous"):
-                    self.player.life -= 1
+                    self.player.life -= obj.damage
 
         if self.player.life <= 0:
             self.caption = pygame.display.set_caption('GAME OVER')
@@ -287,7 +287,7 @@ class Game:
                         f"\U0001F525{self.player.inventory['fire dust']}     "
                         f"timer: {time_sec}          "
                         f"last item found: {self.last_item}     "
-                        f"special enemy life: {[i.life for i in enemies if i.name in ('dragon', 'fish')]}"
+                        f"special enemy life: {[i.life for i in enemies if i.name == 'dragon']}"
                         )
         pygame.display.set_caption(self.caption)
 

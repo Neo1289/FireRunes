@@ -52,11 +52,12 @@ class AreaSprite(pygame.sprite.Sprite):
         self.rect = pygame.Rect(x, y, width, height)
         if name == 'danger area':
             self.dangerous = True
+            self.damage = 1
 
 
 #######################
 class NPC(pygame.sprite.Sprite, TimeUpdate):
-    def __init__(self, pos, frames, groups, name: str, speed: int, dangerous: bool, life: int, direction: list = None, follow_player: bool = False):
+    def __init__(self, pos, frames, groups, name: str, speed: int, dangerous: bool, life: int, damage: int, direction: list = None, follow_player: bool = False):
         super().__init__(groups)
 
         self.frames, self.frames_index = frames, 0
@@ -75,6 +76,7 @@ class NPC(pygame.sprite.Sprite, TimeUpdate):
         self.player = None
         self.spawn_time = pygame.time.get_ticks()
         self.life = life
+        self.damage = damage
         if name == 'dragon' and fire_frames:
             self.shooter = ShootFire(fire_frames, groups)
         else:
