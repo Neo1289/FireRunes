@@ -1,18 +1,20 @@
 ###LIBRARIES
 from libraries_and_settings import (pygame,
-                                    sys,
-                                    random)
+                                     sys,
+                                     random)
 ###CONFIGURATIONS
-from libraries_and_settings import (display_surface, maps, TILE_SIZE, WINDOW_HEIGHT,WINDOW_WIDTH,
-                                    font,enemies_images,enemies_speed,enemies_direction,spawning_time,key_dict,player_flame_frames,enemies_life)
-from words_library import phrases,instructions,trade,items
+from libraries_and_settings import (display_surface, maps, TILE_SIZE, WINDOW_HEIGHT, WINDOW_WIDTH,
+                                     font, enemies_images, enemies_speed, enemies_direction, spawning_time, key_dict, player_flame_frames, enemies_life, game_objects,
+                                    enemies_damage)
+from words_library import phrases, instructions, trade, items
 
 ###SPRITES
 from player import Player
 from camera import allSpritesOffset
-from sprites import GeneralSprite,AreaSprite,NPC,Rune,Fire
+from sprites import GeneralSprite, AreaSprite, NPC, Rune, Fire
 
 pygame.init()
+
 
 class Game:
     def __init__(self):
@@ -26,16 +28,17 @@ class Game:
         self.key_dict = key_dict
         self.last_time_guard = 0
 
-        self.maps = maps ## maps dictionary coming for the settings file
+        self.maps = maps  ##maps dictionary coming for the settings file
         self.current_map = None
         self.current_area = "world"
-        self.area_group = {} ###dictionary with the areas where is possible to enter in a map
+        self.area_group = {}  ###dictionary with the areas where is possible to enter in a map
         self.transition_bool = True
         self.phrases = phrases
         self.enemies_images = enemies_images
         self.enemies_direction = enemies_direction
         self.enemies_list = list(self.enemies_images.keys())
         self.enemies_life = enemies_life
+        self.enemies_damage = enemies_damage
         self.instructions = instructions
         self.trade = trade
         self.items = items
@@ -46,21 +49,47 @@ class Game:
 
         self.spawning_time = spawning_time
 
-        self.game_objects = ['potion','crystal ball','coin','runes dust','nothing useful','holy water','fire dust']
-        self.weights = [0.4,0.1,0.49,0.01,1,0.00001,0.3]
+        self.game_objects = game_objects
+        self.weights = [0.4, 0.1, 0.49, 0.01, 1, 0.00001, 0.3]
         self.last_item = ''
 
         self.custom_event = pygame.event.custom_type()
 
-    def cleaning_area(self):
+    def cleaning_area(self):  ####removes all elements within groups
 
         self.all_sprites.empty()
         self.collision_sprites.empty()
         self.area_group.clear()
 
-    def detecting_area_name(self):
+    def detecting_area_name(self):  ####assigns the map based on the current area name
+
         if self.current_area in self.maps:
             self.current_map = self.maps[self.current_area]
+
+    def assign_current_area(self):
+
+        for name, area in self.area_group.items():
+            if area.rect.colliderect(self.player.rect):
+                if name != 'exit':
+                    self.current_area = name
+
+    def enter_area_check(self, event):
+        for name, area in self.area_group.items():
+            if area.rect.colliderect(self.player.rect) and self.key_down(event, "y"):
+                if name == 'forbidden forest':
+                    if self.player.inventory['keys'] > 4:
+                        self.player.inventory['keys'] -= 5
+                        self.transition_bool = True
+                else:
+                    self.transition_bool = True
+
+        ###perform the actual transition between areas
+        if self.transition_bool:
+            self.detecting_area_name()
+            self.mapping()
+            self.transition_bool = False
+
+            pygame.time.set_timer(self.custom_event, self.spawning_time[self.current_area])
 
     def mapping(self):
 
@@ -68,10 +97,10 @@ class Game:
 
         ###ground
         for x, y, image in self.current_map.get_layer_by_name('ground').tiles():
-            GeneralSprite((x * TILE_SIZE, y * TILE_SIZE), image, self.all_sprites,True)
+            GeneralSprite((x * TILE_SIZE, y * TILE_SIZE), image, self.all_sprites, True)
         ###objects
         for obj in self.current_map.get_layer_by_name('objects'):
-            GeneralSprite((obj.x, obj.y), obj.image, (self.all_sprites,self.collision_sprites),None,obj.name,1,item= True)
+            GeneralSprite((obj.x, obj.y), obj.image, (self.all_sprites, self.collision_sprites), None, obj.name, 1, item=True)
         ###player
         for obj in self.current_map.get_layer_by_name('areas'):
             if obj.name == 'player_spawn':
@@ -82,28 +111,9 @@ class Game:
                     self.all_sprites.add(self.player)
 
             elif obj.name not in self.enemies_list and obj.name is not None:
-                self.area_group[obj.name] = AreaSprite(obj.x, obj.y, obj.width, obj.height, self.all_sprites,obj.name)
+                self.area_group[obj.name] = AreaSprite(obj.x, obj.y, obj.width, obj.height, self.all_sprites, obj.name)
             else:
                 self.monsters()
-
-    def enter_area_check(self, event):
-        for name, area in self.area_group.items():
-            ###check if the player pressed yes key to enter the area
-            if area.rect.colliderect(self.player.rect) and self.key_down(event, "y"):
-                if name not in ('forbidden forest', 'exit'):
-                    self.current_area = name
-                    self.transition_bool = True
-                elif name == 'forbidden forest' and self.player.inventory['keys'] > 4:
-                    self.player.inventory['keys'] -= 5
-                    self.transition_bool = True
-
-        ###perform the actual transition between areas
-        if self.transition_bool:
-            self.detecting_area_name()
-            self.mapping()
-            self.transition_bool = False
-
-            pygame.time.set_timer(self.custom_event, self.spawning_time[self.current_area])
 
     def monsters(self):
         # Handle all enemies including fish
@@ -130,8 +140,8 @@ class Game:
 
                 self.monster = NPC(spawn_pos, self.enemies_images[obj.name],
                                    self.all_sprites, obj.name, enemies_speed[obj.name],
-                                   True, self.enemies_life[obj.name], self.enemies_direction[obj.name],
-                                   follow_player=obj.name in ['scheleton', 'dragon', 'bat_1', 'flame_1','infernal_fire'])
+                                   True, self.enemies_life[obj.name], self.enemies_damage[obj.name], self.enemies_direction[obj.name],
+                                   follow_player=obj.name in ['scheleton', 'dragon', 'bat_1', 'flame_1', 'infernal_fire'])
                 self.monster.player = self.player
 
     def rendering(self):
@@ -139,34 +149,33 @@ class Game:
         ###determine the current area map to be loaded and print it
         for name, area in self.area_group.items():
             if area.rect.colliderect(self.player.rect):
-                    if name not in ('danger area','recall'):
-                        self.text = f"{self.phrases['text_8']}{name}"
-                        self.text_surface = font.render(self.text,True,"white")
+                if name not in ('danger area', 'recall'):
+                    self.text = f"{self.phrases['text_8']}{name}"
+                    self.text_surface = font.render(self.text, True, "white")
 
         for obj in self.collision_sprites:
             if self.object_id(obj):
-               self.text = f"{self.phrases["text_2"]}{obj.name}?"
-               self.text_surface = font.render(self.text, True, "white")
+                self.text = f"{self.phrases['text_2']}{obj.name}?"
+                self.text_surface = font.render(self.text, True, "white")
             elif self.human_id(obj):
-                self.text = f"{self.phrases["text_1"]}"
+                self.text = f"{self.phrases['text_1']}"
                 self.text_surface = font.render(self.text, True, "white")
 
         if self.text_surface:
             text_rect = self.text_surface.get_rect(center=(WINDOW_WIDTH // 3, WINDOW_HEIGHT // 4))
             self.display_surface.blit(self.text_surface, text_rect)
 
-
-    def collect_resources(self,event):
+    def collect_resources(self, event):
         for obj in self.collision_sprites:
             if self.object_id(obj):
                 if self.key_down(event, "y"):
-                    if hasattr(obj,'rune'):
-                        self.player.inventory['runes dust']+= 1
+                    if hasattr(obj, 'rune'):
+                        self.player.inventory['runes dust'] += 1
                         obj.kill()
                         self.last_item = 'runes dust'
                     else:
-                        choice = random.choices(self.game_objects,weights=self.weights,k=1)[0]
-                        self.player.inventory[choice]+= 1
+                        choice = random.choices(self.game_objects, weights=self.weights, k=1)[0]
+                        self.player.inventory[choice] += 1
                         self.last_item = choice
                     obj.resources -= 1
 
@@ -178,8 +187,8 @@ class Game:
             self.last_time_guard = self.time_event
 
     def reset_timer(self, event):
-        for key,value in self.key_dict.items():
-            #####value[time,action name,effect]
+        for key, value in self.key_dict.items():
+            #####value[time, action name, effect]
             if self.key_down(event, key) and self.player.inventory[value[1]] > 0:
                 self.start_time = pygame.time.get_ticks()
                 self.duration_time = value[0]
@@ -194,22 +203,22 @@ class Game:
                 self.player.life += self.effect
                 if self.temporary_action == 'runes dust':
                     position = (random.choice([100, -100, 50, -50, 200, -200, 0]) + self.player.rect.x,
-                                        random.choice([100, -100, 50, -50, 200, -200, 0]) + self.player.rect.y)
+                                random.choice([100, -100, 50, -50, 200, -200, 0]) + self.player.rect.y)
                     Rune(position, self.all_sprites)
                 if self.temporary_action == 'crystal ball':
                     for enemy in enemies:
                         if enemy.name != 'dragon':
                             enemy.speed = 0
 
-    def player_fire(self,event):
-        if self.key_down(event,'z') and self.player.inventory['fire dust'] > 0:
-            Fire(self.player.rect.center,player_flame_frames,self.all_sprites,50,self.player.state)
+    def player_fire(self, event):
+        if self.key_down(event, 'z') and self.player.inventory['fire dust'] > 0:
+            Fire(self.player.rect.center, player_flame_frames, self.all_sprites, 50, self.player.state)
             self.player.inventory['fire dust'] -= 1
 
-    def trading(self,event):
+    def trading(self, event):
         for obj in self.collision_sprites:
             if self.human_id(obj):
-                if self.key_down(event,"s") and self.player.inventory["crystal ball"] > 0:
+                if self.key_down(event, "s") and self.player.inventory["crystal ball"] > 0:
                     self.player.inventory["crystal ball"] -= 1
                     self.player.inventory["coin"] += 3
                 if self.key_down(event, "b") and self.inventory["coin"] >= 0:
@@ -222,7 +231,8 @@ class Game:
     def collision_detection(self):
         for obj in self.all_sprites:
             if obj.rect.colliderect(self.player.rect):
-                if hasattr(obj, "dangerous"): self.player.life -= 1
+                if hasattr(obj, "dangerous"):
+                    self.player.life -= obj.damage
 
         if self.player.life <= 0:
             self.caption = pygame.display.set_caption('GAME OVER')
@@ -230,7 +240,7 @@ class Game:
             pygame.quit()
             sys.exit()
 
-    def end_game(self,event):
+    def end_game(self, event):
         for name, area in self.area_group.items():
             if area.rect.colliderect(self.player.rect) and self.key_down(event, "y") and name == 'exit':
                 self.caption = pygame.display.set_caption('YOU WIN, YOU ESCAPED')
@@ -250,14 +260,14 @@ class Game:
                 enemy.life -= 1
             if enemy.life == 0:
                 enemy.kill()
-                if enemy.name =='fish':
+                if enemy.name == 'fish':
                     self.player.inventory['keys'] += 1
                 if enemy.name == 'dragon':
                     self.player.inventory['coin'] += 20
                     self.player.inventory['keys'] += 2
                     self.player.inventory['crystal ball'] += 2
 
-        for sprite in self.all_sprites: #controlling fishes population
+        for sprite in self.all_sprites:  #controlling fishes population
             if isinstance(sprite, NPC) and sprite.name == 'fish':
                 self.fishes += 1
             if self.fishes > 1:
@@ -277,20 +287,18 @@ class Game:
                         f"\U0001F525{self.player.inventory['fire dust']}     "
                         f"timer: {time_sec}          "
                         f"last item found: {self.last_item}     "
-                        f"special enemy life: {[i.life for i in enemies if i.name in ('dragon','fish')]}"
+                        f"special enemy life: {[i.life for i in enemies if i.name == 'dragon']}"
                         )
         pygame.display.set_caption(self.caption)
 
     ################################
     ####REDUNDANT CODE REDUCTION####
     ################################
-    def object_id(self,obj):
-        if obj.rect.colliderect(self.player.rect) and hasattr(obj, "name") and hasattr(obj,
-                                                                                           "item") and not hasattr(obj,
-                                                                                           "human")  and obj.resources > 0:
+    def object_id(self, obj):
+        if obj.rect.colliderect(self.player.rect) and hasattr(obj, "name") and hasattr(obj, "item") and not hasattr(obj, "human") and obj.resources > 0:
             return True
 
-    def human_id(self,obj):
+    def human_id(self, obj):
         if obj.rect.colliderect(self.player.rect) and hasattr(obj, "human"):
             return True
 
@@ -303,7 +311,7 @@ class Game:
         return [sprite for sprite in self.all_sprites if isinstance(sprite, NPC)]
 
     def preventing_repetition(self):
-        return  self.time_event % 2 == 0 and self.time_event != self.last_time_guard
+        return self.time_event % 2 == 0 and self.time_event != self.last_time_guard
 
     def main_menu(self):
         menu_running = True
@@ -343,7 +351,7 @@ class Game:
                 controls: controls_rect
             }
 
-            for key,value in menu_dict.items():
+            for key, value in menu_dict.items():
                 self.display_surface.blit(key, value)
 
             pygame.display.update()
@@ -378,10 +386,12 @@ class Game:
             self.collision_detection()
             self.check_enemies_collision()
             self.player_buffers()
+            self.assign_current_area()
 
             pygame.display.update()
 
         pygame.quit()
+
 
 if __name__ == '__main__':
     main_game = Game()
