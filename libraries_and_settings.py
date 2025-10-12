@@ -7,13 +7,14 @@ from os import path, walk, listdir
 from os.path import join
 import pymunk
 from pytmx.util_pygame import load_pygame
-pygame.init()
 import random
+
+pygame.init()
 
 # ---------------------------
 # Configuration Parameters
 # ---------------------------
-WINDOW_WIDTH, WINDOW_HEIGHT = 1024 ,768
+WINDOW_WIDTH, WINDOW_HEIGHT = 1024, 768
 display_surface = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
 TILE_SIZE = 32
 font = pygame.font.Font(None, 20)
@@ -25,7 +26,7 @@ maps = {}
 for dirpath, dirnames, filenames in walk(path.join('resources', 'world')):
     for filename in filenames:
         if filename.lower().endswith('.tmx'):
-            maps[(filename.split('.')[0])] = (load_pygame(path.join('resources','world',filename)))
+            maps[(filename.split('.')[0])] = (load_pygame(path.join('resources', 'world', filename)))
 
 # ---------------------------
 # bats images
@@ -58,7 +59,7 @@ flame_folder = path.join('resources', 'torch')
 for file_name in listdir(flame_folder):
     full_path = path.join(flame_folder, file_name)
     surf = pygame.image.load(full_path).convert()
-    surf.set_colorkey((10,5,46))
+    surf.set_colorkey((10, 5, 46))
     flame.append(surf)
 
 # ---------------------------
@@ -78,7 +79,7 @@ for file_name in listdir(ice_folder):
 # ---------------------------
 
 dragon = []
-dragon_folder = path.join('resources', 'dragon','left')
+dragon_folder = path.join('resources', 'dragon', 'left')
 for file_name in listdir(dragon_folder):
     full_path = path.join(dragon_folder, file_name)
     surf = pygame.image.load(full_path).convert_alpha()
@@ -135,15 +136,15 @@ for file_name in listdir(fire_flame_folder):
 # dictionaries and lists of useful stuff
 # -------------------------------------
 
-enemies_life = {"dragon":500,"scheleton": 10,"bat":10,"ice":1000,"flame":100000,"bat_1":10,"fish":10,"flame_1":100,"infernal_fire":10000}
-enemies_images = {"dragon":dragon,"bat":bat,"scheleton":scheleton,"flame":flame,"ice":ice,"bat_1":bat,"fish":fish,"flame_1":flame,"infernal_fire":infernal}
-enemies_speed = {"dragon":110,"bat":80,"scheleton":30,"flame":0,"ice":100,"bat_1":80,"fish":5,"flame_1":7,"infernal_fire":100}
-enemies_direction = {"dragon": [-1,1] ,"bat":[-1,1] ,"scheleton":[-1,1] ,"flame":[-1,1],"ice":[-1,1],"bat_1":[-1,1],"fish":[-1,1],"flame_1":[-1,1],"infernal_fire":[-1,1]}
-spawning_time =  {'world':20000,'house':0,'forest':0,'cemetery':5000,
-                  'dungeon' : 100000000, 'maze' : 2500, 'abandoned house': 5000,'river':2000,'forbidden forest': 5000,'exit': 0, 'hidden door':1000}
+enemies_life = {"dragon": 500, "scheleton": 10, "bat": 10, "ice": 1000, "flame": 100000, "bat_1": 10, "fish": 10, "flame_1": 100, "infernal_fire": 10000}
+enemies_images = {"dragon": dragon, "bat": bat, "scheleton": scheleton, "flame": flame, "ice": ice, "bat_1": bat, "fish": fish, "flame_1": flame, "infernal_fire": infernal}
+enemies_speed = {"dragon": 110, "bat": 80, "scheleton": 30, "flame": 0, "ice": 100, "bat_1": 80, "fish": 5, "flame_1": 7, "infernal_fire": 100}
+enemies_direction = {"dragon": [-1, 1], "bat": [-1, 1], "scheleton": [-1, 1], "flame": [-1, 1], "ice": [-1, 1], "bat_1": [-1, 1], "fish": [-1, 1], "flame_1": [-1, 1], "infernal_fire": [-1, 1]}
+spawning_time = {'world': 20000, 'house': 0, 'forest': 0, 'cemetery': 5000,
+                 'dungeon': 100000000, 'maze': 2500, 'abandoned house': 5000, 'river': 2000, 'forbidden forest': 5000, 'exit': 0, 'hidden door': 1000}
 
-lasting_time = {'Rune': 1000, 'scheleton': 30000, 'flame': 300000000,'dragon': 3000000,'ice': 5000,'bat_1': 50000,'bat': 10000,'fire':1000,'fish':1000,"flame_1":100000,"infernal_fire": 10000}
+lasting_time = {'Rune': 1000, 'scheleton': 30000, 'flame': 300000000, 'dragon': 3000000, 'ice': 5000, 'bat_1': 50000, 'bat': 10000, 'fire': 1000, 'fish': 1000, "flame_1": 100000, "infernal_fire": 10000}
 
-key_dict = {'1':[0,'potion',2], '3':[50,'holy water',1],'2':[1,'crystal ball',0],'4':[1,'runes dust',0]}
+key_dict = {'1': [0, 'potion', 2], '3': [50, 'holy water', 1], '2': [1, 'crystal ball', 0], '4': [1, 'runes dust', 0]}
 
-game_objects = ['potion','crystal ball','coin','runes dust','nothing useful','holy water','fire dust']
+game_objects = ['potion', 'crystal ball', 'coin', 'runes dust', 'nothing useful', 'holy water', 'fire dust']
