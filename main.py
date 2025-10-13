@@ -4,7 +4,7 @@ from libraries_and_settings import (pygame,
                                      random)
 ###CONFIGURATIONS
 from libraries_and_settings import (display_surface, maps, TILE_SIZE, WINDOW_HEIGHT, WINDOW_WIDTH,
-                                     font, enemies_images, enemies_speed, enemies_direction, spawning_time, key_dict, player_flame_frames, enemies_life, game_objects,
+                                     font, enemies_images, enemies_speed, enemies_direction, spawning_time, buffers, player_flame_frames, enemies_life, game_objects,
                                     enemies_damage)
 from words_library import phrases, instructions, trade, items
 
@@ -22,11 +22,15 @@ class Game:
         self.running = True
         self.display_surface = display_surface
         self.clock = pygame.time.Clock()
-        self.start_time = 0
+        ####countdowns
+        self.fire_time_countdown = 0
+
+        #####key_pressed[duration time, name, effect]
+        self.buffers = buffers
         self.duration_time = 0
-        self.temporary_action = None
-        self.key_dict = key_dict
-        self.last_time_guard = 0
+        self.start_time = 0
+        self.effect = 0
+        self.buffer_used = None
 
         self.maps = maps  ##maps dictionary coming for the settings file
         self.current_map = None
@@ -73,7 +77,7 @@ class Game:
                 if name != 'exit':
                     self.current_area = name
 
-    def enter_area_check(self, event):
+    def enter_area_check(self, event): ####triggering the area switch
         for name, area in self.area_group.items():
             if area.rect.colliderect(self.player.rect) and self.key_down(event, "y"):
                 if name == 'forbidden forest':
@@ -83,7 +87,7 @@ class Game:
                 else:
                     self.transition_bool = True
 
-        ###perform the actual transition between areas
+        ####perform the actual transition between areas
         if self.transition_bool:
             self.detecting_area_name()
             self.mapping()
@@ -142,6 +146,7 @@ class Game:
                                    self.all_sprites, obj.name, enemies_speed[obj.name],
                                    True, self.enemies_life[obj.name], self.enemies_damage[obj.name], self.enemies_direction[obj.name],
                                    follow_player=obj.name in ['scheleton', 'dragon', 'bat_1', 'flame_1', 'infernal_fire'])
+
                 self.monster.player = self.player
 
     def rendering(self):
@@ -179,41 +184,45 @@ class Game:
                         self.last_item = choice
                     obj.resources -= 1
 
-    def event_timer(self):
-        self.time_event = (pygame.time.get_ticks() - self.start_time) // 1000
+    def adding_fire_dust(self):
+        """Track elapsed time and automatically give player 1 fire dust every 2 seconds (max 50)."""
+        self.fire_event = (pygame.time.get_ticks() - self.start_time) // 1000
 
-        if self.preventing_repetition() and self.player.inventory['fire dust'] < 50:
+        if self.preventing_repetition(self.fire_event, self.fire_time_countdown, 2) and self.player.inventory['fire dust'] < 50:
             self.player.inventory['fire dust'] += 1
-            self.last_time_guard = self.time_event
-
-    def reset_timer(self, event):
-        for key, value in self.key_dict.items():
-            #####value[time, action name, effect]
-            if self.key_down(event, key) and self.player.inventory[value[1]] > 0:
-                self.start_time = pygame.time.get_ticks()
-                self.duration_time = value[0]
-                self.player.inventory[value[1]] -= 1
-                self.temporary_action = value[1]
-                self.effect = value[2]
-
-    def player_buffers(self):
-        enemies = self.enemies_groups()
-        for obj in self.game_objects:
-            if self.duration_time >= self.time_event and self.temporary_action == obj:
-                self.player.life += self.effect
-                if self.temporary_action == 'runes dust':
-                    position = (random.choice([100, -100, 50, -50, 200, -200, 0]) + self.player.rect.x,
-                                random.choice([100, -100, 50, -50, 200, -200, 0]) + self.player.rect.y)
-                    Rune(position, self.all_sprites)
-                if self.temporary_action == 'crystal ball':
-                    for enemy in enemies:
-                        if enemy.name != 'dragon':
-                            enemy.speed = 0
+            self.fire_time_countdown = self.fire_event
 
     def player_fire(self, event):
         if self.key_down(event, 'z') and self.player.inventory['fire dust'] > 0:
             Fire(self.player.rect.center, player_flame_frames, self.all_sprites, 50, self.player.state)
             self.player.inventory['fire dust'] -= 1
+
+    def buffer_handlers(self, event):
+        ##### buffers --> key_pressed[duration time, name, effect]
+        for key, value in self.buffers.items():
+            if self.key_down(event, key) and self.player.inventory[value[1]] > 0:
+                self.start_time = pygame.time.get_ticks()
+                self.duration_time = value[0]
+                self.player.inventory[value[1]] -= 1
+                self.effect = value[2]
+                self.buffer_used = value[1]
+
+    def player_buffers(self):
+        self.time_event = (pygame.time.get_ticks() - self.start_time) // 1000
+
+        for obj in self.game_objects:
+            if self.duration_time >= self.time_event and self.buffer_used == obj:
+
+                    if self.buffer_used == 'runes dust':
+                        position = (random.choice([100, -100, 50, -50, 200, -200, 0]) + self.player.rect.x,
+                                    random.choice([100, -100, 50, -50, 200, -200, 0]) + self.player.rect.y)
+                        Rune(position, self.all_sprites)
+
+                    elif self.buffer_used == 'crystal ball':
+                        for enemy in self.enemies_groups():
+                            if enemy.name != 'dragon':
+                                enemy.speed = 0
+
 
     def trading(self, event):
         for obj in self.collision_sprites:
@@ -310,8 +319,10 @@ class Game:
     def enemies_groups(self):
         return [sprite for sprite in self.all_sprites if isinstance(sprite, NPC)]
 
-    def preventing_repetition(self):
-        return self.time_event % 2 == 0 and self.time_event != self.last_time_guard
+    def preventing_repetition(self,time_event,any_time_attribute, buffer: int):
+        """Prevent duplicate actions
+        by checking if current time is even and different from last action time."""
+        return time_event % buffer == 0 and time_event != any_time_attribute
 
     def main_menu(self):
         menu_running = True
@@ -368,7 +379,7 @@ class Game:
                 self.enter_area_check(event)
                 self.collect_resources(event)
                 self.trading(event)
-                self.reset_timer(event)
+                self.buffer_handlers(event)
                 self.player_fire(event)
                 self.end_game(event)
                 if event.type == self.custom_event:
@@ -377,7 +388,7 @@ class Game:
                     self.main_menu()
                     continue
 
-            self.event_timer()
+            self.adding_fire_dust()
             self.display_surface.fill('black')
             self.all_sprites.update(dt)
             self.all_sprites.draw(self.player.rect.center)
