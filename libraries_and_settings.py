@@ -148,5 +148,5 @@ lasting_time = {'Rune': 1000, 'scheleton': 30000, 'flame': 300000000, 'dragon': 
 
 game_objects = ['potion', 'crystal ball', 'coin', 'runes dust', 'nothing useful', 'holy water', 'fire dust']
 
-buffers = {'1': [0, 'potion', 2], '3': [10, 'holy water', 1], '2': [1, 'crystal ball', 0],
+buffers = {'1': [0, 'potion', 2], '3': [10, 'holy water', 1], '2': [0, 'crystal ball', 0],
                         '4': [1, 'runes dust', 0]}

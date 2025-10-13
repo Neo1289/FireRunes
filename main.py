@@ -221,6 +221,10 @@ class Game:
                 for enemy in self.enemies_groups():
                     if enemy.name != 'dragon':
                         enemy.speed = 0
+            else:
+                self.player.life += self.effect
+        else:
+            self.buffer_used = None
 
 
     def trading(self, event):
