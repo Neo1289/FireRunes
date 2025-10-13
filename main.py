@@ -210,18 +210,17 @@ class Game:
     def player_buffers(self):
         self.time_event = (pygame.time.get_ticks() - self.start_time) // 1000
 
-        for obj in self.game_objects:
-            if self.duration_time >= self.time_event and self.buffer_used == obj:
+        if self.duration_time >= self.time_event:
 
-                    if self.buffer_used == 'runes dust':
-                        position = (random.choice([100, -100, 50, -50, 200, -200, 0]) + self.player.rect.x,
-                                    random.choice([100, -100, 50, -50, 200, -200, 0]) + self.player.rect.y)
-                        Rune(position, self.all_sprites)
+            if self.buffer_used == 'runes dust':
+                position = (random.choice([100, -100, 50, -50, 200, -200, 0]) + self.player.rect.x,
+                            random.choice([100, -100, 50, -50, 200, -200, 0]) + self.player.rect.y)
+                Rune(position, self.all_sprites)
 
-                    elif self.buffer_used == 'crystal ball':
-                        for enemy in self.enemies_groups():
-                            if enemy.name != 'dragon':
-                                enemy.speed = 0
+            elif self.buffer_used == 'crystal ball':
+                for enemy in self.enemies_groups():
+                    if enemy.name != 'dragon':
+                        enemy.speed = 0
 
 
     def trading(self, event):
