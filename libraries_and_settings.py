@@ -146,6 +146,7 @@ spawning_time = {'world': 20000, 'house': 0, 'forest': 0, 'cemetery': 5000,
 
 lasting_time = {'Rune': 1000, 'scheleton': 30000, 'flame': 300000000, 'dragon': 3000000, 'ice': 5000, 'bat_1': 50000, 'bat': 10000, 'fire': 1000, 'fish': 1000, "flame_1": 100000, "infernal_fire": 10000}
 
-key_dict = {'1': [0, 'potion', 2], '3': [50, 'holy water', 1], '2': [1, 'crystal ball', 0], '4': [1, 'runes dust', 0]}
-
 game_objects = ['potion', 'crystal ball', 'coin', 'runes dust', 'nothing useful', 'holy water', 'fire dust']
+
+buffers = {'1': [0, 'potion', 2], '3': [10, 'holy water', 1], '2': [0, 'crystal ball', 0],
+                        '4': [1, 'runes dust', 0]}
