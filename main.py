@@ -24,6 +24,9 @@ class Game:
         self.clock = pygame.time.Clock()
         ####countdowns
         self.fire_time_countdown = 0
+        self.fire_buffer = 2
+        self.regeneration_countdown = 0
+        self.regeneration_buffer = 10
 
         #####key_pressed[duration time, name, effect]
         self.buffers = buffers
@@ -188,9 +191,17 @@ class Game:
         """Track elapsed time and automatically give player 1 fire dust every 2 seconds (max 50)."""
         self.fire_event = (pygame.time.get_ticks() - self.start_time) // 1000
 
-        if self.preventing_repetition(self.fire_event, self.fire_time_countdown, 2) and self.player.inventory['fire dust'] < 50:
+        if self.preventing_repetition(self.fire_event, self.fire_time_countdown, self.fire_buffer) and self.player.inventory['fire dust'] < 50:
             self.player.inventory['fire dust'] += 1
             self.fire_time_countdown = self.fire_event
+
+    def player_regeneration(self):
+        """Track elapsed time and automatically give player 1 life dust every 10 seconds."""
+        self.regeneration_event = (pygame.time.get_ticks() - self.start_time) // 1000
+
+        if self.preventing_repetition(self.regeneration_event, self.regeneration_countdown, self.regeneration_buffer)  and self.player.life < 1000:
+            self.player.life += 1
+            self.regeneration_countdown = self.regeneration_event
 
     def player_fire(self, event):
         if self.key_down(event, 'z') and self.player.inventory['fire dust'] > 0:
@@ -392,6 +403,7 @@ class Game:
                     continue
 
             self.adding_fire_dust()
+            self.player_regeneration()
             self.display_surface.fill('black')
             self.all_sprites.update(dt)
             self.all_sprites.draw(self.player.rect.center)
