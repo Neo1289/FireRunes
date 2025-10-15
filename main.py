@@ -153,6 +153,21 @@ class Game:
 
                 self.monster.player = self.player
 
+    def areas_one(self):
+        for obj in self.current_map.get_layer_by_name('areas_one'):
+            if obj.name in self.enemies_list:
+                spawn_pos = (obj.x, obj.y)
+
+                self.monster = NPC(spawn_pos, self.enemies_images[obj.name],
+                                   self.all_sprites, obj.name, enemies_speed[obj.name],
+                                   True, self.enemies_life[obj.name], self.enemies_damage[obj.name],
+                                   self.enemies_direction[obj.name],
+                                   follow_player=obj.name in ['scheleton', 'dragon', 'bat_1', 'flame_1',
+                                                              'infernal_fire'])
+
+                self.monster.player = self.player
+
+
     def rendering(self):
         self.text_surface = None
         ###determine the current area map to be loaded and print it
@@ -295,6 +310,7 @@ class Game:
                     if self.preventing_repetition(current_time, self.last_magic_kill_time, 1):
                         self.regeneration_buffer -= 1
                         self.last_magic_kill_time = current_time
+                    self.areas_one()
 
     def display_captions(self):
         time_sec = pygame.time.get_ticks() // 1000
