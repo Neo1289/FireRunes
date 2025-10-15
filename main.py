@@ -27,6 +27,7 @@ class Game:
         self.fire_buffer = 2
         self.regeneration_countdown = 0
         self.regeneration_buffer = 10
+        self.last_magic_kill_time = 0
 
         #####key_pressed[duration time, name, effect]
         self.buffers = buffers
@@ -277,7 +278,7 @@ class Game:
             sprite for sprite in self.all_sprites
             if isinstance(sprite, (Rune, Fire))
         ])
-        self.fishes = 0
+
         for enemy in enemies:
             if pygame.sprite.spritecollideany(enemy, projectiles):
                 enemy.life -= 1
@@ -289,12 +290,11 @@ class Game:
                     self.player.inventory['coin'] += 20
                     self.player.inventory['keys'] += 2
                     self.player.inventory['crystal ball'] += 2
-
-        for sprite in self.all_sprites:  #controlling fishes population
-            if isinstance(sprite, NPC) and sprite.name == 'fish':
-                self.fishes += 1
-            if self.fishes > 1:
-                self.all_sprites.remove(sprite)
+                if enemy.name == 'magic':
+                    current_time = pygame.time.get_ticks() // 1000
+                    if self.preventing_repetition(current_time, self.last_magic_kill_time, 1):
+                        self.regeneration_buffer -= 1
+                        self.last_magic_kill_time = current_time
 
     def display_captions(self):
         time_sec = pygame.time.get_ticks() // 1000

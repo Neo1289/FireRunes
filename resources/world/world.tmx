@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="64" height="64" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="549">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="64" height="64" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="550">
  <tileset firstgid="1" name="ground" tilewidth="32" tileheight="32" tilecount="64" columns="8">
   <image source="TX Tileset Grass.png" width="256" height="256"/>
  </tileset>
@@ -531,7 +531,6 @@
   <object id="528" gid="72" x="589" y="1057" width="95" height="138"/>
   <object id="529" gid="90" x="573" y="1183" width="30" height="37"/>
   <object id="533" gid="70" x="502" y="1189" width="57" height="42"/>
-  <object id="537" name="magic stone" gid="95" x="1119" y="1081" width="30" height="40"/>
   <object id="539" gid="95" x="1304" y="1099" width="30" height="40"/>
   <object id="540" gid="95" x="619" y="1232" width="30" height="40"/>
   <object id="541" gid="95" x="862" y="579" width="30" height="40"/>
@@ -562,5 +561,8 @@
    <point/>
   </object>
   <object id="463" name="hidden door" gid="106" x="962.333" y="653.833" width="49.3333" height="35.3333"/>
+  <object id="549" name="magic" x="1140" y="1065.33">
+   <point/>
+  </object>
  </objectgroup>
 </map>
