@@ -38,7 +38,7 @@ class Player(pygame.sprite.Sprite):
             'holy water': 1,
             'runes dust': 1,
             'nothing useful': 0,
-            'fire dust': 40
+            'fire dust': 2
         }
 
     def _setup_rects(self, pos):

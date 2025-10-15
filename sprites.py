@@ -64,7 +64,7 @@ class NPC(pygame.sprite.Sprite, TimeUpdate):
         self.image = self.frames[self.frames_index]
 
         if name == 'magic':
-            self.animation_speed = 5
+            self.animation_speed =1
         else:
             self.animation_speed = 10
         self.rect = self.image.get_rect(center=pos)
