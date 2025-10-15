@@ -24,6 +24,10 @@ class Game:
         self.clock = pygame.time.Clock()
         ####countdowns
         self.fire_time_countdown = 0
+        self.fire_buffer = 2
+        self.regeneration_countdown = 0
+        self.regeneration_buffer = 10
+        self.last_magic_kill_time = 0
 
         #####key_pressed[duration time, name, effect]
         self.buffers = buffers
@@ -149,6 +153,21 @@ class Game:
 
                 self.monster.player = self.player
 
+    def areas_one(self):
+        for obj in self.current_map.get_layer_by_name('areas_one'):
+            if obj.name in self.enemies_list:
+                spawn_pos = (obj.x, obj.y)
+
+                self.monster = NPC(spawn_pos, self.enemies_images[obj.name],
+                                   self.all_sprites, obj.name, enemies_speed[obj.name],
+                                   True, self.enemies_life[obj.name], self.enemies_damage[obj.name],
+                                   self.enemies_direction[obj.name],
+                                   follow_player=obj.name in ['scheleton', 'dragon', 'bat_1', 'flame_1',
+                                                              'infernal_fire'])
+
+                self.monster.player = self.player
+
+
     def rendering(self):
         self.text_surface = None
         ###determine the current area map to be loaded and print it
@@ -188,9 +207,17 @@ class Game:
         """Track elapsed time and automatically give player 1 fire dust every 2 seconds (max 50)."""
         self.fire_event = (pygame.time.get_ticks() - self.start_time) // 1000
 
-        if self.preventing_repetition(self.fire_event, self.fire_time_countdown, 2) and self.player.inventory['fire dust'] < 50:
+        if self.preventing_repetition(self.fire_event, self.fire_time_countdown, self.fire_buffer) and self.player.inventory['fire dust'] < 50:
             self.player.inventory['fire dust'] += 1
             self.fire_time_countdown = self.fire_event
+
+    def player_regeneration(self):
+        """Track elapsed time and automatically give player 1 life dust every 10 seconds."""
+        self.regeneration_event = (pygame.time.get_ticks() - self.start_time) // 1000
+
+        if self.preventing_repetition(self.regeneration_event, self.regeneration_countdown, self.regeneration_buffer)  and self.player.life < 1000:
+            self.player.life += 1
+            self.regeneration_countdown = self.regeneration_event
 
     def player_fire(self, event):
         if self.key_down(event, 'z') and self.player.inventory['fire dust'] > 0:
@@ -266,7 +293,7 @@ class Game:
             sprite for sprite in self.all_sprites
             if isinstance(sprite, (Rune, Fire))
         ])
-        self.fishes = 0
+
         for enemy in enemies:
             if pygame.sprite.spritecollideany(enemy, projectiles):
                 enemy.life -= 1
@@ -278,12 +305,12 @@ class Game:
                     self.player.inventory['coin'] += 20
                     self.player.inventory['keys'] += 2
                     self.player.inventory['crystal ball'] += 2
-
-        for sprite in self.all_sprites:  #controlling fishes population
-            if isinstance(sprite, NPC) and sprite.name == 'fish':
-                self.fishes += 1
-            if self.fishes > 1:
-                self.all_sprites.remove(sprite)
+                if enemy.name == 'magic':
+                    current_time = pygame.time.get_ticks() // 1000
+                    if self.preventing_repetition(current_time, self.last_magic_kill_time, 1):
+                        self.regeneration_buffer -= 1
+                        self.last_magic_kill_time = current_time
+                    self.areas_one()
 
     def display_captions(self):
         time_sec = pygame.time.get_ticks() // 1000
@@ -392,6 +419,7 @@ class Game:
                     continue
 
             self.adding_fire_dust()
+            self.player_regeneration()
             self.display_surface.fill('black')
             self.all_sprites.update(dt)
             self.all_sprites.draw(self.player.rect.center)
