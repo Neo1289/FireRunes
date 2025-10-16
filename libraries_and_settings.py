@@ -149,15 +149,15 @@ for file_name in listdir(fire_flame_folder):
 # dictionaries and lists of useful stuff
 # -------------------------------------
 
-enemies_damage = {"dragon": 4, "bat": 0.5, "bat_1": 1, "scheleton": 0.5, "fish": 0.1, "flame": 3, "flame_1": 3, "ice": 3, "infernal_fire": 5, "magic": 10}
-enemies_life = {"dragon": 500, "bat": 10, "bat_1": 10, "scheleton": 10, "fish": 10, "flame": 100000, "flame_1": 100, "ice": 1000, "infernal_fire": 10000, "magic": 100}
+enemies_damage = {"dragon": 4, "bat": 0.5, "bat_1": 1, "scheleton": 0.5, "fish": 0.1, "flame": 3, "flame_1": 3, "ice": 3, "infernal_fire": 20, "magic": 10}
+enemies_life = {"dragon": 100, "bat": 1, "bat_1": 1, "scheleton": 1, "fish": 1, "flame": 100000, "flame_1": 10, "ice": 1000, "infernal_fire": 10000, "magic": 10}
 enemies_images = {"dragon": dragon, "bat": bat, "bat_1": bat, "scheleton": scheleton, "fish": fish, "flame": flame, "flame_1": flame, "ice": ice, "infernal_fire": infernal,"magic": magic}
 enemies_speed = {"dragon": 110, "bat": 80, "bat_1": 80, "scheleton": 30, "fish": 5, "flame": 0, "flame_1": 7, "ice": 100, "infernal_fire": 100,"magic": 0}
 enemies_direction = {"dragon": [-1, 1], "bat": [-1, 1], "bat_1": [-1, 1], "scheleton": [-1, 1], "fish": [-1, 1], "flame": [-1, 1], "flame_1": [-1, 1], "ice": [-1, 1], "infernal_fire": [-1, 1], "magic": [-1, 1]}
 spawning_time = {'world': 20000, 'house': 0, 'forest': 0, 'cemetery': 5000,
                  'dungeon': 100000000, 'maze': 2500, 'abandoned house': 5000, 'river': 2000, 'forbidden forest': 5000, 'exit': 0, 'hidden door': 1000}
 
-lasting_time = {'Rune': 1000, 'scheleton': 30000, 'flame': 300000000, 'dragon': 3000000, 'ice': 5000, 'bat_1': 50000, 'bat': 10000, 'fire': 1000, 'fish': 1000, "flame_1": 100000, "infernal_fire": 10000, "magic": 5000}
+lasting_time = {'Rune': 1000, 'scheleton': 30000, 'flame': 300000000, 'dragon': 3000000, 'ice': 5000, 'bat_1': 50000, 'bat': 10000, 'fire': 1000, 'fish': 2000, "flame_1": 100000, "infernal_fire": 2000, "magic": 5000}
 
 game_objects = ['potion', 'crystal ball', 'coin', 'runes dust', 'nothing useful', 'holy water', 'fire dust']
 

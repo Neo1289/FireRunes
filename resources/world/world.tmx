@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="64" height="64" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="552">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="64" height="64" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="554">
  <tileset firstgid="1" name="ground" tilewidth="32" tileheight="32" tilecount="64" columns="8">
   <image source="TX Tileset Grass.png" width="256" height="256"/>
  </tileset>
@@ -461,7 +461,7 @@
   <object id="418" gid="93" x="581" y="636" width="19" height="46"/>
   <object id="420" gid="93" x="579" y="550.5" width="19" height="46"/>
   <object id="421" gid="93" x="540.5" y="557.5" width="19" height="46"/>
-  <object id="422" gid="92" x="551.167" y="517.5" width="33" height="73"/>
+  <object id="422" gid="92" x="550.5" y="522.833" width="33" height="73"/>
   <object id="429" gid="93" x="506.5" y="604" width="19" height="46"/>
   <object id="434" gid="93" x="600" y="639" width="19" height="46"/>
   <object id="438" gid="93" x="520.5" y="582.5" width="19" height="46"/>
@@ -557,9 +557,6 @@
   <object id="544" name="infernal_fire" x="412.667" y="480">
    <point/>
   </object>
-  <object id="548" name="bat_1" x="1334" y="690">
-   <point/>
-  </object>
   <object id="463" name="hidden door" gid="106" x="962.333" y="653.833" width="49.3333" height="35.3333"/>
   <object id="549" name="magic" x="1140" y="1065.33">
    <point/>
@@ -567,6 +564,12 @@
  </objectgroup>
  <objectgroup id="4" name="areas_one">
   <object id="550" name="bat_1" x="1138" y="1068.67">
+   <point/>
+  </object>
+  <object id="552" name="bat_1" x="1152.67" y="1033.33">
+   <point/>
+  </object>
+  <object id="553" name="bat_1" x="1146.67" y="1075.33">
    <point/>
   </object>
  </objectgroup>
