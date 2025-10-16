@@ -53,7 +53,8 @@ class AreaSprite(pygame.sprite.Sprite):
         if name == 'danger area':
             self.dangerous = True
             self.damage = 1
-
+        if name == 'trigger':
+            self.trigger = True
 
 #######################
 class NPC(pygame.sprite.Sprite, TimeUpdate):

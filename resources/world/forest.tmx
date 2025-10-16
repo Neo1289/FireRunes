@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="64" height="64" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="190">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="64" height="64" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="194">
  <tileset firstgid="1" source="house_ground.tsx"/>
  <tileset firstgid="65" source="objects_world.tsx"/>
+ <tileset firstgid="96" source="../../../my_last_game/resources/world/objects_world.tsx"/>
  <layer id="1" name="ground" width="64" height="64">
   <data encoding="csv">
 3,1,2,3,4,5,6,7,8,16,16,16,16,16,16,16,16,16,16,16,16,16,1,2,3,4,5,6,7,8,8,8,8,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,3,4,5,6,7,
@@ -257,6 +258,7 @@
   <object id="187" gid="72" x="507.667" y="949" width="95" height="138"/>
   <object id="188" gid="72" x="1374.33" y="615.667" width="95" height="138"/>
   <object id="189" gid="72" x="1187.67" y="635.667" width="95" height="138"/>
+  <object id="190" gid="107" x="1243" y="762" width="41" height="73"/>
  </objectgroup>
  <objectgroup id="3" name="areas">
   <object id="88" name="player_spawn" x="1134.67" y="1071">
@@ -265,6 +267,15 @@
   <object id="89" name="world" x="640" y="1232" width="144" height="148"/>
   <object id="91" name="maze" x="949" y="893" width="48" height="58">
    <ellipse/>
+  </object>
+  <object id="191" name="in prayer" x="1219" y="736" width="86" height="45"/>
+ </objectgroup>
+ <objectgroup id="4" name="areas_one">
+  <object id="192" name="bat_1" x="1195" y="755">
+   <point/>
+  </object>
+  <object id="193" name="bat_1" x="1341" y="726">
+   <point/>
   </object>
  </objectgroup>
 </map>

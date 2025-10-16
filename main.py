@@ -88,6 +88,9 @@ class Game:
                     if self.player.inventory['keys'] > 4:
                         self.player.inventory['keys'] -= 5
                         self.transition_bool = True
+                elif name == 'in prayer':
+                    self.areas_one()
+                    continue
                 else:
                     self.transition_bool = True
 
@@ -295,22 +298,25 @@ class Game:
         ])
 
         for enemy in enemies:
-            if pygame.sprite.spritecollideany(enemy, projectiles):
+            hit_projectile = pygame.sprite.spritecollideany(enemy, projectiles)
+            if hit_projectile:
                 enemy.life -= 1
-            if enemy.life == 0:
-                enemy.kill()
-                if enemy.name == 'fish':
-                    self.player.inventory['keys'] += 1
-                if enemy.name == 'dragon':
-                    self.player.inventory['coin'] += 20
-                    self.player.inventory['keys'] += 2
-                    self.player.inventory['crystal ball'] += 2
-                if enemy.name == 'magic':
-                    current_time = pygame.time.get_ticks() // 1000
-                    if self.preventing_repetition(current_time, self.last_magic_kill_time, 1):
-                        self.regeneration_buffer -= 1
-                        self.last_magic_kill_time = current_time
-                    self.areas_one()
+                hit_projectile.kill()
+
+            if enemy.life <= 0:
+                    enemy.kill()
+                    if enemy.name == 'fish':
+                        self.player.inventory['keys'] += 1
+                    if enemy.name == 'dragon':
+                        self.player.inventory['coin'] += 20
+                        self.player.inventory['keys'] += 2
+                        self.player.inventory['crystal ball'] += 2
+                    if enemy.name == 'magic':
+                        current_time = pygame.time.get_ticks() // 1000
+                        if self.preventing_repetition(current_time, self.last_magic_kill_time, 1):
+                            self.regeneration_buffer -= 1
+                            self.last_magic_kill_time = current_time
+                        self.areas_one()
 
     def display_captions(self):
         time_sec = pygame.time.get_ticks() // 1000
