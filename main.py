@@ -5,7 +5,7 @@ from libraries_and_settings import (pygame,
 ###CONFIGURATIONS
 from libraries_and_settings import (display_surface, maps, TILE_SIZE, WINDOW_HEIGHT, WINDOW_WIDTH,
                                      font, enemies_images, enemies_speed, enemies_direction, spawning_time, buffers, player_flame_frames, enemies_life, game_objects,
-                                    enemies_damage)
+                                    enemies_damage,ice )
 from words_library import phrases, instructions, trade, items
 
 ###SPRITES
@@ -232,6 +232,9 @@ class Game:
         if self.key_down(event, 'x') and self.player.inventory['fire dust'] > 10:
             for state in ("up", "down", "left", "right"):
                 Fire(self.player.rect.center, player_flame_frames, self.all_sprites, 50, state)
+            self.player.inventory['fire dust'] -= 10
+        if self.key_down(event, 'c') and self.player.inventory['fire dust'] > 10:
+            Fire(self.player.rect.center, ice, self.all_sprites, 50, self.player.state)
             self.player.inventory['fire dust'] -= 10
 
     def buffer_handlers(self, event):
