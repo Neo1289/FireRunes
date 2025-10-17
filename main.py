@@ -5,7 +5,7 @@ from libraries_and_settings import (pygame,
 ###CONFIGURATIONS
 from libraries_and_settings import (display_surface, maps, TILE_SIZE, WINDOW_HEIGHT, WINDOW_WIDTH,
                                      font, enemies_images, enemies_speed, enemies_direction, spawning_time, buffers, player_flame_frames, enemies_life, game_objects,
-                                    enemies_damage)
+                                    enemies_damage,ice )
 from words_library import phrases, instructions, trade, items
 
 ###SPRITES
@@ -62,6 +62,7 @@ class Game:
         self.last_item = ''
 
         self.custom_event = pygame.event.custom_type()
+        self.message = ''
 
     def cleaning_area(self):  ####removes all elements within groups
 
@@ -85,9 +86,11 @@ class Game:
         for name, area in self.area_group.items():
             if area.rect.colliderect(self.player.rect) and self.key_down(event, "y"):
                 if name == 'forbidden forest':
-                    if self.player.inventory['keys'] > 4:
-                        self.player.inventory['keys'] -= 5
+                    if self.player.inventory['keys'] > 49:
+                        self.player.inventory['keys'] -= 50
                         self.transition_bool = True
+                    else:
+                        self.message = "you need 50 keys to enter"
                 elif name == 'in prayer':
                     self.areas_one()
                     continue
@@ -98,6 +101,7 @@ class Game:
         if self.transition_bool:
             self.detecting_area_name()
             self.mapping()
+            self.message = self.current_area
             self.transition_bool = False
 
             pygame.time.set_timer(self.custom_event, self.spawning_time[self.current_area])
@@ -170,7 +174,6 @@ class Game:
 
                 self.monster.player = self.player
 
-
     def rendering(self):
         self.text_surface = None
         ###determine the current area map to be loaded and print it
@@ -226,6 +229,13 @@ class Game:
         if self.key_down(event, 'z') and self.player.inventory['fire dust'] > 0:
             Fire(self.player.rect.center, player_flame_frames, self.all_sprites, 50, self.player.state)
             self.player.inventory['fire dust'] -= 1
+        if self.key_down(event, 'x') and self.player.inventory['fire dust'] > 10:
+            for state in ("up", "down", "left", "right"):
+                Fire(self.player.rect.center, player_flame_frames, self.all_sprites, 50, state)
+            self.player.inventory['fire dust'] -= 10
+        if self.key_down(event, 'c') and self.player.inventory['fire dust'] > 10:
+            Fire(self.player.rect.center, ice, self.all_sprites, 50, self.player.state)
+            self.player.inventory['fire dust'] -= 10
 
     def buffer_handlers(self, event):
         ##### buffers --> key_pressed[duration time, name, effect]
@@ -307,6 +317,7 @@ class Game:
                     enemy.kill()
                     if enemy.name == 'fish':
                         self.player.inventory['keys'] += 1
+                        self.last_item = 'key'
                     if enemy.name == 'dragon':
                         self.player.inventory['coin'] += 20
                         self.player.inventory['keys'] += 2
@@ -316,6 +327,7 @@ class Game:
                         if self.preventing_repetition(current_time, self.last_magic_kill_time, 1):
                             self.regeneration_buffer -= 1
                             self.last_magic_kill_time = current_time
+                            self.message = "your healing is improved!!!"
                         self.areas_one()
 
     def display_captions(self):
@@ -331,8 +343,9 @@ class Game:
                         f"\U0001F4AB {self.player.inventory['runes dust']}     "
                         f"\U0001F525{self.player.inventory['fire dust']}     "
                         f"timer: {time_sec}          "
-                        f"last item found: {self.last_item}     "
-                        f"special enemy life: {[i.life for i in enemies if i.name == 'dragon']}"
+                        f"last item found: {self.last_item}      "
+                        f"special enemy life: {[i.life for i in enemies if i.name == 'dragon']}      "
+                        f"{self.message}"
                         )
         pygame.display.set_caption(self.caption)
 

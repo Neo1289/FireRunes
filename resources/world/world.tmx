@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="64" height="64" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="554">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="64" height="64" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="555">
  <tileset firstgid="1" name="ground" tilewidth="32" tileheight="32" tilecount="64" columns="8">
   <image source="TX Tileset Grass.png" width="256" height="256"/>
  </tileset>
@@ -559,6 +559,9 @@
   </object>
   <object id="463" name="hidden door" gid="106" x="962.333" y="653.833" width="49.3333" height="35.3333"/>
   <object id="549" name="magic" x="1140" y="1065.33">
+   <point/>
+  </object>
+  <object id="554" name="bush" x="1000" y="829.333">
    <point/>
   </object>
  </objectgroup>
