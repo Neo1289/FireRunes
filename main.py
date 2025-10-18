@@ -59,7 +59,7 @@ class Game:
         self.spawning_time = spawning_time
 
         self.game_objects = game_objects
-        self.weights = [0.4, 0.1, 0.49, 0.01, 1, 0.00001, 0.3]
+        self.weights = [0.4, 0.1, 0.49, 0.01, 0.3, 0.00001, 0.3, 0.4]
         self.last_item = ''
 
         self.custom_event = pygame.event.custom_type()
@@ -234,9 +234,9 @@ class Game:
             for state in ("up", "down", "left", "right"):
                 Fire(self.player.rect.center, player_flame_frames, self.all_sprites, 50, state)
             self.player.inventory['fire dust'] -= 5
-        if self.key_down(event, 'c') and self.player.inventory['fire dust'] > 0:
+        if self.key_down(event, 'c') and self.player.inventory['ice dust'] > 0:
             Fire(self.player.rect.center, ice, self.all_sprites, 50, self.player.state,'ice')
-            self.player.inventory['fire dust'] -= 1
+            self.player.inventory['ice dust'] -= 1
 
     def buffer_handlers(self, event):
         ##### buffers --> key_pressed[duration time, name, effect]
@@ -340,7 +340,8 @@ class Game:
                         f"\U0001F5DD {self.player.inventory['keys']}     "
                         f"\u2697\ufe0f {self.player.inventory['holy water']}     "
                         f"\U0001F4AB {self.player.inventory['runes dust']}     "
-                        f"\U0001F525{self.player.inventory['fire dust']}     "
+                        f"\U0001F525 {self.player.inventory['fire dust']}     "
+                        f"\u2744\uFE0F {self.player.inventory['ice dust']}     "
                         f"timer: {time_sec}          "
                         f"last item found: {self.last_item}      "
                         f"special enemy life: {[i.life for i in enemies if i.name == 'dragon']}      "

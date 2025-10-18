@@ -170,7 +170,7 @@ spawning_time = {'world': 5000, 'house': 0, 'forest': 7000, 'cemetery': 5000,
 
 lasting_time = {'Rune': 1000, 'scheleton': 30000, 'flame': 300000000, 'dragon': 3000000, 'ice': 1000, 'bat_1': 50000, 'bat': 10000, 'fire': 1000, 'fish': 2000, "flame_1": 100000, "infernal_fire": 2000, "magic": 5000,"bush": 2000}
 
-game_objects = ['potion', 'crystal ball', 'coin', 'runes dust', 'nothing useful', 'holy water', 'fire dust']
+game_objects = ['potion', 'crystal ball', 'coin', 'runes dust', 'nothing useful', 'holy water', 'fire dust', 'ice dust']
 
 buffers = {'1': [0, 'potion', 2], '3': [10, 'holy water', 1], '2': [0, 'crystal ball', 0],
                         '4': [1, 'runes dust', 0]}
