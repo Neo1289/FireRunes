@@ -5,7 +5,7 @@ from libraries_and_settings import (pygame,
 ###CONFIGURATIONS
 from libraries_and_settings import (display_surface, maps, TILE_SIZE, WINDOW_HEIGHT, WINDOW_WIDTH,
                                      font, enemies_images, enemies_speed, enemies_direction, spawning_time, buffers, player_flame_frames, enemies_life, game_objects,
-                                    enemies_damage,ice )
+                                    enemies_damage,ice, enemies_immunity)
 from words_library import phrases, instructions, trade, items
 
 ###SPRITES
@@ -26,7 +26,7 @@ class Game:
         self.fire_time_countdown = 0
         self.fire_buffer = 2
         self.regeneration_countdown = 0
-        self.regeneration_buffer = 10
+        self.regeneration_buffer = 20
         self.last_magic_kill_time = 0
 
         #####key_pressed[duration time, name, effect]
@@ -47,6 +47,7 @@ class Game:
         self.enemies_list = list(self.enemies_images.keys())
         self.enemies_life = enemies_life
         self.enemies_damage = enemies_damage
+        self.enemies_immunity = enemies_immunity
         self.instructions = instructions
         self.trade = trade
         self.items = items
@@ -58,7 +59,7 @@ class Game:
         self.spawning_time = spawning_time
 
         self.game_objects = game_objects
-        self.weights = [0.4, 0.1, 0.49, 0.01, 1, 0.00001, 0.3]
+        self.weights = [0.4, 0.1, 0.49, 0.01, 0.3, 0.00001, 0.3, 0.4]
         self.last_item = ''
 
         self.custom_event = pygame.event.custom_type()
@@ -156,7 +157,7 @@ class Game:
                 self.monster = NPC(spawn_pos, self.enemies_images[obj.name],
                                    self.all_sprites, obj.name, enemies_speed[obj.name],
                                    True, self.enemies_life[obj.name], self.enemies_damage[obj.name], self.enemies_direction[obj.name],
-                                   follow_player=obj.name in ['scheleton', 'dragon', 'bat_1', 'flame_1', 'infernal_fire'])
+                                   obj.name in ['scheleton', 'dragon', 'bat_1', 'flame_1', 'infernal_fire'], self.enemies_immunity[obj.name])
 
                 self.monster.player = self.player
 
@@ -221,7 +222,7 @@ class Game:
         """Track elapsed time and automatically give player 1 life dust every 10 seconds."""
         self.regeneration_event = (pygame.time.get_ticks() - self.start_time) // 1000
 
-        if self.preventing_repetition(self.regeneration_event, self.regeneration_countdown, self.regeneration_buffer)  and self.player.life < 1000:
+        if self.preventing_repetition(self.regeneration_event, self.regeneration_countdown, self.regeneration_buffer) and self.player.life < 1000 :
             self.player.life += 1
             self.regeneration_countdown = self.regeneration_event
 
@@ -229,13 +230,13 @@ class Game:
         if self.key_down(event, 'z') and self.player.inventory['fire dust'] > 0:
             Fire(self.player.rect.center, player_flame_frames, self.all_sprites, 50, self.player.state)
             self.player.inventory['fire dust'] -= 1
-        if self.key_down(event, 'x') and self.player.inventory['fire dust'] > 10:
+        if self.key_down(event, 'x') and self.player.inventory['fire dust'] > 5:
             for state in ("up", "down", "left", "right"):
                 Fire(self.player.rect.center, player_flame_frames, self.all_sprites, 50, state)
-            self.player.inventory['fire dust'] -= 10
-        if self.key_down(event, 'c') and self.player.inventory['fire dust'] > 10:
-            Fire(self.player.rect.center, ice, self.all_sprites, 50, self.player.state)
-            self.player.inventory['fire dust'] -= 10
+            self.player.inventory['fire dust'] -= 5
+        if self.key_down(event, 'c') and self.player.inventory['ice dust'] > 0:
+            Fire(self.player.rect.center, ice, self.all_sprites, 50, self.player.state,'ice')
+            self.player.inventory['ice dust'] -= 1
 
     def buffer_handlers(self, event):
         ##### buffers --> key_pressed[duration time, name, effect]
@@ -265,7 +266,6 @@ class Game:
                 self.player.life += self.effect
         else:
             self.buffer_used = None
-
 
     def trading(self, event):
         for obj in self.collision_sprites:
@@ -309,9 +309,8 @@ class Game:
 
         for enemy in enemies:
             hit_projectile = pygame.sprite.spritecollideany(enemy, projectiles)
-            if hit_projectile:
+            if hit_projectile and hit_projectile.name != enemy.immune:
                 enemy.life -= 1
-                hit_projectile.kill()
 
             if enemy.life <= 0:
                     enemy.kill()
@@ -324,10 +323,10 @@ class Game:
                         self.player.inventory['crystal ball'] += 2
                     if enemy.name == 'magic':
                         current_time = pygame.time.get_ticks() // 1000
-                        if self.preventing_repetition(current_time, self.last_magic_kill_time, 1):
+                        if self.preventing_repetition(current_time, self.last_magic_kill_time, 1) and self.regeneration_buffer > 5:
                             self.regeneration_buffer -= 1
                             self.last_magic_kill_time = current_time
-                            self.message = "your healing is improved!!!"
+                            self.message = f"your regeneration rank is now {self.regeneration_buffer}"
                         self.areas_one()
 
     def display_captions(self):
@@ -341,7 +340,8 @@ class Game:
                         f"\U0001F5DD {self.player.inventory['keys']}     "
                         f"\u2697\ufe0f {self.player.inventory['holy water']}     "
                         f"\U0001F4AB {self.player.inventory['runes dust']}     "
-                        f"\U0001F525{self.player.inventory['fire dust']}     "
+                        f"\U0001F525 {self.player.inventory['fire dust']}     "
+                        f"\u2744\uFE0F {self.player.inventory['ice dust']}     "
                         f"timer: {time_sec}          "
                         f"last item found: {self.last_item}      "
                         f"special enemy life: {[i.life for i in enemies if i.name == 'dragon']}      "

@@ -58,7 +58,8 @@ class AreaSprite(pygame.sprite.Sprite):
 
 #######################
 class NPC(pygame.sprite.Sprite, TimeUpdate):
-    def __init__(self, pos, frames, groups, name: str, speed: int, dangerous: bool, life: int, damage: int, direction: list = None, follow_player: bool = False):
+    def __init__(self, pos, frames, groups, name: str, speed: int, dangerous: bool, life: int, damage: int, direction: list = None, follow_player: bool = False,
+                 immune: str = None):
         super().__init__(groups)
 
         self.frames, self.frames_index = frames, 0
@@ -87,6 +88,7 @@ class NPC(pygame.sprite.Sprite, TimeUpdate):
             self.shooter = ShootFire(fire_frames, groups)
         else:
             self.shooter = None
+        self.immune = immune
 
     def animate(self, dt):
         self.frames_index += self.animation_speed * dt
