@@ -1,7 +1,7 @@
 ###LIBRARIES
 from libraries_and_settings import (pygame,
                                      sys,
-                                     random)
+                                     random,path)
 ###CONFIGURATIONS
 from libraries_and_settings import (display_surface, maps, TILE_SIZE, WINDOW_HEIGHT, WINDOW_WIDTH,
                                      font, enemies_images, enemies_speed, enemies_direction, spawning_time, buffers, player_flame_frames, enemies_life, game_objects,
@@ -11,7 +11,7 @@ from words_library import phrases, instructions, trade, items
 ###SPRITES
 from player import Player
 from camera import allSpritesOffset
-from sprites import GeneralSprite, AreaSprite, NPC, Rune, Fire
+from sprites import GeneralSprite, AreaSprite, NPC, Rune, Fire, Animation
 
 pygame.init()
 
@@ -311,6 +311,9 @@ class Game:
             hit_projectile = pygame.sprite.spritecollideany(enemy, projectiles)
             if hit_projectile and hit_projectile.name != enemy.immune:
                 enemy.life -= 1
+            if hit_projectile and hit_projectile.name == enemy.immune:
+                hit_projectile.kill()
+                Animation(hit_projectile.rect.center, self.all_sprites,'failed_attack','0.png')
 
             if enemy.life <= 0:
                     enemy.kill()

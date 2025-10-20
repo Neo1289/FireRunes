@@ -20,15 +20,14 @@ class ShootFire:
         current_time = pygame.time.get_ticks()
         if current_time - self.last_shot >= self.shoot_interval:
             fire_pos = (npc_rect.centerx + npc_rect.width // 2, npc_rect.centery)
-            Fire(fire_pos, self.fire_frames, self.all_sprites, 150, 'right', 'fire')
+            Fire(fire_pos, self.fire_frames, self.all_sprites, 150, 'right', 'dragon_fire')
             self.last_shot = current_time
-
 
 class GeneralSprite(pygame.sprite.Sprite):
     def __init__(self, pos, surf, groups, ground_att: bool, name: str = None, resources: int = 0, item: bool = None):
         super().__init__(groups)
 
-        self.resources = 3 if name == 'magic stone' else resources
+        self.resources = resources
         if ground_att:
             self.ground = True
         self.image = surf
@@ -120,6 +119,16 @@ class Rune(pygame.sprite.Sprite, TimeUpdate):
     def update(self, dt):
         TimeUpdate.update(self, dt, Rune.__name__)
 
+class Animation(pygame.sprite.Sprite, TimeUpdate):
+    def __init__(self, pos, groups,image_path, image_name):
+        super().__init__(groups)
+        self.image = pygame.image.load(path.join('resources', image_path, image_name)).convert_alpha()
+        self.rect = self.image.get_rect(center=pos)
+        self.spawn_time = pygame.time.get_ticks()
+        self.image_path = image_path
+
+    def update(self, dt):
+        TimeUpdate.update(self, dt, self.image_path)
 
 class Fire(pygame.sprite.Sprite, TimeUpdate):
     def __init__(self, pos, frames, groups, speed, player_state: str, name='fire'):
