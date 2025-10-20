@@ -41,7 +41,7 @@ class GeneralSprite(pygame.sprite.Sprite):
                 self.human = True
             if self.name == 'runes':
                 self.rune = True
-
+        self.general = True
 
 #######################
 class AreaSprite(pygame.sprite.Sprite):

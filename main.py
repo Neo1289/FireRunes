@@ -300,12 +300,20 @@ class Game:
                 pygame.quit()
                 sys.exit()
 
+    def projectiles_hit_walls(self):
+        projectiles = self.player_projectiles()
+        general_sprites = [sprite for sprite in self.all_sprites if
+                           hasattr(sprite, 'general') and not hasattr(sprite, 'ground')]
+
+        for general in general_sprites:
+            hit_general = pygame.sprite.spritecollideany(general, projectiles)
+            if hit_general:
+                hit_general.kill()
+                Animation(hit_general.rect.center, self.all_sprites, 'failed_attack', '0.png')
+
     def check_enemies_collision(self):
         enemies = self.enemies_groups()
-        projectiles = pygame.sprite.Group([
-            sprite for sprite in self.all_sprites
-            if isinstance(sprite, (Rune, Fire))
-        ])
+        projectiles = self.player_projectiles()
 
         for enemy in enemies:
             hit_projectile = pygame.sprite.spritecollideany(enemy, projectiles)
@@ -375,6 +383,13 @@ class Game:
         """Prevent duplicate actions
         by checking if current time is even and different from last action time."""
         return time_event % buffer == 0 and time_event != any_time_attribute
+
+    def player_projectiles(self):
+        projectiles = pygame.sprite.Group([
+            sprite for sprite in self.all_sprites
+            if isinstance(sprite, (Rune, Fire))
+        ])
+        return projectiles
 
     def main_menu(self):
         menu_running = True
@@ -449,6 +464,7 @@ class Game:
             self.display_captions()
             self.collision_detection()
             self.check_enemies_collision()
+            self.projectiles_hit_walls()
             self.player_buffers()
             self.assign_current_area()
 
