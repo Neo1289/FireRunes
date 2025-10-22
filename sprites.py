@@ -129,7 +129,7 @@ class Animation(pygame.sprite.Sprite, TimeUpdate):
         self.image = self.frames[self.frames_index]
         self.rect = self.image.get_rect(center=pos)
         self.name = name
-        self.animation_speed = 100
+        self.animation_speed = 10
 
     def animate(self, dt):
         self.frames_index += self.animation_speed * dt

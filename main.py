@@ -286,14 +286,11 @@ class Game:
                 if hasattr(obj, "dangerous"):
                     self.player.life -= obj.damage
 
-            if self.player.life <= 0:
-                self.collision_sprites.empty()
-                Animation(self.player.rect.center, water_splash_frames, self.all_sprites, "river zone")
+        if self.player.life <= 0:
+            self.player.kill()
+            Animation(self.player.rect.center, water_splash_frames, self.all_sprites, "river_zone")
 
-                pygame.display.update()
-
-                self.caption = pygame.display.set_caption('GAME OVER')
-
+            self.caption = pygame.display.set_caption('GAME OVER')
 
     def end_game(self, event):
         for name, area in self.area_group.items():
