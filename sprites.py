@@ -49,9 +49,9 @@ class AreaSprite(pygame.sprite.Sprite):
         super().__init__(groups)
         self.image = pygame.Surface((width, height), pygame.SRCALPHA)
         self.rect = pygame.Rect(x, y, width, height)
-        if name == 'danger area':
+        if name in ('danger area', 'river_zone'):
             self.dangerous = True
-            self.damage = 1
+            self.damage = 1 if name =='danger area' else 1000
         if name == 'trigger':
             self.trigger = True
 
@@ -110,25 +110,34 @@ class NPC(pygame.sprite.Sprite, TimeUpdate):
 
 
 class Rune(pygame.sprite.Sprite, TimeUpdate):
-    def __init__(self, pos, groups):
+    def __init__(self, pos, groups,name='rune'):
         super().__init__(groups)
         self.image = pygame.image.load(path.join('resources', 'player', 'rune_bullet.png')).convert_alpha()
         self.rect = self.image.get_rect(center=pos)
         self.spawn_time = pygame.time.get_ticks()
+        self.name = name
 
     def update(self, dt):
         TimeUpdate.update(self, dt, Rune.__name__)
 
 class Animation(pygame.sprite.Sprite, TimeUpdate):
-    def __init__(self, pos, groups,image_path, image_name):
+    def __init__(self, pos, frames, groups, name):
         super().__init__(groups)
-        self.image = pygame.image.load(path.join('resources', image_path, image_name)).convert_alpha()
-        self.rect = self.image.get_rect(center=pos)
+        self.pos = pos
         self.spawn_time = pygame.time.get_ticks()
-        self.image_path = image_path
+        self.frames, self.frames_index = frames, 0
+        self.image = self.frames[self.frames_index]
+        self.rect = self.image.get_rect(center=pos)
+        self.name = name
+        self.animation_speed = 100
+
+    def animate(self, dt):
+        self.frames_index += self.animation_speed * dt
+        self.image = self.frames[int(self.frames_index) % len(self.frames)]
 
     def update(self, dt):
-        TimeUpdate.update(self, dt, self.image_path)
+        self.animate(dt)
+        TimeUpdate.update(self, dt, self.name)
 
 class Fire(pygame.sprite.Sprite, TimeUpdate):
     def __init__(self, pos, frames, groups, speed, player_state: str, name='fire'):

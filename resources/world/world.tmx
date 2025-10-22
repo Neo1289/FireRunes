@@ -496,7 +496,7 @@
   <object id="492" gid="72" x="1215.67" y="821" width="95" height="138"/>
   <object id="493" gid="72" x="1211.67" y="1053" width="95" height="138"/>
   <object id="494" gid="70" x="1206.67" y="819.667" width="57" height="42"/>
-  <object id="495" gid="73" x="1132" y="923.333" width="57" height="51"/>
+  <object id="495" name="well" gid="73" x="1132" y="923.333" width="57" height="51"/>
   <object id="496" gid="65" x="1173" y="823.333" width="47" height="43"/>
   <object id="497" gid="65" x="1127.67" y="836.667" width="47" height="43"/>
   <object id="498" gid="65" x="1211.67" y="952.667" width="47" height="43"/>
@@ -553,7 +553,7 @@
   <object id="502" name="fish" x="1219" y="877.333">
    <point/>
   </object>
-  <object id="534" name="river" x="562" y="1161" width="22" height="24"/>
+  <object id="534" name="river" x="572.667" y="1161" width="22" height="24"/>
   <object id="544" name="infernal_fire" x="412.667" y="480">
    <point/>
   </object>
