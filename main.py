@@ -5,7 +5,7 @@ from libraries_and_settings import (pygame,
 ###CONFIGURATIONS
 from libraries_and_settings import (display_surface, maps, TILE_SIZE, WINDOW_HEIGHT, WINDOW_WIDTH,
                                      font, enemies_images, enemies_speed, enemies_direction, spawning_time, buffers, player_flame_frames, enemies_life, game_objects,
-                                    enemies_damage,ice, enemies_immunity)
+                                    enemies_damage,ice, enemies_immunity, failed_frames,water_splash_frames)
 from words_library import phrases, instructions, trade, items
 
 ###SPRITES
@@ -38,7 +38,7 @@ class Game:
 
         self.maps = maps  ##maps dictionary coming for the settings file
         self.current_map = None
-        self.current_area = "world"
+        self.current_area = "river"
         self.area_group = {}  ###dictionary with the areas where is possible to enter in a map
         self.transition_bool = True
         self.phrases = phrases
@@ -286,11 +286,14 @@ class Game:
                 if hasattr(obj, "dangerous"):
                     self.player.life -= obj.damage
 
-        if self.player.life <= 0:
-            self.caption = pygame.display.set_caption('GAME OVER')
-            pygame.time.delay(5000)
-            pygame.quit()
-            sys.exit()
+            if self.player.life <= 0:
+                self.collision_sprites.empty()
+                Animation(self.player.rect.center, water_splash_frames, self.all_sprites, "river zone")
+
+                pygame.display.update()
+
+                self.caption = pygame.display.set_caption('GAME OVER')
+
 
     def end_game(self, event):
         for name, area in self.area_group.items():
@@ -309,7 +312,7 @@ class Game:
             hit_general = pygame.sprite.spritecollideany(general, projectiles)
             if hit_general:
                 hit_general.kill()
-                Animation(hit_general.rect.center, self.all_sprites, 'failed_attack', '0.png')
+                Animation(hit_general.rect.center, failed_frames,self.all_sprites, "failed_attack")
 
     def check_enemies_collision(self):
         enemies = self.enemies_groups()

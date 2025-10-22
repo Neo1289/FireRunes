@@ -155,6 +155,30 @@ for file_name in listdir(fire_flame_folder):
     surf.set_colorkey((31, 16, 42))
     fire_frames.append(surf)
 
+# ---------------------------
+# water splash images
+# ---------------------------
+
+water_splash_frames = []
+water_splash_folder = path.join('resources', 'water_splash')
+for file_name in listdir(water_splash_folder):
+    full_path = path.join(water_splash_folder, file_name)
+    surf = pygame.image.load(full_path).convert()
+    surf.set_colorkey("black")
+    water_splash_frames.append(surf)
+
+# ---------------------------
+# failed attack images
+# ---------------------------
+
+failed_frames = []
+failed_folder = path.join('resources', 'failed_attack')
+for file_name in listdir(failed_folder):
+    full_path = path.join(failed_folder, file_name)
+    surf = pygame.image.load(full_path).convert()
+    surf.set_colorkey("black")
+    failed_frames.append(surf)
+
 # ------------------------------------
 # dictionaries and lists of useful stuff
 # -------------------------------------
@@ -169,7 +193,7 @@ spawning_time = {'world': 5000, 'house': 0, 'forest': 7000, 'cemetery': 5000,
                  'dungeon': 100000000, 'maze': 2500, 'abandoned house': 5000, 'river': 2000, 'forbidden forest': 5000, 'exit': 0, 'hidden door': 1000}
 
 lasting_time = {'Rune': 1000, 'scheleton': 30000, 'flame': 300000000, 'dragon': 3000000, 'ice': 1000, 'bat_1': 50000, 'bat': 10000, 'fire': 1000, 'fish': 2000, "flame_1": 100000, "infernal_fire": 2000, "magic": 5000,"bush": 2000,
-                'failed_attack': 100, 'dragon_fire': 1000}
+                'failed_attack': 100, 'dragon_fire': 1000, 'river zone': 300}
 
 game_objects = ['potion', 'crystal ball', 'coin', 'runes dust', 'nothing useful', 'holy water', 'fire dust', 'ice dust']
 
