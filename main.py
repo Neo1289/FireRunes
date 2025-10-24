@@ -38,7 +38,7 @@ class Game:
 
         self.maps = maps  ##maps dictionary coming for the settings file
         self.current_map = None
-        self.current_area = "river"
+        self.current_area = "world"
         self.area_group = {}  ###dictionary with the areas where is possible to enter in a map
         self.transition_bool = True
         self.phrases = phrases
@@ -339,7 +339,7 @@ class Game:
                 enemy.life -= 1
             if hit_projectile and hit_projectile.name == enemy.immune:
                 hit_projectile.kill()
-                Animation(hit_projectile.rect.center, self.all_sprites,'failed_attack','0.png')
+                Animation(hit_projectile.rect.center, failed_frames, self.all_sprites, 'failed_attack')
 
             if enemy.life <= 0:
                     enemy.kill()

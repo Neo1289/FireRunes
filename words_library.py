@@ -87,7 +87,7 @@ areas_description = {
 instructions = [
     "Movement: Arrow Keys",
     "Enter Area/Interact: Y",
-    "Shoot Fire: Z "
+    "Attacks: Z / X / C"
 ]
 
 trade = [
