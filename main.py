@@ -6,7 +6,7 @@ from libraries_and_settings import (pygame,
 from libraries_and_settings import (display_surface, maps, TILE_SIZE, WINDOW_HEIGHT, WINDOW_WIDTH,
                                      font, enemies_images, enemies_speed, enemies_direction, spawning_time, buffers, player_flame_frames, enemies_life, game_objects,
                                     enemies_damage,ice, enemies_immunity, failed_frames,water_splash_frames)
-from words_library import phrases, instructions, trade, items
+from words_library import phrases, instructions, items
 
 ###SPRITES
 from player import Player
@@ -38,7 +38,7 @@ class Game:
 
         self.maps = maps  ##maps dictionary coming for the settings file
         self.current_map = None
-        self.current_area = "river"
+        self.current_area = "world"
         self.area_group = {}  ###dictionary with the areas where is possible to enter in a map
         self.transition_bool = True
         self.phrases = phrases
@@ -49,12 +49,13 @@ class Game:
         self.enemies_damage = enemies_damage
         self.enemies_immunity = enemies_immunity
         self.instructions = instructions
-        self.trade = trade
         self.items = items
 
         self.collision_sprites = pygame.sprite.Group()
         self.all_sprites = allSpritesOffset()
         self.player = None
+        self.player_dead = False
+        self.death_start_time = 0
 
         self.spawning_time = spawning_time
 
@@ -273,10 +274,10 @@ class Game:
                 if self.key_down(event, "s") and self.player.inventory["crystal ball"] > 0:
                     self.player.inventory["crystal ball"] -= 1
                     self.player.inventory["coin"] += 3
-                if self.key_down(event, "b") and self.inventory["coin"] >= 0:
+                if self.key_down(event, "b") and self.player.inventory["coin"] >= 0:
                     self.player.inventory["coin"] -= 1
                     self.player.inventory["potion"] += 1
-                if self.key_down(event, "n") and self.inventory["coin"] >= 5:
+                if self.key_down(event, "n") and self.player.inventory["coin"] >= 5:
                     self.player.inventory["coin"] -= 3
                     self.player.inventory["holy water"] += 1
 
@@ -285,12 +286,31 @@ class Game:
             if obj.rect.colliderect(self.player.rect):
                 if hasattr(obj, "dangerous"):
                     self.player.life -= obj.damage
+        if self.player.life < 0:
+            self.player.life = 0
 
-        if self.player.life <= 0:
+        if self.player.life > 1000:
+            self.player.life = 1000
+
+    def player_death(self):
+        if self.player.life <= 0 and not self.player_dead:
+            self.player_dead = True
+            self.death_start_time = pygame.time.get_ticks()
+            death_position = self.player.rect.center
             self.player.kill()
-            Animation(self.player.rect.center, water_splash_frames, self.all_sprites, "river_zone")
+            Animation(death_position, water_splash_frames, self.all_sprites, "river_zone")
 
-            self.caption = pygame.display.set_caption('GAME OVER')
+        if self.player_dead:
+            time_since_death = (pygame.time.get_ticks() - self.death_start_time) / 1000
+
+            if time_since_death > 2:
+                pygame.display.set_caption('GAME OVER')
+                pygame.display.update()
+                pygame.time.delay(3000)
+                self.running = False
+                pygame.quit()
+                sys.exit()
+
 
     def end_game(self, event):
         for name, area in self.area_group.items():
@@ -321,7 +341,7 @@ class Game:
                 enemy.life -= 1
             if hit_projectile and hit_projectile.name == enemy.immune:
                 hit_projectile.kill()
-                Animation(hit_projectile.rect.center, self.all_sprites,'failed_attack','0.png')
+                Animation(hit_projectile.rect.center, failed_frames, self.all_sprites, 'failed_attack')
 
             if enemy.life <= 0:
                     enemy.kill()
@@ -410,21 +430,18 @@ class Game:
             # Menu text
             title = font.render("GAME MENU", True, "white")
             instructions_text = font.render(f"{self.instructions}", True, "white")
-            trade_text = font.render(f"{self.trade}", True, "white")
             items_text = font.render(f"{self.items}", True, "white")
             controls = font.render("ESC - Resume | Q - Quit", True, "white")
 
             # Center the text
             title_rect = title.get_rect(center=(WINDOW_WIDTH // 2, 100))
             instructions_rect = instructions_text.get_rect(center=(WINDOW_WIDTH // 2, 200))
-            trade_rect = trade_text.get_rect(center=(WINDOW_WIDTH // 2, 300))
             items_rect = items_text.get_rect(center=(WINDOW_WIDTH // 2, 400))
             controls_rect = controls.get_rect(center=(WINDOW_WIDTH // 2, 500))
 
             menu_dict = {
                 title: title_rect,
                 instructions_text: instructions_rect,
-                trade_text: trade_rect,
                 items_text: items_rect,
                 controls: controls_rect
             }
@@ -463,6 +480,7 @@ class Game:
             self.rendering()
             self.display_captions()
             self.collision_detection()
+            self.player_death()
             self.check_enemies_collision()
             self.projectiles_hit_walls()
             self.player_buffers()

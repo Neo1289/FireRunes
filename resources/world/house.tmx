@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="64" height="64" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="144">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="64" height="64" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="148">
  <tileset firstgid="1" source="house_ground.tsx"/>
  <tileset firstgid="65" source="objects_world.tsx"/>
  <layer id="1" name="ground" width="64" height="64">
@@ -79,8 +79,8 @@
   <object id="6" gid="74" x="969.141" y="1034.76" width="35" height="111"/>
   <object id="7" gid="74" x="970.781" y="939.654" width="35" height="111"/>
   <object id="8" gid="75" x="828.834" y="1133.97" width="109" height="30"/>
-  <object id="9" gid="75" x="891.966" y="1040.5" width="109" height="30"/>
-  <object id="10" gid="75" x="889.506" y="941.288" width="109" height="30"/>
+  <object id="9" gid="75" x="1017.97" y="1039.17" width="109" height="30"/>
+  <object id="10" gid="75" x="1112.84" y="937.955" width="109" height="30"/>
   <object id="12" gid="74" x="1196.25" y="1224.98" width="35" height="111"/>
   <object id="13" gid="74" x="1197.07" y="1133.97" width="35" height="111"/>
   <object id="14" gid="74" x="1197.07" y="1038.04" width="35" height="111"/>
@@ -137,11 +137,10 @@
   <object id="71" gid="80" x="839" y="1185" width="31" height="39"/>
   <object id="72" gid="80" x="838" y="1206" width="31" height="39"/>
   <object id="73" gid="79" x="954" y="871" width="34" height="32"/>
-  <object id="74" gid="79" x="868.667" y="896.333" width="34" height="32"/>
+  <object id="74" gid="79" x="893.334" y="871" width="34" height="32"/>
   <object id="76" name="merchant" gid="84" x="846" y="882.333" width="29" height="46"/>
   <object id="79" gid="91" x="831.333" y="875.667" width="57" height="45"/>
-  <object id="120" gid="66" x="1162" y="885" width="32" height="58"/>
-  <object id="121" name="runes" gid="92" x="1040" y="1030" width="33" height="73"/>
+  <object id="120" gid="66" x="1142" y="813.667" width="32" height="58"/>
   <object id="122" gid="65" x="1236" y="942" width="47" height="43"/>
   <object id="123" gid="65" x="1213" y="1227" width="47" height="43"/>
   <object id="124" gid="65" x="1231" y="1219" width="47" height="43"/>
@@ -164,19 +163,21 @@
   <object id="141" gid="65" x="1109" y="610" width="47" height="43"/>
   <object id="142" gid="65" x="1042" y="667" width="47" height="43"/>
   <object id="143" gid="65" x="961" y="675" width="47" height="43"/>
- </objectgroup>
- <objectgroup id="4" name="areas">
-  <object id="46" name="player_spawn" x="968.21" y="1180.27">
-   <point/>
-  </object>
-  <object id="48" name="world" x="1017.3" y="1162.79" width="39.1212" height="49.7879"/>
+  <object id="146" gid="80" x="1089.67" y="1257.33" width="31" height="39"/>
+  <object id="147" gid="80" x="977" y="1257.33" width="31" height="39"/>
+  <object id="95" gid="87" x="930" y="894" width="27" height="38"/>
+  <object id="96" gid="87" x="955" y="901" width="27" height="38"/>
+  <object id="97" gid="87" x="948" y="919" width="27" height="38"/>
+  <object id="98" gid="87" x="924.333" y="945.667" width="27" height="38"/>
+  <object id="99" gid="87" x="938.333" y="945.667" width="27" height="38"/>
+  <object id="100" gid="87" x="957" y="969" width="27" height="38"/>
+  <object id="101" gid="87" x="956" y="990" width="27" height="38"/>
+  <object id="102" gid="87" x="938.333" y="971.667" width="27" height="38"/>
+  <object id="103" gid="87" x="916.333" y="972.667" width="27" height="38"/>
+  <object id="104" gid="87" x="924.333" y="986.667" width="27" height="38"/>
+  <object id="105" gid="87" x="937.333" y="989.667" width="27" height="38"/>
+  <object id="106" gid="87" x="952.333" y="989.667" width="27" height="38"/>
   <object id="80" gid="71" x="1183" y="893" width="112" height="141"/>
-  <object id="81" gid="71" x="1014" y="819" width="112" height="141"/>
-  <object id="82" gid="71" x="878" y="822" width="112" height="141"/>
-  <object id="83" gid="71" x="725" y="1027" width="112" height="141"/>
-  <object id="84" gid="72" x="749" y="1184" width="95" height="138"/>
-  <object id="85" gid="72" x="1211" y="1156" width="95" height="138"/>
-  <object id="86" gid="72" x="810" y="1322" width="95" height="138"/>
   <object id="87" gid="88" x="1100" y="877" width="26" height="35"/>
   <object id="88" gid="88" x="1017" y="887" width="26" height="35"/>
   <object id="89" gid="88" x="1054" y="912" width="26" height="35"/>
@@ -185,24 +186,6 @@
   <object id="92" gid="88" x="1062" y="879" width="26" height="35"/>
   <object id="93" gid="88" x="1082" y="902" width="26" height="35"/>
   <object id="94" gid="88" x="1024" y="912" width="26" height="35"/>
-  <object id="95" gid="87" x="930" y="894" width="27" height="38"/>
-  <object id="96" gid="87" x="955" y="901" width="27" height="38"/>
-  <object id="97" gid="87" x="948" y="919" width="27" height="38"/>
-  <object id="98" gid="87" x="923" y="965" width="27" height="38"/>
-  <object id="99" gid="87" x="937" y="965" width="27" height="38"/>
-  <object id="100" gid="87" x="957" y="969" width="27" height="38"/>
-  <object id="101" gid="87" x="956" y="990" width="27" height="38"/>
-  <object id="102" gid="87" x="937" y="991" width="27" height="38"/>
-  <object id="103" gid="87" x="915" y="992" width="27" height="38"/>
-  <object id="104" gid="87" x="923" y="1006" width="27" height="38"/>
-  <object id="105" gid="87" x="936" y="1009" width="27" height="38"/>
-  <object id="106" gid="87" x="951" y="1009" width="27" height="38"/>
-  <object id="107" gid="80" x="1142" y="1082" width="31" height="39"/>
-  <object id="108" gid="80" x="1167" y="1077" width="31" height="39"/>
-  <object id="109" gid="80" x="1186" y="1092" width="31" height="39"/>
-  <object id="110" gid="80" x="1171" y="1109" width="31" height="39"/>
-  <object id="111" gid="80" x="1128" y="1108" width="31" height="39"/>
-  <object id="112" gid="80" x="1117" y="1072" width="31" height="39"/>
   <object id="113" gid="80" x="1049" y="941" width="31" height="39"/>
   <object id="114" gid="80" x="1075" y="936" width="31" height="39"/>
   <object id="115" gid="80" x="1058" y="896" width="31" height="39"/>
@@ -210,5 +193,23 @@
   <object id="117" gid="80" x="1098" y="889" width="31" height="39"/>
   <object id="118" gid="80" x="1111" y="906" width="31" height="39"/>
   <object id="119" gid="80" x="1111" y="919" width="31" height="39"/>
+  <object id="107" gid="80" x="1142" y="1082" width="31" height="39"/>
+  <object id="108" gid="80" x="1167" y="1077" width="31" height="39"/>
+  <object id="110" gid="80" x="1171" y="1109" width="31" height="39"/>
+  <object id="111" gid="80" x="1128" y="1108" width="31" height="39"/>
+  <object id="112" gid="80" x="1117" y="1072" width="31" height="39"/>
+ </objectgroup>
+ <objectgroup id="4" name="areas">
+  <object id="46" name="player_spawn" x="968.21" y="1180.27">
+   <point/>
+  </object>
+  <object id="48" name="world" x="1017.3" y="1162.79" width="39.1212" height="49.7879"/>
+  <object id="81" gid="71" x="1014" y="819" width="112" height="141"/>
+  <object id="82" gid="71" x="878" y="822" width="112" height="141"/>
+  <object id="83" gid="71" x="725" y="1027" width="112" height="141"/>
+  <object id="84" gid="72" x="749" y="1184" width="95" height="138"/>
+  <object id="85" gid="72" x="1211" y="1156" width="95" height="138"/>
+  <object id="86" gid="72" x="810" y="1322" width="95" height="138"/>
+  <object id="109" gid="80" x="1186" y="1092" width="31" height="39"/>
  </objectgroup>
 </map>

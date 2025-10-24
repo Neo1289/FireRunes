@@ -1,7 +1,7 @@
 phrases = {
     "text_1": "do you want to sell your crystal balls? \n"
               "S to sell them, 3 coins a piece \n"
-              "B to buy potions, 3 coins a piece \n"
+              "B to buy potions, 1 coins a piece \n"
               "N to buy the holy water, 5 coins a piece",
     "text_2": "do you want inspect the ",
     "text_3": "do you want to collect the energy of the runes?",
@@ -87,15 +87,9 @@ areas_description = {
 instructions = [
     "Movement: Arrow Keys",
     "Enter Area/Interact: Y",
-    "Shoot Fire: Z "
+    "Attacks: Z / X / C"
 ]
 
-trade = [
-    "Trade with Merchants:",
-    " Press S: Trade crystal ball for 3 coins",
-    "Press B: Trade 1 coin for potion",
-    " Press N: Trade 3 coins for holy water"
-]
 
 items = [
     "Potion: Restores health - press 1",
