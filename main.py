@@ -6,7 +6,7 @@ from libraries_and_settings import (pygame,
 from libraries_and_settings import (display_surface, maps, TILE_SIZE, WINDOW_HEIGHT, WINDOW_WIDTH,
                                      font, enemies_images, enemies_speed, enemies_direction, spawning_time, buffers, player_flame_frames, enemies_life, game_objects,
                                     enemies_damage,ice, enemies_immunity, failed_frames,water_splash_frames)
-from words_library import phrases, instructions, trade, items
+from words_library import phrases, instructions, items
 
 ###SPRITES
 from player import Player
@@ -49,7 +49,6 @@ class Game:
         self.enemies_damage = enemies_damage
         self.enemies_immunity = enemies_immunity
         self.instructions = instructions
-        self.trade = trade
         self.items = items
 
         self.collision_sprites = pygame.sprite.Group()
@@ -275,10 +274,10 @@ class Game:
                 if self.key_down(event, "s") and self.player.inventory["crystal ball"] > 0:
                     self.player.inventory["crystal ball"] -= 1
                     self.player.inventory["coin"] += 3
-                if self.key_down(event, "b") and self.inventory["coin"] >= 0:
+                if self.key_down(event, "b") and self.player.inventory["coin"] >= 0:
                     self.player.inventory["coin"] -= 1
                     self.player.inventory["potion"] += 1
-                if self.key_down(event, "n") and self.inventory["coin"] >= 5:
+                if self.key_down(event, "n") and self.player.inventory["coin"] >= 5:
                     self.player.inventory["coin"] -= 3
                     self.player.inventory["holy water"] += 1
 
@@ -289,6 +288,9 @@ class Game:
                     self.player.life -= obj.damage
         if self.player.life < 0:
             self.player.life = 0
+
+        if self.player.life > 1000:
+            self.player.life = 1000
 
     def player_death(self):
         if self.player.life <= 0 and not self.player_dead:
@@ -428,21 +430,18 @@ class Game:
             # Menu text
             title = font.render("GAME MENU", True, "white")
             instructions_text = font.render(f"{self.instructions}", True, "white")
-            trade_text = font.render(f"{self.trade}", True, "white")
             items_text = font.render(f"{self.items}", True, "white")
             controls = font.render("ESC - Resume | Q - Quit", True, "white")
 
             # Center the text
             title_rect = title.get_rect(center=(WINDOW_WIDTH // 2, 100))
             instructions_rect = instructions_text.get_rect(center=(WINDOW_WIDTH // 2, 200))
-            trade_rect = trade_text.get_rect(center=(WINDOW_WIDTH // 2, 300))
             items_rect = items_text.get_rect(center=(WINDOW_WIDTH // 2, 400))
             controls_rect = controls.get_rect(center=(WINDOW_WIDTH // 2, 500))
 
             menu_dict = {
                 title: title_rect,
                 instructions_text: instructions_rect,
-                trade_text: trade_rect,
                 items_text: items_rect,
                 controls: controls_rect
             }
