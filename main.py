@@ -55,6 +55,8 @@ class Game:
         self.collision_sprites = pygame.sprite.Group()
         self.all_sprites = allSpritesOffset()
         self.player = None
+        self.player_dead = False
+        self.death_start_time = 0
 
         self.spawning_time = spawning_time
 
@@ -285,12 +287,28 @@ class Game:
             if obj.rect.colliderect(self.player.rect):
                 if hasattr(obj, "dangerous"):
                     self.player.life -= obj.damage
+        if self.player.life < 0:
+            self.player.life = 0
 
-        if self.player.life <= 0:
+    def player_death(self):
+        if self.player.life <= 0 and not self.player_dead:
+            self.player_dead = True
+            self.death_start_time = pygame.time.get_ticks()
+            death_position = self.player.rect.center
             self.player.kill()
-            Animation(self.player.rect.center, water_splash_frames, self.all_sprites, "river_zone")
+            Animation(death_position, water_splash_frames, self.all_sprites, "river_zone")
 
-            self.caption = pygame.display.set_caption('GAME OVER')
+        if self.player_dead:
+            time_since_death = (pygame.time.get_ticks() - self.death_start_time) / 1000
+
+            if time_since_death > 2:
+                pygame.display.set_caption('GAME OVER')
+                pygame.display.update()
+                pygame.time.delay(3000)
+                self.running = False
+                pygame.quit()
+                sys.exit()
+
 
     def end_game(self, event):
         for name, area in self.area_group.items():
@@ -463,6 +481,7 @@ class Game:
             self.rendering()
             self.display_captions()
             self.collision_detection()
+            self.player_death()
             self.check_enemies_collision()
             self.projectiles_hit_walls()
             self.player_buffers()
