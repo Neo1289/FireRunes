@@ -58,6 +58,7 @@ class Game:
         self.death_start_time = 0
         self.spell_fire_augmented = False
         self.spell_ice = False
+        self.spell_prayer = False
 
         self.spawning_time = spawning_time
 
@@ -198,6 +199,9 @@ class Game:
                 elif obj.name == 'scarecrow':
                     self.text = f"{self.phrases['text_10']}"
                     self.text_surface = font.render(self.text, True, "white")
+                elif obj.name == 'praying statue':
+                    self.text = f"{self.phrases['text_13']}"
+                    self.text_surface = font.render(self.text, True, "white")
 
         if self.text_surface:
             text_rect = self.text_surface.get_rect(center=(WINDOW_WIDTH // 3, WINDOW_HEIGHT // 4))
@@ -244,6 +248,9 @@ class Game:
         if self.key_down(event, 'c') and self.player.inventory['ice dust'] > 0 and self.spell_ice == True:
             Fire(self.player.rect.center, ice, self.all_sprites, 50, self.player.state,'ice')
             self.player.inventory['ice dust'] -= 1
+        if self.key_down(event,'v') and self.player.inventory['fire dust'] > 3 and self.spell_prayer == True and self.player.life < 1000:
+            self.player.inventory['fire dust'] -= 3
+            self.player.life += 10
 
     def buffer_handlers(self, event):
         ##### buffers --> key_pressed[duration time, name, effect]
@@ -296,6 +303,11 @@ class Game:
                         self.player.inventory["crystal ball"] -= 20
                         self.spell_ice= True
                         self.message = self.phrases["text_12"]
+                if obj.name == 'praying statue':
+                    if self.key_down(event, "p") and self.player.inventory["fire dust"] >= 50:
+                        self.player.inventory["fire dust"] -= 50
+                        self.spell_prayer = True
+                        self.message = self.phrases["text_14"]
 
     def collision_detection(self):
         for obj in self.all_sprites:
