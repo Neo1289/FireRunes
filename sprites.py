@@ -37,7 +37,7 @@ class GeneralSprite(pygame.sprite.Sprite):
         # determine the enemy attribute
         if name:
             self.name = name
-            if self.name in ('merchant'):
+            if self.name in ('merchant','scarecrow','praying statue'):
                 self.human = True
             if self.name == 'runes':
                 self.rune = True

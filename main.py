@@ -56,6 +56,9 @@ class Game:
         self.player = None
         self.player_dead = False
         self.death_start_time = 0
+        self.spell_fire_augmented = False
+        self.spell_ice = False
+        self.spell_prayer = False
 
         self.spawning_time = spawning_time
 
@@ -190,8 +193,15 @@ class Game:
                 self.text = f"{self.phrases['text_2']}{obj.name}?"
                 self.text_surface = font.render(self.text, True, "white")
             elif self.human_id(obj):
-                self.text = f"{self.phrases['text_1']}"
-                self.text_surface = font.render(self.text, True, "white")
+                if obj.name == 'merchant':
+                    self.text = f"{self.phrases['text_1']}"
+                    self.text_surface = font.render(self.text, True, "white")
+                elif obj.name == 'scarecrow':
+                    self.text = f"{self.phrases['text_10']}"
+                    self.text_surface = font.render(self.text, True, "white")
+                elif obj.name == 'praying statue':
+                    self.text = f"{self.phrases['text_13']}"
+                    self.text_surface = font.render(self.text, True, "white")
 
         if self.text_surface:
             text_rect = self.text_surface.get_rect(center=(WINDOW_WIDTH // 3, WINDOW_HEIGHT // 4))
@@ -231,13 +241,16 @@ class Game:
         if self.key_down(event, 'z') and self.player.inventory['fire dust'] > 0:
             Fire(self.player.rect.center, player_flame_frames, self.all_sprites, 50, self.player.state)
             self.player.inventory['fire dust'] -= 1
-        if self.key_down(event, 'x') and self.player.inventory['fire dust'] > 5:
+        if self.key_down(event, 'x') and self.player.inventory['fire dust'] > 5 and self.spell_fire_augmented == True:
             for state in ("up", "down", "left", "right"):
                 Fire(self.player.rect.center, player_flame_frames, self.all_sprites, 50, state)
             self.player.inventory['fire dust'] -= 5
-        if self.key_down(event, 'c') and self.player.inventory['ice dust'] > 0:
+        if self.key_down(event, 'c') and self.player.inventory['ice dust'] > 0 and self.spell_ice == True:
             Fire(self.player.rect.center, ice, self.all_sprites, 50, self.player.state,'ice')
             self.player.inventory['ice dust'] -= 1
+        if self.key_down(event,'v') and self.player.inventory['fire dust'] > 3 and self.spell_prayer == True and self.player.life < 1000:
+            self.player.inventory['fire dust'] -= 3
+            self.player.life += 10
 
     def buffer_handlers(self, event):
         ##### buffers --> key_pressed[duration time, name, effect]
@@ -271,15 +284,30 @@ class Game:
     def trading(self, event):
         for obj in self.collision_sprites:
             if self.human_id(obj):
-                if self.key_down(event, "s") and self.player.inventory["crystal ball"] > 0:
-                    self.player.inventory["crystal ball"] -= 1
-                    self.player.inventory["coin"] += 3
-                if self.key_down(event, "b") and self.player.inventory["coin"] >= 0:
-                    self.player.inventory["coin"] -= 1
-                    self.player.inventory["potion"] += 1
-                if self.key_down(event, "n") and self.player.inventory["coin"] >= 5:
-                    self.player.inventory["coin"] -= 3
-                    self.player.inventory["holy water"] += 1
+                if obj.name == 'merchant':
+                    if self.key_down(event, "s") and self.player.inventory["crystal ball"] > 0:
+                        self.player.inventory["crystal ball"] -= 1
+                        self.player.inventory["coin"] += 3
+                    if self.key_down(event, "b") and self.player.inventory["coin"] >= 0:
+                        self.player.inventory["coin"] -= 1
+                        self.player.inventory["potion"] += 1
+                    if self.key_down(event, "n") and self.player.inventory["coin"] >= 5:
+                        self.player.inventory["coin"] -= 3
+                        self.player.inventory["holy water"] += 1
+                if obj.name == 'scarecrow':
+                    if self.key_down(event, "s") and self.player.inventory["crystal ball"] >= 10:
+                        self.player.inventory["crystal ball"] -= 10
+                        self.spell_fire_augmented = True
+                        self.message =  self.phrases["text_11"]
+                    if self.key_down(event, "i") and self.player.inventory["crystal ball"] >= 20:
+                        self.player.inventory["crystal ball"] -= 20
+                        self.spell_ice= True
+                        self.message = self.phrases["text_12"]
+                if obj.name == 'praying statue':
+                    if self.key_down(event, "p") and self.player.inventory["fire dust"] >= 50:
+                        self.player.inventory["fire dust"] -= 50
+                        self.spell_prayer = True
+                        self.message = self.phrases["text_14"]
 
     def collision_detection(self):
         for obj in self.all_sprites:
@@ -310,7 +338,6 @@ class Game:
                 self.running = False
                 pygame.quit()
                 sys.exit()
-
 
     def end_game(self, event):
         for name, area in self.area_group.items():
