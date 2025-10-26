@@ -22,7 +22,12 @@ phrases = {
               "Press 0 to reset the text collected while solving riddles",
     "text_7": "find the solution to the riddle the get the key for the portal",
     "text_8": "Press Y to enter the ",
-    "text_9": "there is an inscription on the stone... are you able to decypher it?"
+    "text_9": "there is an inscription on the stone... are you able to decypher it?",
+    "text_10": "do you want to learn a new spell? give me your crystal balls \n"
+                "10 crystal balls will buy you an augmented fire spell, press s \n"
+                "20 crystall balls will buy you an ice spell, press i",
+    "text_11": "new spell learned, x to use",
+    "text_12": "new spell learned, c to use"
 }
 
 cipher_dict = {
