@@ -38,7 +38,7 @@ class Player(pygame.sprite.Sprite):
             'holy water': 0,
             'runes dust': 0,
             'nothing useful': 0,
-            'fire dust': 0,
+            'fire dust': 50,
             'ice dust': 3
         }
 

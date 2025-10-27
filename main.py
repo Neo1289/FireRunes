@@ -5,7 +5,7 @@ from libraries_and_settings import (pygame,
 ###CONFIGURATIONS
 from libraries_and_settings import (display_surface, maps, TILE_SIZE, WINDOW_HEIGHT, WINDOW_WIDTH,
                                      font, enemies_images, enemies_speed, enemies_direction, spawning_time, buffers, player_flame_frames, enemies_life, game_objects,
-                                    enemies_damage,ice, enemies_immunity, failed_frames,water_splash_frames)
+                                    enemies_damage,ice, enemies_immunity, failed_frames,water_splash_frames, fire_aura_frames,cure_frames)
 from words_library import phrases, instructions, items
 
 ###SPRITES
@@ -251,6 +251,7 @@ class Game:
         if self.key_down(event,'v') and self.player.inventory['fire dust'] > 3 and self.spell_prayer == True and self.player.life < 1000:
             self.player.inventory['fire dust'] -= 3
             self.player.life += 10
+            Animation(self.player.rect.center,cure_frames,self.all_sprites,"cure_spell")
 
     def buffer_handlers(self, event):
         ##### buffers --> key_pressed[duration time, name, effect]
@@ -339,6 +340,10 @@ class Game:
                 pygame.quit()
                 sys.exit()
 
+    def player_aura_cast(self):
+        if self.player.inventory['fire dust'] == 50:
+            Animation((self.player.rect.centerx +20,self.player.rect.centery+20),fire_aura_frames,self.all_sprites, "player_aura")
+
     def end_game(self, event):
         for name, area in self.area_group.items():
             if area.rect.colliderect(self.player.rect) and self.key_down(event, "y") and name == 'exit':
@@ -356,7 +361,7 @@ class Game:
             hit_general = pygame.sprite.spritecollideany(general, projectiles)
             if hit_general:
                 hit_general.kill()
-                Animation(hit_general.rect.center, failed_frames,self.all_sprites, "failed_attack")
+                Animation(hit_general.rect.center, failed_frames, self.all_sprites, "failed_attack")
 
     def check_enemies_collision(self):
         enemies = self.enemies_groups()
@@ -501,6 +506,7 @@ class Game:
 
             self.adding_fire_dust()
             self.player_regeneration()
+            self.player_aura_cast()
             self.display_surface.fill('black')
             self.all_sprites.update(dt)
             self.all_sprites.draw(self.player.rect.center)
