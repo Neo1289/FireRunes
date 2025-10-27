@@ -309,6 +309,7 @@ class Game:
                         self.player.inventory["fire dust"] -= 50
                         self.spell_prayer = True
                         self.message = self.phrases["text_14"]
+                        Animation(self.player.rect.center, cure_frames, self.all_sprites, "cure_spell")
 
     def collision_detection(self):
         for obj in self.all_sprites:
@@ -327,7 +328,8 @@ class Game:
             self.death_start_time = pygame.time.get_ticks()
             death_position = self.player.rect.center
             self.player.kill()
-            Animation(death_position, water_splash_frames, self.all_sprites, "river_zone")
+            if self.current_area == 'river':
+                Animation(death_position, water_splash_frames, self.all_sprites, "river_zone")
 
         if self.player_dead:
             time_since_death = (pygame.time.get_ticks() - self.death_start_time) / 1000
