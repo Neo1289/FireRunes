@@ -28,7 +28,7 @@ phrases = {
                 "20 crystall balls will buy you an ice spell, press i",
     "text_11": "new spell learned, x to use",
     "text_12": "new spell learned, c to use",
-    "text_13": "pray with me if your fire is on!",
+    "text_13": "pray with me if you see moon of fire",
     "text_14": "prayer learned, v to use"
 }
 
