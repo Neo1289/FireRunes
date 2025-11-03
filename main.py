@@ -75,6 +75,7 @@ class Game:
         self.all_sprites.empty()
         self.collision_sprites.empty()
         self.area_group.clear()
+        self.obj_positions_dict.clear()
 
     def detecting_area_name(self):  ####assigns the map based on the current area name
 
