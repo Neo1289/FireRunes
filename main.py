@@ -5,7 +5,7 @@ from libraries_and_settings import (pygame,
 ###CONFIGURATIONS
 from libraries_and_settings import (display_surface, maps, TILE_SIZE, WINDOW_HEIGHT, WINDOW_WIDTH,
                                      font, enemies_images, enemies_speed, enemies_direction, spawning_time, buffers, player_flame_frames, enemies_life, game_objects,
-                                    enemies_damage,ice, enemies_immunity, failed_frames,water_splash_frames, fire_aura_frames,cure_frames)
+                                    enemies_damage,ice, enemies_immunity, failed_frames,water_splash_frames, fire_aura_frames,cure_frames,statue_frames)
 from words_library import phrases, instructions, items
 
 ###SPRITES
@@ -50,6 +50,8 @@ class Game:
         self.enemies_immunity = enemies_immunity
         self.instructions = instructions
         self.items = items
+        self.obj_positions_dict = {}
+        self.static_frames = {"praying statue": statue_frames, "in prayer": statue_frames}
 
         self.collision_sprites = pygame.sprite.Group()
         self.all_sprites = allSpritesOffset()
@@ -74,6 +76,7 @@ class Game:
         self.all_sprites.empty()
         self.collision_sprites.empty()
         self.area_group.clear()
+        self.obj_positions_dict.clear()
 
     def detecting_area_name(self):  ####assigns the map based on the current area name
 
@@ -121,6 +124,7 @@ class Game:
         ###objects
         for obj in self.current_map.get_layer_by_name('objects'):
             GeneralSprite((obj.x, obj.y), obj.image, (self.all_sprites, self.collision_sprites), None, obj.name, 1, item=True)
+            self.obj_positions_dict[obj.name] = (obj.x, obj.y)
         ###player
         for obj in self.current_map.get_layer_by_name('areas'):
             if obj.name == 'player_spawn':
@@ -189,7 +193,7 @@ class Game:
                     self.text_surface = font.render(self.text, True, "white")
 
         for obj in self.collision_sprites:
-            if self.object_id(obj):
+            if self.object_id(obj) and name != 'in prayer':
                 self.text = f"{self.phrases['text_2']}{obj.name}?"
                 self.text_surface = font.render(self.text, True, "white")
             elif self.human_id(obj):
@@ -209,7 +213,7 @@ class Game:
 
     def collect_resources(self, event):
         for obj in self.collision_sprites:
-            if self.object_id(obj):
+            if self.object_id(obj) and obj.name != 'in prayer':
                 if self.key_down(event, "y"):
                     if hasattr(obj, 'rune'):
                         self.player.inventory['runes dust'] += 1
@@ -485,6 +489,15 @@ class Game:
 
             pygame.display.update()
 
+    def static_animations(self):
+        """ this method is intended for static animation for objects
+        not for players or other dynamic triggers like projectiles"""
+        keys = ['praying statue', 'in prayer']
+
+        for key in keys:
+            if key in self.obj_positions_dict:
+                Animation(self.obj_positions_dict[key], self.static_frames[key], self.all_sprites, key)
+
     def run(self):
 
         while self.running:
@@ -502,6 +515,7 @@ class Game:
                 self.end_game(event)
                 if event.type == self.custom_event:
                     self.monsters()
+                    self.static_animations()
                 if event.type == pygame.KEYDOWN and event.key == pygame.K_m:
                     self.main_menu()
                     continue
