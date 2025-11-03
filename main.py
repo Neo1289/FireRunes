@@ -51,6 +51,7 @@ class Game:
         self.instructions = instructions
         self.items = items
         self.obj_positions_dict = {}
+        self.static_frames = {"praying statue": statue_frames, "in prayer": statue_frames}
 
         self.collision_sprites = pygame.sprite.Group()
         self.all_sprites = allSpritesOffset()
@@ -192,7 +193,7 @@ class Game:
                     self.text_surface = font.render(self.text, True, "white")
 
         for obj in self.collision_sprites:
-            if self.object_id(obj):
+            if self.object_id(obj) and name != 'in prayer':
                 self.text = f"{self.phrases['text_2']}{obj.name}?"
                 self.text_surface = font.render(self.text, True, "white")
             elif self.human_id(obj):
@@ -212,7 +213,7 @@ class Game:
 
     def collect_resources(self, event):
         for obj in self.collision_sprites:
-            if self.object_id(obj):
+            if self.object_id(obj) and obj.name != 'in prayer':
                 if self.key_down(event, "y"):
                     if hasattr(obj, 'rune'):
                         self.player.inventory['runes dust'] += 1
@@ -488,6 +489,15 @@ class Game:
 
             pygame.display.update()
 
+    def static_animations(self):
+        """ this method is intended for static animation for objects
+        not for players or other dynamic triggers like projectiles"""
+        keys = ['praying statue', 'in prayer']
+
+        for key in keys:
+            if key in self.obj_positions_dict:
+                Animation(self.obj_positions_dict[key], self.static_frames[key], self.all_sprites, key)
+
     def run(self):
 
         while self.running:
@@ -505,8 +515,7 @@ class Game:
                 self.end_game(event)
                 if event.type == self.custom_event:
                     self.monsters()
-                    if 'praying statue' in self.obj_positions_dict:
-                        Animation(self.obj_positions_dict['praying statue'],statue_frames,self.all_sprites,"statue_energy")
+                    self.static_animations()
                 if event.type == pygame.KEYDOWN and event.key == pygame.K_m:
                     self.main_menu()
                     continue
