@@ -5,7 +5,7 @@ from libraries_and_settings import (pygame,
 ###CONFIGURATIONS
 from libraries_and_settings import (display_surface, maps, TILE_SIZE, WINDOW_HEIGHT, WINDOW_WIDTH,
                                      font, enemies_images, enemies_speed, enemies_direction, spawning_time, buffers, player_flame_frames, enemies_life, game_objects,
-                                    enemies_damage,ice, enemies_immunity, failed_frames,water_splash_frames, fire_aura_frames,cure_frames)
+                                    enemies_damage,ice, enemies_immunity, failed_frames,water_splash_frames, fire_aura_frames,cure_frames,statue_frames)
 from words_library import phrases, instructions, items
 
 ###SPRITES
@@ -50,6 +50,7 @@ class Game:
         self.enemies_immunity = enemies_immunity
         self.instructions = instructions
         self.items = items
+        self.obj_positions_dict = {}
 
         self.collision_sprites = pygame.sprite.Group()
         self.all_sprites = allSpritesOffset()
@@ -121,6 +122,7 @@ class Game:
         ###objects
         for obj in self.current_map.get_layer_by_name('objects'):
             GeneralSprite((obj.x, obj.y), obj.image, (self.all_sprites, self.collision_sprites), None, obj.name, 1, item=True)
+            self.obj_positions_dict[obj.name] = (obj.x, obj.y)
         ###player
         for obj in self.current_map.get_layer_by_name('areas'):
             if obj.name == 'player_spawn':
@@ -502,6 +504,8 @@ class Game:
                 self.end_game(event)
                 if event.type == self.custom_event:
                     self.monsters()
+                    if 'praying statue' in self.obj_positions_dict:
+                        Animation(self.obj_positions_dict['praying statue'],statue_frames,self.all_sprites,"statue_energy")
                 if event.type == pygame.KEYDOWN and event.key == pygame.K_m:
                     self.main_menu()
                     continue

@@ -202,6 +202,19 @@ for file_name in listdir(cure_folder):
     surf.set_colorkey((0,128,128))
     cure_frames.append(surf)
 
+# ---------------------------
+# praying statue aura
+# ---------------------------
+
+statue_frames = []
+statue_folder = path.join('resources', 'statue_energy')
+for file_name in listdir(statue_folder):
+    full_path = path.join(statue_folder, file_name)
+    surf = pygame.image.load(full_path).convert()
+    surf.set_colorkey((0,128,128))
+    statue_frames.append(surf)
+
+
 # ------------------------------------
 # dictionaries and lists of useful stuff
 # -------------------------------------
@@ -212,11 +225,11 @@ enemies_images = {"dragon": dragon, "bat": bat, "bat_1": bat, "scheleton": schel
 enemies_speed = {"dragon": 110, "bat": 80, "bat_1": 80, "scheleton": 30, "fish": 5, "flame": 0, "flame_1": 7, "ice": 100, "infernal_fire": 100,"magic": 0,"bush": 0}
 enemies_direction = {"dragon": [-1, 1], "bat": [-1, 1], "bat_1": [-1, 1], "scheleton": [-1, 1], "fish": [-1, 1], "flame": [-1, 1], "flame_1": [-1, 1], "ice": [-1, 1], "infernal_fire": [-1, 1], "magic": [-1, 1], "bush": [-1, 1]}
 enemies_immunity = {"dragon": "fire", "bat": None, "bat_1": None, "scheleton": "ice", "fish": None, "flame": "fire","flame_1": "fire","ice": "ice", "infernal_fire": "fire", "magic": "fire", "bush": None}
-spawning_time = {'world': 5000, 'house': 0, 'forest': 7000, 'cemetery': 5000,
+spawning_time = {'world': 5000, 'house': 500, 'forest': 7000, 'cemetery': 5000,
                  'dungeon': 100000000, 'maze': 2500, 'abandoned house': 5000, 'river': 2000, 'forbidden forest': 5000, 'exit': 0, 'hidden door': 1000}
 
 lasting_time = {'Rune': 1000, 'scheleton': 30000, 'flame': 300000000, 'dragon': 3000000, 'ice': 1000, 'bat_1': 50000, 'bat': 10000, 'fire': 1000, 'fish': 2000, "flame_1": 100000, "infernal_fire": 2000, "magic": 5000,"bush": 2000,
-                'failed_attack': 100, 'dragon_fire': 1000, 'river_zone': 50, "player_aura": 100,"cure_spell": 500}
+                'failed_attack': 100, 'dragon_fire': 1000, 'river_zone': 50, "player_aura": 100,"cure_spell": 500, "statue_energy": 500}
 
 game_objects = ['potion', 'crystal ball', 'coin', 'runes dust', 'nothing useful', 'holy water', 'fire dust', 'ice dust']
 
