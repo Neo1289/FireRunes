@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="64" height="64" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="150">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="64" height="64" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="154">
  <tileset firstgid="1" source="house_ground.tsx"/>
  <tileset firstgid="65" source="objects_world.tsx"/>
  <layer id="1" name="ground" width="64" height="64">
@@ -137,7 +137,6 @@
   <object id="72" gid="80" x="838" y="1206" width="31" height="39"/>
   <object id="73" gid="79" x="954" y="871" width="34" height="32"/>
   <object id="74" gid="79" x="893.334" y="871" width="34" height="32"/>
-  <object id="76" name="merchant" gid="84" x="846" y="882.333" width="29" height="46"/>
   <object id="79" gid="91" x="831.333" y="875.667" width="57" height="45"/>
   <object id="120" gid="66" x="1142" y="813.667" width="32" height="58"/>
   <object id="122" gid="65" x="1236" y="942" width="47" height="43"/>
@@ -194,6 +193,7 @@
   <object id="119" gid="80" x="1111" y="919" width="31" height="39"/>
   <object id="148" name="scarecrow" gid="82" x="1045" y="983.667" width="50" height="77"/>
   <object id="149" name="praying statue" gid="76" x="1160.67" y="1083" width="41" height="73"/>
+  <object id="153" name="wizard" gid="87" x="881" y="932.333" width="27" height="38"/>
  </objectgroup>
  <objectgroup id="4" name="areas">
   <object id="46" name="player_spawn" x="968.21" y="1180.27">
