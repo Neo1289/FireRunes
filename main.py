@@ -5,7 +5,7 @@ from libraries_and_settings import (pygame,
 ###CONFIGURATIONS
 from libraries_and_settings import (display_surface, maps, TILE_SIZE, WINDOW_HEIGHT, WINDOW_WIDTH,
                                      font, enemies_images, enemies_speed, enemies_direction, spawning_time, buffers, player_flame_frames, enemies_life, game_objects,
-                                    enemies_damage,ice, enemies_immunity, failed_frames,water_splash_frames, fire_aura_frames,cure_frames,statue_frames)
+                                    enemies_damage,ice, enemies_immunity, failed_frames,water_splash_frames, fire_aura_frames,cure_frames,statue_frames, wizard_frames)
 from words_library import phrases, instructions, items
 
 ###SPRITES
@@ -38,7 +38,7 @@ class Game:
 
         self.maps = maps  ##maps dictionary coming for the settings file
         self.current_map = None
-        self.current_area = "world"
+        self.current_area = "house"
         self.area_group = {}  ###dictionary with the areas where is possible to enter in a map
         self.transition_bool = True
         self.phrases = phrases
@@ -51,7 +51,7 @@ class Game:
         self.instructions = instructions
         self.items = items
         self.obj_positions_dict = {}
-        self.static_frames = {"praying statue": statue_frames, "in prayer": statue_frames}
+        self.static_frames = {"praying statue": statue_frames, "in prayer": statue_frames, "wizard": wizard_frames}
 
         self.collision_sprites = pygame.sprite.Group()
         self.all_sprites = allSpritesOffset()
@@ -197,7 +197,7 @@ class Game:
                 self.text = f"{self.phrases['text_2']}{obj.name}?"
                 self.text_surface = font.render(self.text, True, "white")
             elif self.human_id(obj):
-                if obj.name == 'merchant':
+                if obj.name == 'wizard':
                     self.text = f"{self.phrases['text_1']}"
                     self.text_surface = font.render(self.text, True, "white")
                 elif obj.name == 'scarecrow':
@@ -289,7 +289,7 @@ class Game:
     def trading(self, event):
         for obj in self.collision_sprites:
             if self.human_id(obj):
-                if obj.name == 'merchant':
+                if obj.name == 'wizard':
                     if self.key_down(event, "s") and self.player.inventory["crystal ball"] > 0:
                         self.player.inventory["crystal ball"] -= 1
                         self.player.inventory["coin"] += 3
@@ -492,7 +492,7 @@ class Game:
     def static_animations(self):
         """ this method is intended for static animation for objects
         not for players or other dynamic triggers like projectiles"""
-        keys = ['praying statue', 'in prayer']
+        keys = ['praying statue', 'in prayer','wizard']
 
         for key in keys:
             if key in self.obj_positions_dict:

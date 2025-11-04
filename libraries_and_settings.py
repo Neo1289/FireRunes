@@ -214,6 +214,17 @@ for file_name in listdir(statue_folder):
     surf.set_colorkey((0,128,128))
     statue_frames.append(surf)
 
+# ---------------------------
+# wizard
+# ---------------------------
+
+wizard_frames = []
+wizard_folder = path.join('resources', 'wizard')
+for file_name in listdir(wizard_folder):
+    full_path = path.join(wizard_folder, file_name)
+    surf = pygame.image.load(full_path).convert()
+    surf.set_colorkey("black")
+    wizard_frames.append(surf)
 
 # ------------------------------------
 # dictionaries and lists of useful stuff
@@ -229,7 +240,7 @@ spawning_time = {'world': 5000, 'house': 2000, 'forest': 7000, 'cemetery': 5000,
                  'dungeon': 100000000, 'maze': 2500, 'abandoned house': 5000, 'river': 2000, 'forbidden forest': 5000, 'exit': 0, 'hidden door': 1000}
 
 lasting_time = {'Rune': 1000, 'scheleton': 30000, 'flame': 300000000, 'dragon': 3000000, 'ice': 1000, 'bat_1': 50000, 'bat': 10000, 'fire': 1000, 'fish': 2000, "flame_1": 100000, "infernal_fire": 2000, "magic": 5000,"bush": 2000,
-                'failed_attack': 100, 'dragon_fire': 1000, 'river_zone': 50, "player_aura": 100,"cure_spell": 500, "praying statue": 700, "in prayer": 600}
+                'failed_attack': 100, 'dragon_fire': 1000, 'river_zone': 50, "player_aura": 100,"cure_spell": 500, "praying statue": 700, "in prayer": 600, "wizard": 10000}
 
 game_objects = ['potion', 'crystal ball', 'coin', 'runes dust', 'nothing useful', 'holy water', 'fire dust', 'ice dust']
 
