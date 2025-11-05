@@ -131,6 +131,8 @@ class Animation(pygame.sprite.Sprite, TimeUpdate):
         self.name = name
         if self.name == 'wizard':
             self.animation_speed = 3
+        elif self.name == 'portal':
+            self.animation_speed = 5
         else:
             self.animation_speed = 10
 
