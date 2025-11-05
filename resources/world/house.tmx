@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="64" height="64" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="154">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="64" height="64" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="155">
  <tileset firstgid="1" source="house_ground.tsx"/>
  <tileset firstgid="65" source="objects_world.tsx"/>
+ <tileset firstgid="96" source="../../../my_last_game/resources/world/objects_world.tsx"/>
  <layer id="1" name="ground" width="64" height="64">
   <data encoding="csv">
 1,2,3,4,5,6,7,8,32,16,16,16,16,16,16,16,16,16,16,16,24,24,24,24,24,24,1,1,2,3,4,5,6,7,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,16,16,16,7,8,8,16,24,32,31,
@@ -188,12 +189,13 @@
   <object id="114" gid="80" x="1061" y="929.333" width="31" height="39"/>
   <object id="115" gid="80" x="1044" y="889.333" width="31" height="39"/>
   <object id="116" gid="80" x="1011" y="889.333" width="31" height="39"/>
-  <object id="117" gid="80" x="1098" y="889" width="31" height="39"/>
+  <object id="117" gid="80" x="1090.67" y="889.667" width="31" height="39"/>
   <object id="118" gid="80" x="1111" y="906" width="31" height="39"/>
   <object id="119" gid="80" x="1111" y="919" width="31" height="39"/>
   <object id="148" name="scarecrow" gid="82" x="1045" y="983.667" width="50" height="77"/>
   <object id="149" name="praying statue" gid="76" x="1160.67" y="1083" width="41" height="73"/>
   <object id="153" name="wizard" gid="87" x="881" y="932.333" width="27" height="38"/>
+  <object id="154" gid="118" x="1183.67" y="916.333" width="27" height="38"/>
  </objectgroup>
  <objectgroup id="4" name="areas">
   <object id="46" name="player_spawn" x="968.21" y="1180.27">
@@ -206,6 +208,6 @@
   <object id="84" gid="72" x="749" y="1184" width="95" height="138"/>
   <object id="85" gid="72" x="1211" y="1156" width="95" height="138"/>
   <object id="86" gid="72" x="810" y="1322" width="95" height="138"/>
-  <object id="109" gid="80" x="1168" y="902.667" width="31" height="39"/>
+  <object id="109" gid="80" x="1003.33" y="914.667" width="31" height="39"/>
  </objectgroup>
 </map>

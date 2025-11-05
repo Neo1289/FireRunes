@@ -139,7 +139,7 @@
   <object id="65" gid="70" x="1109.33" y="477" width="57" height="42"/>
   <object id="66" gid="70" x="1066.67" y="465" width="57" height="42"/>
   <object id="67" gid="70" x="1016" y="487.667" width="57" height="42"/>
-  <object id="68" gid="70" x="1082.67" y="519.667" width="57" height="42"/>
+  <object id="68" name="portal" gid="70" x="1082.67" y="519.667" width="57" height="42"/>
   <object id="69" gid="70" x="1174.67" y="443.667" width="57" height="42"/>
   <object id="70" gid="70" x="960" y="470.333" width="57" height="42"/>
   <object id="71" gid="70" x="926.667" y="509" width="57" height="42"/>
