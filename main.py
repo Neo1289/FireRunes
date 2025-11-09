@@ -6,7 +6,7 @@ from libraries_and_settings import (pygame,
 from libraries_and_settings import (display_surface, maps, TILE_SIZE, WINDOW_HEIGHT, WINDOW_WIDTH,
                                      font, enemies_images, enemies_speed, enemies_direction, spawning_time, buffers, player_flame_frames, enemies_life, game_objects,
                                     enemies_damage,ice, enemies_immunity, failed_frames,water_splash_frames, fire_aura_frames,cure_frames,statue_frames, wizard_frames,portal_frames)
-from words_library import phrases, instructions, items
+from words_library import phrases
 
 ###SPRITES
 from player import Player
@@ -14,7 +14,7 @@ from camera import allSpritesOffset
 from sprites import GeneralSprite, AreaSprite, NPC, Rune, Fire, Animation
 
 pygame.init()
-
+pygame.mixer.init()
 
 class Game:
     def __init__(self):
@@ -38,7 +38,7 @@ class Game:
 
         self.maps = maps  ##maps dictionary coming for the settings file
         self.current_map = None
-        self.current_area = "world"
+        self.current_area = "portal"
         self.area_group = {}  ###dictionary with the areas where is possible to enter in a map
         self.transition_bool = True
         self.phrases = phrases
@@ -48,8 +48,6 @@ class Game:
         self.enemies_life = enemies_life
         self.enemies_damage = enemies_damage
         self.enemies_immunity = enemies_immunity
-        self.instructions = instructions
-        self.items = items
         self.obj_positions_dict = {}
         self.static_frames = {"praying statue": statue_frames, "in prayer": statue_frames, "wizard": wizard_frames, 'portal': portal_frames}
 
@@ -70,6 +68,16 @@ class Game:
 
         self.custom_event = pygame.event.custom_type()
         self.message = ''
+
+        self.music_loaded = False
+
+    def load_music(self, music_file):
+        """Load and play background music in loop"""
+
+        pygame.mixer.music.load(music_file)
+        pygame.mixer.music.set_volume(0.5)
+        pygame.mixer.music.play(-1)
+        self.music_loaded = True
 
     def cleaning_area(self):  ####removes all elements within groups
 
@@ -223,7 +231,6 @@ class Game:
                         obj.resources+= 1
                         if self.player.inventory['runes dust'] >= 5:
                             self.player.inventory['runes dust'] -= 5
-                            print('you pass')
                         else:
                             self.message = 'you need 5 runes dust'
                     else:
@@ -472,27 +479,13 @@ class Game:
 
             self.display_surface.fill('black')
 
-            # Menu text
+            # Create text surfaces
             title = font.render("GAME MENU", True, "white")
-            instructions_text = font.render(f"{self.instructions}", True, "white")
-            items_text = font.render(f"{self.items}", True, "white")
-            controls = font.render("ESC - Resume | Q - Quit", True, "white")
 
-            # Center the text
-            title_rect = title.get_rect(center=(WINDOW_WIDTH // 2, 100))
-            instructions_rect = instructions_text.get_rect(center=(WINDOW_WIDTH // 2, 200))
-            items_rect = items_text.get_rect(center=(WINDOW_WIDTH // 2, 400))
-            controls_rect = controls.get_rect(center=(WINDOW_WIDTH // 2, 500))
+            # Position title at top
+            title_rect = title.get_rect(center=(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 6))
 
-            menu_dict = {
-                title: title_rect,
-                instructions_text: instructions_rect,
-                items_text: items_rect,
-                controls: controls_rect
-            }
-
-            for key, value in menu_dict.items():
-                self.display_surface.blit(key, value)
+            self.display_surface.blit(title, title_rect)
 
             pygame.display.update()
 

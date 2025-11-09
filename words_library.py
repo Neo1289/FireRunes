@@ -73,34 +73,3 @@ cipher_dict = {
     'PDTSM': 'quest'
 }
 
-
-areas_description = {
-    "world_map": " main area",
-    "frozen house": "careful it is very cold in there!!!",
-    "house": "looks like an house of a merchant",
-    "abandoned house": "no one lives here... probably",
-    "alchemist house": "the signs on the door don't promise any good",
-    "bonus area": "",
-    "cemetery": "looks scary",
-    "forest": "a peaceful place",
-    "maze": "you can enter, but can you exit?",
-    "secret passage": "it was suppose to be a secret",
-    "spawning area": "careful to what you wish for...",
-    "store": "shopping time",
-    "dungeon": "you will need some potions and all the runic energy you can...",
-    "safe": ""
-}
-
-instructions = [
-    "Movement: Arrow Keys",
-    "Enter Area/Interact: Y",
-    "Attacks: Z / X / C"
-]
-
-
-items = [
-    "Potion: Restores health - press 1",
-    "Crystal Ball: Freezes enemies - press 2",
-    "Holy Water: Special heal - press 3",
-    "Runes Dust: Magical runes - press 4"
-]
