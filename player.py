@@ -32,7 +32,7 @@ class Player(pygame.sprite.Sprite):
 
         self.inventory = {
             'potion': 1,
-            'crystal ball': 0,
+            'crystal ball': 1,
             'coin': 1,
             'keys': 0,
             'holy water': 0,

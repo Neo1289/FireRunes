@@ -120,6 +120,6 @@
   <object id="46" name="player_spawn" x="968.21" y="1180.27">
    <point/>
   </object>
-  <object id="48" name="world" x="1017.3" y="1162.79" width="39.1212" height="49.7879"/>
+  <object id="48" name="portal" x="1017.3" y="1162.79" width="39.1212" height="49.7879"/>
  </objectgroup>
 </map>

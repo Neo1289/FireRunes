@@ -6,7 +6,7 @@ from libraries_and_settings import (pygame,
 from libraries_and_settings import (display_surface, maps, TILE_SIZE, WINDOW_HEIGHT, WINDOW_WIDTH,
                                      font, enemies_images, enemies_speed, enemies_direction, spawning_time, buffers, player_flame_frames, enemies_life, game_objects,
                                     enemies_damage,ice, enemies_immunity, failed_frames,water_splash_frames, fire_aura_frames,cure_frames,statue_frames, wizard_frames,portal_frames)
-from words_library import phrases
+from words_library import phrases, menu_instructions
 
 ###SPRITES
 from player import Player
@@ -42,6 +42,7 @@ class Game:
         self.area_group = {}  ###dictionary with the areas where is possible to enter in a map
         self.transition_bool = True
         self.phrases = phrases
+        self.menu_instructions = menu_instructions
         self.enemies_images = enemies_images
         self.enemies_direction = enemies_direction
         self.enemies_list = list(self.enemies_images.keys())
@@ -479,13 +480,29 @@ class Game:
 
             self.display_surface.fill('black')
 
-            # Create text surfaces
-            title = font.render("GAME MENU", True, "white")
+            # Split instructions into lines
+            lines = self.menu_instructions["instructions"].split('\n')
+            line_height = font.get_height()
 
-            # Position title at top
-            title_rect = title.get_rect(center=(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 6))
+            # Render each line separately
+            for i, line in enumerate(lines):
+                text_surface = font.render(line, True, "white")
+                text_rect = text_surface.get_rect(center=(WINDOW_WIDTH // 2, 60 + i * line_height))
+                self.display_surface.blit(text_surface, text_rect)
 
-            self.display_surface.blit(title, title_rect)
+            # Display caption information below instructions
+
+                # Display player inventory below instructions
+            if self.player is not None:
+                caption_y_start = 60 + len(lines) * line_height + 40
+
+                    # Create inventory display lines
+                inventory_lines = [f"{key}: {value}" for key, value in self.player.inventory.items()]
+
+                for i, inv_line in enumerate(inventory_lines):
+                    inv_surface = font.render(inv_line, True, "yellow")
+                    inv_rect = inv_surface.get_rect(center=(WINDOW_WIDTH // 2, caption_y_start + i * line_height))
+                    self.display_surface.blit(inv_surface, inv_rect)
 
             pygame.display.update()
 
