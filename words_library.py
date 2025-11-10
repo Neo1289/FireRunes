@@ -73,3 +73,18 @@ cipher_dict = {
     'PDTSM': 'quest'
 }
 
+menu_instructions = {
+    'instructions' :
+        "GAME MENU\n"
+        "\n"
+        "use the arrows to move \n"
+              "spell cast: z fire, x fire augmented, c ice , v cure \n"
+              "Press 1 to use the potion \n"
+              "Press 2 to break a crystal ball and paralyze enemies\n"
+              "Press 3 to drink the holy water \n"
+              "Press 4 to use the runic dust\n"
+              "\n"
+              "the keys are essential to enter some areas\n"
+              "the cure spell can be gained only by trading 50 fire dust with the statue"
+
+}
