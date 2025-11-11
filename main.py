@@ -39,7 +39,7 @@ class Game:
 
         self.maps = maps  ##maps dictionary coming for the settings file
         self.current_map = None
-        self.current_area = "portal"
+        self.current_area = "tavern"
         self.area_group = {}  ###dictionary with the areas where is possible to enter in a map
         self.transition_bool = True
         self.phrases = phrases
@@ -176,7 +176,7 @@ class Game:
                 self.monster = NPC(spawn_pos, self.enemies_images[obj.name],
                                    self.all_sprites, obj.name, enemies_speed[obj.name],
                                    True, self.enemies_life[obj.name], self.enemies_damage[obj.name], self.enemies_direction[obj.name],
-                                   obj.name in ['scheleton', 'dragon', 'bat_1', 'flame_1', 'infernal_fire'], self.enemies_immunity[obj.name])
+                                   obj.name in ['scheleton', 'dragon', 'bat_1', 'flame_1', 'infernal_fire', 'special_scheleton'], self.enemies_immunity[obj.name])
 
                 self.monster.player = self.player
 
@@ -190,7 +190,7 @@ class Game:
                                    True, self.enemies_life[obj.name], self.enemies_damage[obj.name],
                                    self.enemies_direction[obj.name],
                                    follow_player=obj.name in ['scheleton', 'dragon', 'bat_1', 'flame_1',
-                                                              'infernal_fire'])
+                                                              'infernal_fire', 'special_scheleton'])
 
                 self.monster.player = self.player
 

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="64" height="64" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="161">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="64" height="64" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="162">
  <tileset firstgid="1" source="house_ground.tsx"/>
  <tileset firstgid="65" source="objects_world.tsx"/>
  <tileset firstgid="96" source="../../../my_last_game/resources/world/objects_world.tsx"/>
@@ -121,5 +121,8 @@
    <point/>
   </object>
   <object id="48" name="portal" x="1017.3" y="1162.79" width="39.1212" height="49.7879"/>
+  <object id="161" name="special_scheleton" x="1102.67" y="882.667">
+   <point/>
+  </object>
  </objectgroup>
 </map>
