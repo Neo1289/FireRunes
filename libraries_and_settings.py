@@ -239,6 +239,11 @@ for file_name in listdir(portal_folder):
     portal_frames.append(surf)
 
 
+# ---------------------------
+# inventory map
+# ---------------------------
+inventory_map = pygame.image.load(path.join('resources', 'map.png')).convert()
+
 # ------------------------------------
 # dictionaries and lists of useful stuff
 # -------------------------------------

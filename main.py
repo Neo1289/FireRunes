@@ -5,7 +5,8 @@ from libraries_and_settings import (pygame,
 ###CONFIGURATIONS
 from libraries_and_settings import (display_surface, maps, TILE_SIZE, WINDOW_HEIGHT, WINDOW_WIDTH,
                                      font, enemies_images, enemies_speed, enemies_direction, spawning_time, buffers, player_flame_frames, enemies_life, game_objects,
-                                    enemies_damage,ice, enemies_immunity, failed_frames,water_splash_frames, fire_aura_frames,cure_frames,statue_frames, wizard_frames,portal_frames)
+                                    enemies_damage,ice, enemies_immunity, failed_frames,water_splash_frames, fire_aura_frames,cure_frames,statue_frames, wizard_frames,portal_frames,
+                                    inventory_map)
 from words_library import phrases, menu_instructions
 
 ###SPRITES
@@ -51,6 +52,7 @@ class Game:
         self.enemies_immunity = enemies_immunity
         self.obj_positions_dict = {}
         self.static_frames = {"praying statue": statue_frames, "in prayer": statue_frames, "wizard": wizard_frames, 'portal': portal_frames}
+        self.inventory_map = inventory_map
 
         self.collision_sprites = pygame.sprite.Group()
         self.all_sprites = allSpritesOffset()
@@ -465,7 +467,14 @@ class Game:
         return projectiles
 
     def main_menu(self):
+
         menu_running = True
+
+        try:
+            logo_image = pygame.transform.scale(self.inventory_map, (200, 200))
+        except:
+            logo_image = None
+
         while menu_running:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -480,24 +489,28 @@ class Game:
 
             self.display_surface.fill('black')
 
+            # Display image if loaded
+            if logo_image:
+                logo_rect = logo_image.get_rect(center=(WINDOW_WIDTH // 2, 100))
+                self.display_surface.blit(logo_image, logo_rect)
+
             # Split instructions into lines
             lines = self.menu_instructions["instructions"].split('\n')
             line_height = font.get_height()
 
+            # Adjust starting Y position to make room for image
+            text_start_y = 220 if logo_image else 60
+
             # Render each line separately
             for i, line in enumerate(lines):
                 text_surface = font.render(line, True, "white")
-                text_rect = text_surface.get_rect(center=(WINDOW_WIDTH // 2, 60 + i * line_height))
+                text_rect = text_surface.get_rect(center=(WINDOW_WIDTH // 2, text_start_y + i * line_height))
                 self.display_surface.blit(text_surface, text_rect)
 
-            # Display caption information below instructions
-
-                # Display player inventory below instructions
+            # Display player inventory
             if self.player is not None:
-                caption_y_start = 60 + len(lines) * line_height + 40
-
-                    # Create inventory display lines
-                inventory_lines = [f"{key}: {value}" for key, value in self.player.inventory.items()]
+                caption_y_start = text_start_y + len(lines) * line_height + 40
+                inventory_lines = [f"{key}: {value}" for key, value in self.player.inventory.items() if key != 'nothing useful']
 
                 for i, inv_line in enumerate(inventory_lines):
                     inv_surface = font.render(inv_line, True, "yellow")
