@@ -39,7 +39,8 @@ class Player(pygame.sprite.Sprite):
             'runes dust': 1,
             'nothing useful': 0,
             'fire dust': 0,
-            'ice dust': 0
+            'ice dust': 0,
+            'map pieces': 0
         }
 
     def _setup_rects(self, pos):

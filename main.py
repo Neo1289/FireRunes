@@ -471,7 +471,8 @@ class Game:
         menu_running = True
 
         try:
-            logo_image = pygame.transform.scale(self.inventory_map, (200, 200))
+            complete_map = self.inventory_map if self.player.inventory['map pieces'] == 10 else None
+            logo_image = pygame.transform.scale(complete_map, (200, 200))
         except:
             logo_image = None
 
