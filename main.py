@@ -414,6 +414,9 @@ class Game:
                             self.last_magic_kill_time = current_time
                             self.message = f"your regeneration rank is now {self.regeneration_buffer}"
                         self.areas_one()
+                    if enemy.name == 'special_scheleton':
+                        self.message = 'you got a piece of the map'
+                        self.player.inventory['map pieces'] += 1
 
     def display_captions(self):
         time_sec = pygame.time.get_ticks() // 1000
