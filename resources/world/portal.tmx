@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="50" height="76" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="242">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="50" height="76" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="245">
  <tileset firstgid="1" source="house_ground.tsx"/>
  <tileset firstgid="65" source="objects_world.tsx"/>
  <tileset firstgid="96" source="stone_ground.tsx"/>
@@ -88,6 +88,9 @@
    <point/>
   </object>
   <object id="241" name="tavern" x="938.667" y="1600" width="35.3333" height="25.3333"/>
+  <object id="242" name="citizen house" x="685.5" y="1603" width="36" height="36"/>
+  <object id="243" name="scarecrow house" x="682" y="1471" width="71" height="51"/>
+  <object id="244" name="armory" x="926" y="1224" width="35" height="35"/>
  </objectgroup>
  <objectgroup id="3" name="objects">
   <object id="2" gid="86" x="838.97" y="1921.52" width="101" height="133"/>
