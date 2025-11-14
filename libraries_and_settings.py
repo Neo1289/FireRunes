@@ -38,6 +38,18 @@ for file_name in listdir(bat_folder):
     full_path = path.join(bat_folder, file_name)
     surf = pygame.image.load(full_path).convert_alpha()
     bat.append(surf)
+
+# ---------------------------
+# special bats images
+# ---------------------------
+
+special_bat = []
+special_bat_folder = path.join('resources', 'special_bat')
+for file_name in listdir(special_bat_folder):
+    full_path = path.join(special_bat_folder, file_name)
+    surf = pygame.image.load(full_path).convert_alpha()
+    special_bat.append(surf)
+
 # ---------------------------
 # bush images
 # ---------------------------
@@ -59,6 +71,18 @@ for file_name in listdir(scheleton_folder):
     full_path = path.join(scheleton_folder, file_name)
     surf = pygame.image.load(full_path).convert_alpha()
     scheleton.append(surf)
+
+# ---------------------------
+# scheletons images
+# ---------------------------
+
+special_scheleton = []
+special_scheleton_folder = path.join('resources', 'special_skeleton')
+for file_name in listdir(special_scheleton_folder):
+    full_path = path.join(special_scheleton_folder, file_name)
+    surf = pygame.image.load(full_path).convert_alpha()
+    special_scheleton.append(surf)
+
 
 # ---------------------------
 # flames images
@@ -248,17 +272,19 @@ inventory_map = pygame.image.load(path.join('resources', 'map.png')).convert()
 # dictionaries and lists of useful stuff
 # -------------------------------------
 
-enemies_damage = {"dragon": 4, "bat": 0.5, "bat_1": 1, "scheleton": 0.5, "fish": 0.1, "flame": 3, "flame_1": 3, "ice": 3, "infernal_fire": 20, "magic": 10, "bush": 1, "special_scheleton": 3}
-enemies_life = {"dragon": 500, "bat": 1, "bat_1": 1, "scheleton": 1, "fish": 1, "flame": 100000, "flame_1": 10, "ice": 1000, "infernal_fire": 10000, "magic": 30, "bush": 1, "special_scheleton": 100}
-enemies_images = {"dragon": dragon, "bat": bat, "bat_1": bat, "scheleton": scheleton, "fish": fish, "flame": flame, "flame_1": flame, "ice": ice, "infernal_fire": infernal,"magic": magic,"bush": bush,"special_scheleton": scheleton}
-enemies_speed = {"dragon": 110, "bat": 80, "bat_1": 80, "scheleton": 30, "fish": 5, "flame": 0, "flame_1": 7, "ice": 100, "infernal_fire": 100,"magic": 0,"bush": 0, "special_scheleton": 30}
-enemies_direction = {"dragon": [-1, 1], "bat": [-1, 1], "bat_1": [-1, 1], "scheleton": [-1, 1], "fish": [-1, 1], "flame": [-1, 1], "flame_1": [-1, 1], "ice": [-1, 1], "infernal_fire": [-1, 1], "magic": [-1, 1], "bush": [-1, 1], "special_scheleton": [-1, 1]}
-enemies_immunity = {"dragon": "fire", "bat": None, "bat_1": None, "scheleton": "ice", "fish": None, "flame": "fire","flame_1": "fire","ice": "ice", "infernal_fire": "fire", "magic": "fire", "bush": None, "special_scheleton": "ice"}
+enemies_damage = {"dragon": 4, "bat": 0.5, "bat_1": 1,"special_bat": 5, "scheleton": 0.5, "fish": 0.1, "flame": 3, "flame_1": 3, "ice": 3, "infernal_fire": 20, "magic": 10, "bush": 1, "special_scheleton": 3}
+enemies_life = {"dragon": 500, "bat": 1, "bat_1": 1,"special_bat": 70 ,"scheleton": 1, "fish": 1, "flame": 100000, "flame_1": 10, "ice": 1000, "infernal_fire": 10000, "magic": 30, "bush": 1, "special_scheleton": 100}
+enemies_images = {"dragon": dragon, "bat": bat, "bat_1": bat,"special_bat": special_bat ,"scheleton": scheleton, "fish": fish, "flame": flame, "flame_1": flame, "ice": ice, "infernal_fire": infernal,"magic": magic,"bush": bush,"special_scheleton": special_scheleton}
+enemies_speed = {"dragon": 110, "bat": 80, "bat_1": 80,"special_bat": 100, "scheleton": 30, "fish": 5, "flame": 0, "flame_1": 7, "ice": 100, "infernal_fire": 100,"magic": 0,"bush": 0, "special_scheleton": 30}
+enemies_direction = {"dragon": [-1, 1], "bat": [-1, 1], "bat_1": [-1, 1],"special_bat": [-1,1] ,"scheleton": [-1, 1], "fish": [-1, 1], "flame": [-1, 1], "flame_1": [-1, 1], "ice": [-1, 1], "infernal_fire": [-1, 1], "magic": [-1, 1], "bush": [-1, 1], "special_scheleton": [-1, 1]}
+enemies_immunity = {"dragon": "fire", "bat": None, "bat_1": None,"special_bat": None,"scheleton": "ice", "fish": None, "flame": "fire","flame_1": "fire","ice": "ice", "infernal_fire": "fire", "magic": "fire", "bush": None, "special_scheleton": "ice"}
 spawning_time = {'world': 5000, 'house': 2000, 'forest': 7000, 'cemetery': 5000,
-                 'dungeon': 100000000, 'maze': 2500, 'abandoned house': 5000, 'river': 2000, 'forbidden forest': 5000, 'exit': 0, 'hidden door': 1000, 'portal': 1000, 'tavern': 1000000}
+                 'dungeon': 100000000, 'maze': 2500, 'abandoned house': 5000, 'river': 2000, 'forbidden forest': 5000, 'exit': 0, 'hidden door': 1000, 'portal': 1000,
+                 'tavern': 1000000, 'citizen house': 100000000}
 
-lasting_time = {'Rune': 1000, 'scheleton': 30000, 'flame': 300000000, 'dragon': 3000000, 'ice': 1000, 'bat_1': 50000, 'bat': 10000, 'fire': 1000, 'fish': 2000, "flame_1": 100000, "infernal_fire": 2000, "magic": 5000,"bush": 2000,
-                'failed_attack': 100, 'dragon_fire': 1000, 'river_zone': 50, "player_aura": 100,"cure_spell": 500, "praying statue": 700, "in prayer": 600, "wizard": 10000, "portal": 10000, "special_scheleton": 30000000}
+lasting_time = {'Rune': 1000, 'scheleton': 30000, 'flame': 300000000, 'dragon': 3000000, 'ice': 1000, 'bat_1': 50000, 'bat': 10000,"special_bat": 100000,'fire': 1000, 'fish': 2000, "flame_1": 100000, "infernal_fire": 2000, "magic": 5000,"bush": 2000,
+                'failed_attack': 100, 'dragon_fire': 1000, 'river_zone': 50, "player_aura": 100,"cure_spell": 500, "praying statue": 700, "in prayer": 600, "wizard": 10000,
+                "portal": 10000, "special_scheleton": 30000000}
 
 game_objects = ['potion', 'crystal ball', 'coin', 'runes dust', 'nothing useful', 'holy water', 'fire dust', 'ice dust']
 
