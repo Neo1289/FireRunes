@@ -1,12 +1,34 @@
 ###LIBRARIES
-from libraries_and_settings import (pygame,
-                                     sys,
-                                     random,path)
+from libraries_and_settings import pygame, sys, random, path
+
 ###CONFIGURATIONS
-from libraries_and_settings import (display_surface, maps, TILE_SIZE, WINDOW_HEIGHT, WINDOW_WIDTH,
-                                     font, enemies_images, enemies_speed, enemies_direction, spawning_time, buffers, player_flame_frames, enemies_life, game_objects,
-                                    enemies_damage,ice, enemies_immunity, failed_frames,water_splash_frames, fire_aura_frames,cure_frames,statue_frames, wizard_frames,portal_frames,
-                                    inventory_map)
+from libraries_and_settings import (
+    display_surface,
+    maps,
+    TILE_SIZE,
+    WINDOW_HEIGHT,
+    WINDOW_WIDTH,
+    font,
+    enemies_images,
+    enemies_speed,
+    enemies_direction,
+    spawning_time,
+    buffers,
+    player_flame_frames,
+    enemies_life,
+    game_objects,
+    enemies_damage,
+    ice,
+    enemies_immunity,
+    failed_frames,
+    water_splash_frames,
+    fire_aura_frames,
+    cure_frames,
+    statue_frames,
+    wizard_frames,
+    portal_frames,
+    inventory_map,
+)
 from words_library import phrases, menu_instructions
 
 ###SPRITES
@@ -17,9 +39,9 @@ from sprites import GeneralSprite, AreaSprite, NPC, Rune, Fire, Animation
 pygame.init()
 pygame.mixer.init()
 
+
 class Game:
     def __init__(self):
-
         self.running = True
         self.display_surface = display_surface
         self.clock = pygame.time.Clock()
@@ -51,7 +73,12 @@ class Game:
         self.enemies_damage = enemies_damage
         self.enemies_immunity = enemies_immunity
         self.obj_positions_dict = {}
-        self.static_frames = {"praying statue": statue_frames, "in prayer": statue_frames, "wizard": wizard_frames, 'portal': portal_frames}
+        self.static_frames = {
+            "praying statue": statue_frames,
+            "in prayer": statue_frames,
+            "wizard": wizard_frames,
+            "portal": portal_frames,
+        }
         self.inventory_map = inventory_map
 
         self.collision_sprites = pygame.sprite.Group()
@@ -67,10 +94,10 @@ class Game:
 
         self.game_objects = game_objects
         self.weights = [0.4, 0.1, 0.49, 0.01, 0.3, 0.00001, 0.3, 0.4]
-        self.last_item = ''
+        self.last_item = ""
 
         self.custom_event = pygame.event.custom_type()
-        self.message = ''
+        self.message = ""
 
         self.music_loaded = False
 
@@ -83,34 +110,31 @@ class Game:
         self.music_loaded = True
 
     def cleaning_area(self):  ####removes all elements within groups
-
         self.all_sprites.empty()
         self.collision_sprites.empty()
         self.area_group.clear()
         self.obj_positions_dict.clear()
 
     def detecting_area_name(self):  ####assigns the map based on the current area name
-
         if self.current_area in self.maps:
             self.current_map = self.maps[self.current_area]
 
     def assign_current_area(self):
-
         for name, area in self.area_group.items():
             if area.rect.colliderect(self.player.rect):
-                if name != 'exit':
+                if name != "exit":
                     self.current_area = name
 
-    def enter_area_check(self, event): ####triggering the area switch
+    def enter_area_check(self, event):  ####triggering the area switch
         for name, area in self.area_group.items():
             if area.rect.colliderect(self.player.rect) and self.key_down(event, "y"):
-                if name == 'forbidden forest':
-                    if self.player.inventory['keys'] > 49:
-                        self.player.inventory['keys'] -= 50
+                if name == "forbidden forest":
+                    if self.player.inventory["keys"] > 49:
+                        self.player.inventory["keys"] -= 50
                         self.transition_bool = True
                     else:
                         self.message = "you need 50 keys to enter"
-                elif name == 'in prayer':
+                elif name == "in prayer":
                     self.areas_one()
                     continue
                 else:
@@ -123,74 +147,129 @@ class Game:
             self.message = self.current_area
             self.transition_bool = False
 
-            pygame.time.set_timer(self.custom_event, self.spawning_time[self.current_area])
+            pygame.time.set_timer(
+                self.custom_event, self.spawning_time[self.current_area]
+            )
 
     def mapping(self):
-
         self.cleaning_area()
 
         ###ground
-        for x, y, image in self.current_map.get_layer_by_name('ground').tiles():
+        for x, y, image in self.current_map.get_layer_by_name("ground").tiles():
             GeneralSprite((x * TILE_SIZE, y * TILE_SIZE), image, self.all_sprites, True)
         ###objects
-        for obj in self.current_map.get_layer_by_name('objects'):
-            GeneralSprite((obj.x, obj.y), obj.image, (self.all_sprites, self.collision_sprites), None, obj.name, 1, item=True)
+        for obj in self.current_map.get_layer_by_name("objects"):
+            GeneralSprite(
+                (obj.x, obj.y),
+                obj.image,
+                (self.all_sprites, self.collision_sprites),
+                None,
+                obj.name,
+                1,
+                item=True,
+            )
             self.obj_positions_dict[obj.name] = (obj.x, obj.y)
         ###player
-        for obj in self.current_map.get_layer_by_name('areas'):
-            if obj.name == 'player_spawn':
+        for obj in self.current_map.get_layer_by_name("areas"):
+            if obj.name == "player_spawn":
                 if self.player is None:
-                    self.player = Player((obj.x, obj.y), self.all_sprites, self.collision_sprites)
+                    self.player = Player(
+                        (obj.x, obj.y), self.all_sprites, self.collision_sprites
+                    )
                 else:
                     self.player.collision_rect.center = (obj.x, obj.y)
                     self.all_sprites.add(self.player)
 
             elif obj.name not in self.enemies_list and obj.name is not None:
-                self.area_group[obj.name] = AreaSprite(obj.x, obj.y, obj.width, obj.height, self.all_sprites, obj.name)
+                self.area_group[obj.name] = AreaSprite(
+                    obj.x, obj.y, obj.width, obj.height, self.all_sprites, obj.name
+                )
             else:
                 self.monsters()
 
     def monsters(self):
         # Handle all enemies including fish
-        for obj in self.current_map.get_layer_by_name('areas'):
+        for obj in self.current_map.get_layer_by_name("areas"):
             if obj.name in self.enemies_list:
                 # Check if dragon already exists - only allow one dragon
-                if obj.name == 'dragon':
-                    existing_dragons = [sprite for sprite in self.all_sprites if
-                                        isinstance(sprite, NPC) and sprite.name == 'dragon']
+                if obj.name == "dragon":
+                    existing_dragons = [
+                        sprite
+                        for sprite in self.all_sprites
+                        if isinstance(sprite, NPC) and sprite.name == "dragon"
+                    ]
                     if existing_dragons:
                         continue  # Skip creating another dragon
 
                 # Special handling for fish - pick random spawn point
-                if obj.name == 'fish':
-                    existing_fish = [sprite for sprite in self.all_sprites if
-                                     isinstance(sprite, NPC) and sprite.name == 'fish']
+                if obj.name == "fish":
+                    existing_fish = [
+                        sprite
+                        for sprite in self.all_sprites
+                        if isinstance(sprite, NPC) and sprite.name == "fish"
+                    ]
                     if existing_fish:
                         continue
-                    fish_areas = [o for o in self.current_map.get_layer_by_name('areas') if o.name == 'fish']
+                    fish_areas = [
+                        o
+                        for o in self.current_map.get_layer_by_name("areas")
+                        if o.name == "fish"
+                    ]
                     spawn_area = random.choice(fish_areas)
                     spawn_pos = (spawn_area.x, spawn_area.y)
                 else:
                     spawn_pos = (obj.x, obj.y)
 
-                self.monster = NPC(spawn_pos, self.enemies_images[obj.name],
-                                   self.all_sprites, obj.name, enemies_speed[obj.name],
-                                   True, self.enemies_life[obj.name], self.enemies_damage[obj.name], self.enemies_direction[obj.name],
-                                   obj.name in ['scheleton', 'dragon', 'bat_1', 'flame_1', 'infernal_fire', 'special_scheleton','special_bat'], self.enemies_immunity[obj.name])
+                self.monster = NPC(
+                    spawn_pos,
+                    self.enemies_images[obj.name],
+                    self.all_sprites,
+                    obj.name,
+                    enemies_speed[obj.name],
+                    True,
+                    self.enemies_life[obj.name],
+                    self.enemies_damage[obj.name],
+                    self.enemies_direction[obj.name],
+                    obj.name
+                    in [
+                        "scheleton",
+                        "dragon",
+                        "bat_1",
+                        "flame_1",
+                        "infernal_fire",
+                        "special_scheleton",
+                        "special_bat",
+                    ],
+                    self.enemies_immunity[obj.name],
+                )
 
                 self.monster.player = self.player
 
     def areas_one(self):
-        for obj in self.current_map.get_layer_by_name('areas_one'):
+        for obj in self.current_map.get_layer_by_name("areas_one"):
             if obj.name in self.enemies_list:
                 spawn_pos = (obj.x, obj.y)
 
-                self.monster = NPC(spawn_pos, self.enemies_images[obj.name],
-                                   self.all_sprites, obj.name, enemies_speed[obj.name],
-                                   True, self.enemies_life[obj.name], self.enemies_damage[obj.name],
-                                   self.enemies_direction[obj.name],
-                                   follow_player=obj.name in ['scheleton', 'dragon', 'bat_1', 'flame_1',
-                                                              'infernal_fire', 'special_scheleton'])
+                self.monster = NPC(
+                    spawn_pos,
+                    self.enemies_images[obj.name],
+                    self.all_sprites,
+                    obj.name,
+                    enemies_speed[obj.name],
+                    True,
+                    self.enemies_life[obj.name],
+                    self.enemies_damage[obj.name],
+                    self.enemies_direction[obj.name],
+                    follow_player=obj.name
+                    in [
+                        "scheleton",
+                        "dragon",
+                        "bat_1",
+                        "flame_1",
+                        "infernal_fire",
+                        "special_scheleton",
+                    ],
+                )
 
                 self.monster.player = self.player
 
@@ -199,45 +278,49 @@ class Game:
         ###determine the current area map to be loaded and print it
         for name, area in self.area_group.items():
             if area.rect.colliderect(self.player.rect):
-                if name not in ('danger area', 'recall'):
+                if name not in ("danger area", "recall"):
                     self.text = f"{self.phrases['text_8']}{name}"
                     self.text_surface = font.render(self.text, True, "white")
 
         for obj in self.collision_sprites:
-            if self.object_id(obj) and name != 'in prayer':
+            if self.object_id(obj) and name != "in prayer":
                 self.text = f"{self.phrases['text_2']}{obj.name}?"
                 self.text_surface = font.render(self.text, True, "white")
             elif self.human_id(obj):
-                if obj.name == 'wizard':
+                if obj.name == "wizard":
                     self.text = f"{self.phrases['text_1']}"
                     self.text_surface = font.render(self.text, True, "white")
-                elif obj.name == 'scarecrow':
+                elif obj.name == "scarecrow":
                     self.text = f"{self.phrases['text_10']}"
                     self.text_surface = font.render(self.text, True, "white")
-                elif obj.name == 'praying statue':
+                elif obj.name == "praying statue":
                     self.text = f"{self.phrases['text_13']}"
                     self.text_surface = font.render(self.text, True, "white")
 
         if self.text_surface:
-            text_rect = self.text_surface.get_rect(center=(WINDOW_WIDTH // 3, WINDOW_HEIGHT // 4))
+            text_rect = self.text_surface.get_rect(
+                center=(WINDOW_WIDTH // 3, WINDOW_HEIGHT // 4)
+            )
             self.display_surface.blit(self.text_surface, text_rect)
 
     def collect_resources(self, event):
         for obj in self.collision_sprites:
-            if self.object_id(obj) and obj.name != 'in prayer':
+            if self.object_id(obj) and obj.name != "in prayer":
                 if self.key_down(event, "y"):
-                    if hasattr(obj, 'rune'):
-                        self.player.inventory['runes dust'] += 1
+                    if hasattr(obj, "rune"):
+                        self.player.inventory["runes dust"] += 1
                         obj.kill()
-                        self.last_item = 'runes dust'
-                    elif obj.name == 'portal':
-                        obj.resources+= 1
-                        if self.player.inventory['runes dust'] >= 5:
-                            self.player.inventory['runes dust'] -= 5
+                        self.last_item = "runes dust"
+                    elif obj.name == "portal":
+                        obj.resources += 1
+                        if self.player.inventory["runes dust"] >= 5:
+                            self.player.inventory["runes dust"] -= 5
                         else:
-                            self.message = 'you need 5 runes dust'
+                            self.message = "you need 5 runes dust"
                     else:
-                        choice = random.choices(self.game_objects, weights=self.weights, k=1)[0]
+                        choice = random.choices(
+                            self.game_objects, weights=self.weights, k=1
+                        )[0]
                         self.player.inventory[choice] += 1
                         self.last_item = choice
                     obj.resources -= 1
@@ -246,33 +329,79 @@ class Game:
         """Track elapsed time and automatically give player 1 fire dust every 2 seconds (max 50)."""
         self.fire_event = (pygame.time.get_ticks() - self.start_time) // 1000
 
-        if self.preventing_repetition(self.fire_event, self.fire_time_countdown, self.fire_buffer) and self.player.inventory['fire dust'] < 50:
-            self.player.inventory['fire dust'] += 1
+        if (
+            self.preventing_repetition(
+                self.fire_event, self.fire_time_countdown, self.fire_buffer
+            )
+            and self.player.inventory["fire dust"] < 50
+        ):
+            self.player.inventory["fire dust"] += 1
             self.fire_time_countdown = self.fire_event
 
     def player_regeneration(self):
         """Track elapsed time and automatically give player 1 life dust every 10 seconds."""
         self.regeneration_event = (pygame.time.get_ticks() - self.start_time) // 1000
 
-        if self.preventing_repetition(self.regeneration_event, self.regeneration_countdown, self.regeneration_buffer) and self.player.life < 1000 :
+        if (
+            self.preventing_repetition(
+                self.regeneration_event,
+                self.regeneration_countdown,
+                self.regeneration_buffer,
+            )
+            and self.player.life < 1000
+        ):
             self.player.life += 1
             self.regeneration_countdown = self.regeneration_event
 
     def player_fire(self, event):
-        if self.key_down(event, 'z') and self.player.inventory['fire dust'] > 0:
-            Fire(self.player.rect.center, player_flame_frames, self.all_sprites, 50, self.player.state)
-            self.player.inventory['fire dust'] -= 1
-        if self.key_down(event, 'x') and self.player.inventory['fire dust'] > 5 and self.spell_fire_augmented == True:
+        if self.key_down(event, "z") and self.player.inventory["fire dust"] > 0:
+            Fire(
+                self.player.rect.center,
+                player_flame_frames,
+                self.all_sprites,
+                50,
+                self.player.state,
+            )
+            self.player.inventory["fire dust"] -= 1
+        if (
+            self.key_down(event, "x")
+            and self.player.inventory["fire dust"] > 5
+            and self.spell_fire_augmented == True
+        ):
             for state in ("up", "down", "left", "right"):
-                Fire(self.player.rect.center, player_flame_frames, self.all_sprites, 50, state)
-            self.player.inventory['fire dust'] -= 5
-        if self.key_down(event, 'c') and self.player.inventory['ice dust'] > 0 and self.spell_ice == True:
-            Fire(self.player.rect.center, ice, self.all_sprites, 50, self.player.state,'ice')
-            self.player.inventory['ice dust'] -= 1
-        if self.key_down(event,'v') and self.player.inventory['fire dust'] > 3 and self.spell_prayer == True and self.player.life < 1000:
-            self.player.inventory['fire dust'] -= 3
+                Fire(
+                    self.player.rect.center,
+                    player_flame_frames,
+                    self.all_sprites,
+                    50,
+                    state,
+                )
+            self.player.inventory["fire dust"] -= 5
+        if (
+            self.key_down(event, "c")
+            and self.player.inventory["ice dust"] > 0
+            and self.spell_ice == True
+        ):
+            Fire(
+                self.player.rect.center,
+                ice,
+                self.all_sprites,
+                50,
+                self.player.state,
+                "ice",
+            )
+            self.player.inventory["ice dust"] -= 1
+        if (
+            self.key_down(event, "v")
+            and self.player.inventory["fire dust"] > 3
+            and self.spell_prayer == True
+            and self.player.life < 1000
+        ):
+            self.player.inventory["fire dust"] -= 3
             self.player.life += 10
-            Animation(self.player.rect.center,cure_frames,self.all_sprites,"cure_spell")
+            Animation(
+                self.player.rect.center, cure_frames, self.all_sprites, "cure_spell"
+            )
 
     def buffer_handlers(self, event):
         ##### buffers --> key_pressed[duration time, name, effect]
@@ -288,15 +417,18 @@ class Game:
         self.time_event = (pygame.time.get_ticks() - self.start_time) // 1000
 
         if self.duration_time >= self.time_event:
-
-            if self.buffer_used == 'runes dust':
-                position = (random.choice([100, -100, 50, -50, 200, -200, 0]) + self.player.rect.x,
-                            random.choice([100, -100, 50, -50, 200, -200, 0]) + self.player.rect.y)
+            if self.buffer_used == "runes dust":
+                position = (
+                    random.choice([100, -100, 50, -50, 200, -200, 0])
+                    + self.player.rect.x,
+                    random.choice([100, -100, 50, -50, 200, -200, 0])
+                    + self.player.rect.y,
+                )
                 Rune(position, self.all_sprites)
 
-            elif self.buffer_used == 'crystal ball':
+            elif self.buffer_used == "crystal ball":
                 for enemy in self.enemies_groups():
-                    if enemy.name != 'dragon':
+                    if enemy.name != "dragon":
                         enemy.speed = 0
             else:
                 self.player.life += self.effect
@@ -306,8 +438,11 @@ class Game:
     def trading(self, event):
         for obj in self.collision_sprites:
             if self.human_id(obj):
-                if obj.name == 'wizard':
-                    if self.key_down(event, "s") and self.player.inventory["crystal ball"] > 0:
+                if obj.name == "wizard":
+                    if (
+                        self.key_down(event, "s")
+                        and self.player.inventory["crystal ball"] > 0
+                    ):
                         self.player.inventory["crystal ball"] -= 1
                         self.player.inventory["coin"] += 3
                     if self.key_down(event, "b") and self.player.inventory["coin"] >= 0:
@@ -316,21 +451,35 @@ class Game:
                     if self.key_down(event, "n") and self.player.inventory["coin"] >= 5:
                         self.player.inventory["coin"] -= 3
                         self.player.inventory["holy water"] += 1
-                if obj.name == 'scarecrow':
-                    if self.key_down(event, "s") and self.player.inventory["crystal ball"] >= 10:
+                if obj.name == "scarecrow":
+                    if (
+                        self.key_down(event, "s")
+                        and self.player.inventory["crystal ball"] >= 10
+                    ):
                         self.player.inventory["crystal ball"] -= 10
                         self.spell_fire_augmented = True
-                        self.message =  self.phrases["text_11"]
-                    if self.key_down(event, "i") and self.player.inventory["crystal ball"] >= 20:
+                        self.message = self.phrases["text_11"]
+                    if (
+                        self.key_down(event, "i")
+                        and self.player.inventory["crystal ball"] >= 20
+                    ):
                         self.player.inventory["crystal ball"] -= 20
-                        self.spell_ice= True
+                        self.spell_ice = True
                         self.message = self.phrases["text_12"]
-                if obj.name == 'praying statue':
-                    if self.key_down(event, "p") and self.player.inventory["fire dust"] >= 50:
+                if obj.name == "praying statue":
+                    if (
+                        self.key_down(event, "p")
+                        and self.player.inventory["fire dust"] >= 50
+                    ):
                         self.player.inventory["fire dust"] -= 50
                         self.spell_prayer = True
                         self.message = self.phrases["text_14"]
-                        Animation(self.player.rect.center, cure_frames, self.all_sprites, "cure_spell")
+                        Animation(
+                            self.player.rect.center,
+                            cure_frames,
+                            self.all_sprites,
+                            "cure_spell",
+                        )
 
     def collision_detection(self):
         for obj in self.all_sprites:
@@ -349,14 +498,16 @@ class Game:
             self.death_start_time = pygame.time.get_ticks()
             death_position = self.player.rect.center
             self.player.kill()
-            if self.current_area == 'river':
-                Animation(death_position, water_splash_frames, self.all_sprites, "river_zone")
+            if self.current_area == "river":
+                Animation(
+                    death_position, water_splash_frames, self.all_sprites, "river_zone"
+                )
 
         if self.player_dead:
             time_since_death = (pygame.time.get_ticks() - self.death_start_time) / 1000
 
             if time_since_death > 2:
-                pygame.display.set_caption('GAME OVER')
+                pygame.display.set_caption("GAME OVER")
                 pygame.display.update()
                 pygame.time.delay(3000)
                 self.running = False
@@ -364,27 +515,44 @@ class Game:
                 sys.exit()
 
     def player_aura_cast(self):
-        if self.player.inventory['fire dust'] == 50:
-            Animation((self.player.rect.centerx +20,self.player.rect.centery+20),fire_aura_frames,self.all_sprites, "player_aura")
+        if self.player.inventory["fire dust"] == 50:
+            Animation(
+                (self.player.rect.centerx + 20, self.player.rect.centery + 20),
+                fire_aura_frames,
+                self.all_sprites,
+                "player_aura",
+            )
 
     def end_game(self, event):
         for name, area in self.area_group.items():
-            if area.rect.colliderect(self.player.rect) and self.key_down(event, "y") and name == 'exit':
-                self.caption = pygame.display.set_caption('YOU WIN, YOU ESCAPED')
+            if (
+                area.rect.colliderect(self.player.rect)
+                and self.key_down(event, "y")
+                and name == "exit"
+            ):
+                self.caption = pygame.display.set_caption("YOU WIN, YOU ESCAPED")
                 pygame.time.delay(5000)
                 pygame.quit()
                 sys.exit()
 
     def projectiles_hit_walls(self):
         projectiles = self.player_projectiles()
-        general_sprites = [sprite for sprite in self.all_sprites if
-                           hasattr(sprite, 'general') and not hasattr(sprite, 'ground')]
+        general_sprites = [
+            sprite
+            for sprite in self.all_sprites
+            if hasattr(sprite, "general") and not hasattr(sprite, "ground")
+        ]
 
         for general in general_sprites:
             hit_general = pygame.sprite.spritecollideany(general, projectiles)
             if hit_general:
                 hit_general.kill()
-                Animation(hit_general.rect.center, failed_frames, self.all_sprites, "failed_attack")
+                Animation(
+                    hit_general.rect.center,
+                    failed_frames,
+                    self.all_sprites,
+                    "failed_attack",
+                )
 
     def check_enemies_collision(self):
         enemies = self.enemies_groups()
@@ -396,53 +564,72 @@ class Game:
                 enemy.life -= 1
             if hit_projectile and hit_projectile.name == enemy.immune:
                 hit_projectile.kill()
-                Animation(hit_projectile.rect.center, failed_frames, self.all_sprites, 'failed_attack')
+                Animation(
+                    hit_projectile.rect.center,
+                    failed_frames,
+                    self.all_sprites,
+                    "failed_attack",
+                )
 
             if enemy.life <= 0:
-                    enemy.kill()
-                    if enemy.name == 'fish':
-                        self.player.inventory['keys'] += 1
-                        self.last_item = 'key'
-                    if enemy.name == 'dragon':
-                        self.player.inventory['coin'] += 20
-                        self.player.inventory['keys'] += 2
-                        self.player.inventory['crystal ball'] += 2
-                    if enemy.name == 'magic':
-                        current_time = pygame.time.get_ticks() // 1000
-                        if self.preventing_repetition(current_time, self.last_magic_kill_time, 1) and self.regeneration_buffer > 5:
-                            self.regeneration_buffer -= 1
-                            self.last_magic_kill_time = current_time
-                            self.message = f"your regeneration rank is now {self.regeneration_buffer}"
-                        self.areas_one()
-                    if 'special' in enemy.name:
-                        self.message = 'you got a piece of the map'
-                        self.player.inventory['map pieces'] += 1
+                enemy.kill()
+                if enemy.name == "fish":
+                    self.player.inventory["keys"] += 1
+                    self.last_item = "key"
+                if enemy.name == "dragon":
+                    self.player.inventory["coin"] += 20
+                    self.player.inventory["keys"] += 2
+                    self.player.inventory["crystal ball"] += 2
+                if enemy.name == "magic":
+                    current_time = pygame.time.get_ticks() // 1000
+                    if (
+                        self.preventing_repetition(
+                            current_time, self.last_magic_kill_time, 1
+                        )
+                        and self.regeneration_buffer > 5
+                    ):
+                        self.regeneration_buffer -= 1
+                        self.last_magic_kill_time = current_time
+                        self.message = (
+                            f"your regeneration rank is now {self.regeneration_buffer}"
+                        )
+                    self.areas_one()
+                if "special" in enemy.name:
+                    self.message = "you got a piece of the map"
+                    self.player.inventory["map pieces"] += 1
 
     def display_captions(self):
         time_sec = pygame.time.get_ticks() // 1000
         enemies = self.enemies_groups()
 
-        self.caption = (f"\u2665 {self.player.life}     "
-                        f"\U0001F9EA {self.player.inventory['potion']}     "
-                        f"\U0001F52E {self.player.inventory['crystal ball']}     "
-                        f"\U0001F4B0 {self.player.inventory['coin']}     "
-                        f"\U0001F5DD {self.player.inventory['keys']}     "
-                        f"\u2697\ufe0f {self.player.inventory['holy water']}     "
-                        f"\U0001F4AB {self.player.inventory['runes dust']}     "
-                        f"\U0001F525 {self.player.inventory['fire dust']}     "
-                        f"\u2744\uFE0F {self.player.inventory['ice dust']}     "
-                        f"timer: {time_sec}          "
-                        f"last item found: {self.last_item}      "
-                        f"special enemy life: {[i.life for i in enemies if i.name == 'dragon']}      "
-                        f"{self.message}"
-                        )
+        self.caption = (
+            f"\u2665 {self.player.life}     "
+            f"\U0001f9ea {self.player.inventory['potion']}     "
+            f"\U0001f52e {self.player.inventory['crystal ball']}     "
+            f"\U0001f4b0 {self.player.inventory['coin']}     "
+            f"\U0001f5dd {self.player.inventory['keys']}     "
+            f"\u2697\ufe0f {self.player.inventory['holy water']}     "
+            f"\U0001f4ab {self.player.inventory['runes dust']}     "
+            f"\U0001f525 {self.player.inventory['fire dust']}     "
+            f"\u2744\ufe0f {self.player.inventory['ice dust']}     "
+            f"timer: {time_sec}          "
+            f"last item found: {self.last_item}      "
+            f"special enemy life: {[i.life for i in enemies if i.name == 'dragon']}      "
+            f"{self.message}"
+        )
         pygame.display.set_caption(self.caption)
 
     ################################
     ####REDUNDANT CODE REDUCTION####
     ################################
     def object_id(self, obj):
-        if obj.rect.colliderect(self.player.rect) and hasattr(obj, "name") and hasattr(obj, "item") and not hasattr(obj, "human") and obj.resources > 0:
+        if (
+            obj.rect.colliderect(self.player.rect)
+            and hasattr(obj, "name")
+            and hasattr(obj, "item")
+            and not hasattr(obj, "human")
+            and obj.resources > 0
+        ):
             return True
 
     def human_id(self, obj):
@@ -457,24 +644,26 @@ class Game:
     def enemies_groups(self):
         return [sprite for sprite in self.all_sprites if isinstance(sprite, NPC)]
 
-    def preventing_repetition(self,time_event,any_time_attribute, buffer: int):
+    def preventing_repetition(self, time_event, any_time_attribute, buffer: int):
         """Prevent duplicate actions
         by checking if current time is even and different from last action time."""
         return time_event % buffer == 0 and time_event != any_time_attribute
 
     def player_projectiles(self):
-        projectiles = pygame.sprite.Group([
-            sprite for sprite in self.all_sprites
-            if isinstance(sprite, (Rune, Fire))
-        ])
+        projectiles = pygame.sprite.Group(
+            [sprite for sprite in self.all_sprites if isinstance(sprite, (Rune, Fire))]
+        )
         return projectiles
 
     def main_menu(self):
-
         menu_running = True
 
         try:
-            complete_map = self.inventory_map if self.player.inventory['map pieces'] == 10 else None
+            complete_map = (
+                self.inventory_map
+                if self.player.inventory["map pieces"] == 10
+                else None
+            )
             logo_image = pygame.transform.scale(complete_map, (200, 200))
         except:
             logo_image = None
@@ -491,7 +680,7 @@ class Game:
                         self.running = False
                         return
 
-            self.display_surface.fill('black')
+            self.display_surface.fill("black")
 
             # Display image if loaded
             if logo_image:
@@ -499,7 +688,7 @@ class Game:
                 self.display_surface.blit(logo_image, logo_rect)
 
             # Split instructions into lines
-            lines = self.menu_instructions["instructions"].split('\n')
+            lines = self.menu_instructions["instructions"].split("\n")
             line_height = font.get_height()
 
             # Adjust starting Y position to make room for image
@@ -508,32 +697,44 @@ class Game:
             # Render each line separately
             for i, line in enumerate(lines):
                 text_surface = font.render(line, True, "white")
-                text_rect = text_surface.get_rect(center=(WINDOW_WIDTH // 2, text_start_y + i * line_height))
+                text_rect = text_surface.get_rect(
+                    center=(WINDOW_WIDTH // 2, text_start_y + i * line_height)
+                )
                 self.display_surface.blit(text_surface, text_rect)
 
             # Display player inventory
             if self.player is not None:
                 caption_y_start = text_start_y + len(lines) * line_height + 40
-                inventory_lines = [f"{key}: {value}" for key, value in self.player.inventory.items() if key != 'nothing useful']
+                inventory_lines = [
+                    f"{key}: {value}"
+                    for key, value in self.player.inventory.items()
+                    if key != "nothing useful"
+                ]
 
                 for i, inv_line in enumerate(inventory_lines):
                     inv_surface = font.render(inv_line, True, "yellow")
-                    inv_rect = inv_surface.get_rect(center=(WINDOW_WIDTH // 2, caption_y_start + i * line_height))
+                    inv_rect = inv_surface.get_rect(
+                        center=(WINDOW_WIDTH // 2, caption_y_start + i * line_height)
+                    )
                     self.display_surface.blit(inv_surface, inv_rect)
 
             pygame.display.update()
 
     def static_animations(self):
-        """ this method is intended for static animation for objects
+        """this method is intended for static animation for objects
         not for players or other dynamic triggers like projectiles"""
-        keys = ['praying statue', 'in prayer','wizard', 'portal']
+        keys = ["praying statue", "in prayer", "wizard", "portal"]
 
         for key in keys:
             if key in self.obj_positions_dict:
-                Animation(self.obj_positions_dict[key], self.static_frames[key], self.all_sprites, key)
+                Animation(
+                    self.obj_positions_dict[key],
+                    self.static_frames[key],
+                    self.all_sprites,
+                    key,
+                )
 
     def run(self):
-
         while self.running:
             dt = self.clock.tick(60) / 1000
 
@@ -557,7 +758,7 @@ class Game:
             self.adding_fire_dust()
             self.player_regeneration()
             self.player_aura_cast()
-            self.display_surface.fill('black')
+            self.display_surface.fill("black")
             self.all_sprites.update(dt)
             self.all_sprites.draw(self.player.rect.center)
             self.rendering()
@@ -574,6 +775,6 @@ class Game:
         pygame.quit()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main_game = Game()
     main_game.run()
