@@ -61,7 +61,7 @@ class Game:
 
         self.maps = maps  ##maps dictionary coming for the settings file
         self.current_map = None
-        self.current_area = "world"
+        self.current_area = "portal"
         self.area_group = {}  ###dictionary with the areas where is possible to enter in a map
         self.transition_bool = True
         self.phrases = phrases
@@ -596,6 +596,7 @@ class Game:
                 if "special" in enemy.name:
                     self.message = "you got a piece of the map"
                     self.player.inventory["map pieces"] += 1
+                    self.player.inventory["runes dust"] += 5
 
     def display_captions(self):
         time_sec = pygame.time.get_ticks() // 1000
