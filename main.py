@@ -137,6 +137,11 @@ class Game:
                 elif name == "in prayer":
                     self.areas_one()
                     continue
+                elif name == "portal":
+                    if self.player.inventory["runes dust"] >= 5:
+                        self.player.inventory["runes dust"] -= 5
+                    else:
+                        self.message = "you need 5 runes dust"
                 else:
                     self.transition_bool = True
 
@@ -283,7 +288,7 @@ class Game:
                     self.text_surface = font.render(self.text, True, "white")
 
         for obj in self.collision_sprites:
-            if self.object_id(obj) and name != "in prayer":
+            if self.object_id(obj) and name not in ("in prayer", "portal"):
                 self.text = f"{self.phrases['text_2']}{obj.name}?"
                 self.text_surface = font.render(self.text, True, "white")
             elif self.human_id(obj):
@@ -305,18 +310,12 @@ class Game:
 
     def collect_resources(self, event):
         for obj in self.collision_sprites:
-            if self.object_id(obj) and obj.name != "in prayer":
+            if self.object_id(obj) and obj.name not in ("in prayer", "portal"):
                 if self.key_down(event, "y"):
                     if hasattr(obj, "rune"):
                         self.player.inventory["runes dust"] += 1
                         obj.kill()
                         self.last_item = "runes dust"
-                    elif obj.name == "portal":
-                        obj.resources += 1
-                        if self.player.inventory["runes dust"] >= 5:
-                            self.player.inventory["runes dust"] -= 5
-                        else:
-                            self.message = "you need 5 runes dust"
                     else:
                         choice = random.choices(
                             self.game_objects, weights=self.weights, k=1
@@ -624,14 +623,15 @@ class Game:
         pygame.draw.rect(self.display_surface, (192, 192, 192), panel_rect, 2)
 
         lines = [
+            "Press M to access the Menu",
             f"last item: {self.last_item}",
             self.message,
         ]
 
         spacing_px = len(self.last_item) + 10
         line_height = font.get_height()
-        y = (panel_height - line_height) // 2  # vertically centered in panel
-        x = 20  # start padding from the left
+        y = (panel_height - line_height) // 2
+        x = 20
 
         for text in lines:
             surface = font.render(text, True, "black")

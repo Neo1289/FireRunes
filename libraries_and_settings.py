@@ -17,7 +17,7 @@ pygame.init()
 WINDOW_WIDTH, WINDOW_HEIGHT = 1024, 768
 display_surface = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
 TILE_SIZE = 32
-font = pygame.font.Font(None, 20)
+font = pygame.font.Font(None, 22)
 
 # ---------------------------
 # maps
