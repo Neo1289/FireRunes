@@ -61,7 +61,7 @@ class Game:
 
         self.maps = maps  ##maps dictionary coming for the settings file
         self.current_map = None
-        self.current_area = "portal"
+        self.current_area = "world"
         self.area_group = {}  ###dictionary with the areas where is possible to enter in a map
         self.transition_bool = True
         self.phrases = phrases
@@ -613,11 +613,30 @@ class Game:
             f"\U0001f525 {self.player.inventory['fire dust']}     "
             f"\u2744\ufe0f {self.player.inventory['ice dust']}     "
             f"timer: {time_sec}          "
-            f"last item found: {self.last_item}      "
             f"special enemy life: {[i.life for i in enemies if i.name == 'dragon']}      "
-            f"{self.message}"
         )
         pygame.display.set_caption(self.caption)
+
+    def draw_caption_panel(self):
+        panel_height = 30
+        panel_rect = pygame.Rect(0, 0, WINDOW_WIDTH, panel_height)
+        pygame.draw.rect(self.display_surface, (192,192,192), panel_rect)
+        pygame.draw.rect(self.display_surface, (192, 192, 192), panel_rect, 2)
+
+        lines = [
+            f"last item: {self.last_item}",
+            self.message,
+        ]
+
+        spacing_px = len(self.last_item) + 10
+        line_height = font.get_height()
+        y = (panel_height - line_height) // 2  # vertically centered in panel
+        x = 20  # start padding from the left
+
+        for text in lines:
+            surface = font.render(text, True, "black")
+            self.display_surface.blit(surface, (x, y))
+            x += surface.get_width() + spacing_px
 
     ################################
     ####REDUNDANT CODE REDUCTION####
@@ -763,6 +782,7 @@ class Game:
             self.all_sprites.draw(self.player.rect.center)
             self.rendering()
             self.display_captions()
+            self.draw_caption_panel()
             self.collision_detection()
             self.player_death()
             self.check_enemies_collision()
