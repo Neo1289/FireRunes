@@ -29,7 +29,7 @@ from libraries_and_settings import (
     portal_frames,
     inventory_map,
 )
-from words_library import phrases, menu_instructions
+from words_library import phrases, menu_instructions, cipher_dict
 
 ###SPRITES
 from player import Player
@@ -58,6 +58,7 @@ class Game:
         self.start_time = 0
         self.effect = 0
         self.buffer_used = None
+        self.mouse_x, self.mouse_y = 0, 0
 
         self.maps = maps  ##maps dictionary coming for the settings file
         self.current_map = None
@@ -65,6 +66,7 @@ class Game:
         self.area_group = {}  ###dictionary with the areas where is possible to enter in a map
         self.transition_bool = True
         self.phrases = phrases
+        self.cipher = cipher_dict
         self.menu_instructions = menu_instructions
         self.enemies_images = enemies_images
         self.enemies_direction = enemies_direction
@@ -140,6 +142,7 @@ class Game:
                 elif name == "portal":
                     if self.player.inventory["runes dust"] >= 5:
                         self.player.inventory["runes dust"] -= 5
+                        self.transition_bool = True
                     else:
                         self.message = "you need 5 runes dust"
                 else:
@@ -296,7 +299,10 @@ class Game:
                     self.text = f"{self.phrases['text_1']}"
                     self.text_surface = font.render(self.text, True, "white")
                 elif obj.name == "scarecrow":
-                    self.text = f"{self.phrases['text_10']}"
+                    if self.current_area != 'scarecrow house':
+                        self.text = f"{self.phrases['text_10']}"
+                    elif self.current_area == 'scarecrow house':
+                        self.text = f"{self.phrases['text_15']}"
                     self.text_surface = font.render(self.text, True, "white")
                 elif obj.name == "praying statue":
                     self.text = f"{self.phrases['text_13']}"
@@ -435,6 +441,11 @@ class Game:
             self.buffer_used = None
 
     def trading(self, event):
+        obj_positions = {
+            obj.name: pygame.Rect(obj.x, obj.y, obj.width, obj.height)
+            for obj in self.current_map.get_layer_by_name("objects")
+            if obj.name in self.cipher.values()
+        }
         for obj in self.collision_sprites:
             if self.human_id(obj):
                 if obj.name == "wizard":
@@ -465,6 +476,14 @@ class Game:
                         self.player.inventory["crystal ball"] -= 20
                         self.spell_ice = True
                         self.message = self.phrases["text_12"]
+                if (
+                    self.key_down(event, "r")
+                    and self.current_area == 'scarecrow house'
+                ):
+                    key = random.choice(list(self.cipher.keys()))
+                    solution = self.cipher[key]
+                    self.message = key
+
                 if obj.name == "praying statue":
                     if (
                         self.key_down(event, "p")
@@ -774,6 +793,9 @@ class Game:
                 if event.type == pygame.KEYDOWN and event.key == pygame.K_m:
                     self.main_menu()
                     continue
+                if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                    self.mouse_x, self.mouse_y = event.pos
+                    print(self.mouse_x, self.mouse_y)
 
             self.adding_fire_dust()
             self.player_regeneration()
