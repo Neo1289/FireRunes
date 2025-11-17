@@ -30,48 +30,25 @@ phrases = {
     "text_12": "new spell learned, c to use",
     "text_13": "pray with me if you see moon of fire",
     "text_14": "prayer learned, v to use",
+    "text_15": "do you want to learn a new spell? give me your crystal balls \n"
+    "10 crystal balls will buy you an augmented fire spell, press s \n"
+    "20 crystall balls will buy you an ice spell, press i \n"
+    "do you want to solve a riddle? press r"
 }
 
 cipher_dict = {
-    "RVPNC": "sword",
-    "BZRSKD": "castle",
-    "CQZFNM": "dragon",
-    "OPSJNM": "potion",
-    "RGHKDC": "shield",
-    "VHZCQC": "wizard",
-    "RODKKAANNJ": "spellbook",
-    "SBUQDM": "tavern",
-    "FNAKHM": "goblin",
-    "CTFNDNM": "dungeon",
-    "DKWHJQ": "elixir",
-    "JMHFGS": "knight",
-    "NQB": "orc",
-    "QTMD": "rune",
-    "BZTKCQN": "cauldron",
-    "VZQKNBJ": "warlock",
-    "RNQBQDRR": "sorceress",
-    "AZQC": "bard",
-    "BGZKHBD": "chalice",
-    "OGNDHW": "phoenix",
-    "RBPSSK": "scroll",
-    "DMZMBMSDQ": "enchanter",
-    "SGQNMDD": "throne",
-    "VXUDQM": "wyvern",
-    "BKNZJ": "cloak",
-    "RBODOSQ": "scepter",
-    "VHSBG": "witch",
-    "OZKZCHM": "paladin",
-    "ZQSGZESBZ": "artifact",
-    "VQZHSG": "wraith",
-    "ADZRSZLSSDQ": "beastmaster",
-    "KZHQ": "lair",
-    "GDBKDQ": "healer",
-    "RDDQ": "seer",
-    "ODFZFTR": "pegasus",
-    "QHSTZK": "ritual",
-    "BNUDM": "coven",
-    "PDTSM": "quest",
+    "RBODOSQ": "statue"
 }
+
+#"RVPNC": "sword",
+#"OPSJNM": "potion",
+#"RGHKDC": "shield",
+#"RODKKAANNJ": "spellbook",
+#"QTMD": "rune",
+#"BZTKCQN": "cauldron",
+#"BGZKHBD": "chalice",
+#"RBPSSK": "scroll",
+#"SGQNMDD": "throne",
 
 menu_instructions = {
     "instructions": "GAME MENU\n"
