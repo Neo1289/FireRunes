@@ -59,6 +59,7 @@ class Game:
         self.effect = 0
         self.buffer_used = None
         self.mouse_x, self.mouse_y = 0, 0
+        self.riddle_object = None ### when there a riddle to solve with mouse pointer this will be used to store the object coordinates
 
         self.maps = maps  ##maps dictionary coming for the settings file
         self.current_map = None
@@ -480,9 +481,15 @@ class Game:
                     self.key_down(event, "r")
                     and self.current_area == 'scarecrow house'
                 ):
-                    key = random.choice(list(self.cipher.keys()))
-                    solution = self.cipher[key]
+                    key = random.choice(list(self.cipher.keys()))  ####select a random object for the riddle
+                    solution = self.cipher[key] ### get the solution
+                    self.riddle_object = obj_positions[solution] ### get the rect for the object to guess
                     self.message = key
+                if self. riddle_object is not None:
+                    if self.riddle_object.collidepoint(self.mouse_x, self.mouse_y):
+                        self.player.inventory["runes dust"] += 5
+                        self.player.inventory["map pieces"] += 1
+
 
                 if obj.name == "praying statue":
                     if (
@@ -794,8 +801,9 @@ class Game:
                     self.main_menu()
                     continue
                 if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-                    self.mouse_x, self.mouse_y = event.pos
-                    print(self.mouse_x, self.mouse_y)
+                    screen_x, screen_y = event.pos
+                    self.mouse_x = screen_x - self.all_sprites.offset.x
+                    self.mouse_y = screen_y - self.all_sprites.offset.y
 
             self.adding_fire_dust()
             self.player_regeneration()
