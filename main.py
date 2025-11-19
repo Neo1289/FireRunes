@@ -51,6 +51,8 @@ class Game:
         self.regeneration_countdown = 0
         self.regeneration_buffer = 20
         self.last_magic_kill_time = 0
+        self.scarecrow_riddle_buffer = 3
+        self.riddle_countdown = 0
 
         #####key_pressed[duration time, name, effect]
         self.buffers = buffers
@@ -447,6 +449,8 @@ class Game:
             for obj in self.current_map.get_layer_by_name("objects")
             if obj.name in self.cipher.values()
         }
+        self.riddle_event = (pygame.time.get_ticks() - self.start_time) // 1000
+
         for obj in self.collision_sprites:
             if self.human_id(obj):
                 if obj.name == "wizard":
@@ -482,14 +486,19 @@ class Game:
                     and self.current_area == 'scarecrow house'
                 ):
                     key = random.choice(list(self.cipher.keys()))  ####select a random object for the riddle
-                    solution = self.cipher[key] ### get the solution
-                    self.riddle_object = obj_positions[solution] ### get the rect for the object to guess
+                    self.solution = self.cipher[key] ### get the solution
+                    self.riddle_object = obj_positions[self.solution] ### get the rect for the object to guess
                     self.message = key
-                if self. riddle_object is not None:
-                    if self.riddle_object.collidepoint(self.mouse_x, self.mouse_y):
+                if self.riddle_object is not None:
+                    if self.riddle_object.collidepoint(self.mouse_x, self.mouse_y)\
+                        and self.preventing_repetition(self.riddle_event,self.riddle_countdown,self.scarecrow_riddle_buffer):
                         self.player.inventory["runes dust"] += 5
                         self.player.inventory["map pieces"] += 1
-
+                        self.riddle_countdown = self.riddle_event
+                        for ob in self.collision_sprites:
+                            if hasattr(ob, "name") and ob.name == self.solution:
+                                ob.kill()
+                                obj_positions[ob.name] = pygame.Rect(0,0,0,0)
 
                 if obj.name == "praying statue":
                     if (
