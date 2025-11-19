@@ -489,12 +489,15 @@ class Game:
                     solution = self.cipher[key] ### get the solution
                     self.riddle_object = obj_positions[solution] ### get the rect for the object to guess
                     self.message = key
-                if self. riddle_object is not None:
+                if self.riddle_object is not None:
                     if self.riddle_object.collidepoint(self.mouse_x, self.mouse_y)\
                         and self.preventing_repetition(self.riddle_event,self.riddle_countdown,self.scarecrow_riddle_buffer):
                         self.player.inventory["runes dust"] += 5
                         self.player.inventory["map pieces"] += 1
                         self.riddle_countdown = self.riddle_event
+                        for ob in self.collision_sprites:
+                            if hasattr(ob, "name") and ob.name == self.riddle_object:
+                                ob.kill()
 
                 if obj.name == "praying statue":
                     if (
