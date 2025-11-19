@@ -486,8 +486,8 @@ class Game:
                     and self.current_area == 'scarecrow house'
                 ):
                     key = random.choice(list(self.cipher.keys()))  ####select a random object for the riddle
-                    solution = self.cipher[key] ### get the solution
-                    self.riddle_object = obj_positions[solution] ### get the rect for the object to guess
+                    self.solution = self.cipher[key] ### get the solution
+                    self.riddle_object = obj_positions[self.solution] ### get the rect for the object to guess
                     self.message = key
                 if self.riddle_object is not None:
                     if self.riddle_object.collidepoint(self.mouse_x, self.mouse_y)\
@@ -496,8 +496,9 @@ class Game:
                         self.player.inventory["map pieces"] += 1
                         self.riddle_countdown = self.riddle_event
                         for ob in self.collision_sprites:
-                            if hasattr(ob, "name") and ob.name == self.riddle_object:
+                            if hasattr(ob, "name") and ob.name == self.solution:
                                 ob.kill()
+                                obj_positions[ob.name] = pygame.Rect(0,0,0,0)
 
                 if obj.name == "praying statue":
                     if (
