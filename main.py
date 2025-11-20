@@ -499,6 +499,8 @@ class Game:
                             if hasattr(ob, "name") and ob.name == self.solution:
                                 ob.kill()
                                 obj_positions[ob.name] = pygame.Rect(0,0,0,0)
+                                self.mouse_x,self.mouse_y = 100000, 100000
+                        obj.kill()
 
                 if obj.name == "praying statue":
                     if (
