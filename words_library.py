@@ -37,7 +37,8 @@ phrases = {
 }
 
 cipher_dict = {
-    "RBODOSQ": "statue"
+    "RBODOSQ": "statue",
+    "SGQNMDD": "throne"
 }
 
 #"RVPNC": "sword",

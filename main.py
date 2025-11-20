@@ -65,7 +65,7 @@ class Game:
 
         self.maps = maps  ##maps dictionary coming for the settings file
         self.current_map = None
-        self.current_area = "portal"
+        self.current_area = "world"
         self.area_group = {}  ###dictionary with the areas where is possible to enter in a map
         self.transition_bool = True
         self.phrases = phrases
@@ -499,6 +499,10 @@ class Game:
                             if hasattr(ob, "name") and ob.name == self.solution:
                                 ob.kill()
                                 obj_positions[ob.name] = pygame.Rect(0,0,0,0)
+                                self.mouse_x,self.mouse_y = 100000, 100000
+                                if self.solution == 'throne':
+                                    self.player.inventory["power of the king"] += 1
+                        obj.kill()
 
                 if obj.name == "praying statue":
                     if (
