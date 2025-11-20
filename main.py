@@ -500,6 +500,8 @@ class Game:
                                 ob.kill()
                                 obj_positions[ob.name] = pygame.Rect(0,0,0,0)
                                 self.mouse_x,self.mouse_y = 100000, 100000
+                                if self.solution == 'throne':
+                                    self.player.inventory["power of the king"] += 1
                         obj.kill()
 
                 if obj.name == "praying statue":
