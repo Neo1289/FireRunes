@@ -26,6 +26,7 @@ from libraries_and_settings import (
     cure_frames,
     statue_frames,
     wizard_frames,
+    necro_frames,
     portal_frames,
     inventory_map,
 )
@@ -83,6 +84,7 @@ class Game:
             "in prayer": statue_frames,
             "wizard": wizard_frames,
             "portal": portal_frames,
+            "necromancer": necro_frames
         }
         self.inventory_map = inventory_map
 
@@ -299,6 +301,9 @@ class Game:
                 self.text_surface = font.render(self.text, True, "white")
             elif self.human_id(obj):
                 if obj.name == "wizard":
+                    self.text = f"{self.phrases['text_1']}"
+                    self.text_surface = font.render(self.text, True, "white")
+                if obj.name == "necromancer":
                     self.text = f"{self.phrases['text_1']}"
                     self.text_surface = font.render(self.text, True, "white")
                 elif obj.name == "scarecrow":
@@ -636,6 +641,8 @@ class Game:
                     self.message = "you got a piece of the map"
                     self.player.inventory["map pieces"] += 1
                     self.player.inventory["runes dust"] += 5
+                if enemy.name == 'scheleton':
+                    self.player.inventory['scheleton dust'] += 1
 
     def display_captions(self):
         time_sec = pygame.time.get_ticks() // 1000
@@ -666,9 +673,10 @@ class Game:
             "Press M to access the Menu",
             f"last item: {self.last_item}",
             self.message,
+            f"scheleton dust: {self.player.inventory["scheleton dust"]}"
         ]
 
-        spacing_px = len(self.last_item) + 10
+        spacing_px = len(self.last_item) + 15
         line_height = font.get_height()
         y = (panel_height - line_height) // 2
         x = 20
@@ -782,7 +790,7 @@ class Game:
     def static_animations(self):
         """this method is intended for static animation for objects
         not for players or other dynamic triggers like projectiles"""
-        keys = ["praying statue", "in prayer", "wizard", "portal"]
+        keys = ["praying statue", "in prayer", "wizard", "portal", "necromancer"]
 
         for key in keys:
             if key in self.obj_positions_dict:
