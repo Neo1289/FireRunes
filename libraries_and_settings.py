@@ -253,6 +253,18 @@ for file_name in listdir(wizard_folder):
     wizard_frames.append(surf)
 
 # ---------------------------
+# wizard
+# ---------------------------
+
+necro_frames = []
+necro_folder = path.join("resources", "necromancer")
+for file_name in listdir(necro_folder):
+    full_path = path.join(necro_folder, file_name)
+    surf = pygame.image.load(full_path).convert()
+    surf.set_colorkey("black")
+    necro_frames.append(surf)
+
+# ---------------------------
 # portal
 # ---------------------------
 
@@ -405,6 +417,7 @@ lasting_time = {
     "praying statue": 700,
     "in prayer": 600,
     "wizard": 10000,
+    "necromancer": 5000,
     "portal": 10000,
     "special_scheleton": 30000000,
 }
