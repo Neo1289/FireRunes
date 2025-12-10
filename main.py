@@ -118,14 +118,6 @@ class Game:
 
         self.music_loaded = False
 
-    def load_music(self, music_file):
-        """Load and play background music in loop"""
-
-        pygame.mixer.music.load(music_file)
-        pygame.mixer.music.set_volume(0.5)
-        pygame.mixer.music.play(-1)
-        self.music_loaded = True
-
     def cleaning_area(self):  ####removes all elements within groups
         self.all_sprites.empty()
         self.collision_sprites.empty()
