@@ -214,37 +214,29 @@ class Game:
                 self.monsters()  ###git
 
     def monsters(self):
-        # Handle all enemies including fish
         for obj in self.current_map.get_layer_by_name("areas"):
             if obj.name in self.enemies_list:
-                # Check if dragon already exists - only allow one dragon
-                if obj.name == "dragon":
-                    existing_dragons = [
-                        sprite
-                        for sprite in self.all_sprites
-                        if isinstance(sprite, NPC) and sprite.name == "dragon"
-                    ]
-                    if existing_dragons:
-                        continue  # Skip creating another dragon
+                # Check if enemy of this type already exists (except for allowed duplicates)
+                existing_enemies = [
+                    sprite
+                    for sprite in self.all_sprites
+                    if isinstance(sprite, NPC) and sprite.name == obj.name
+                ]
 
-                # Special handling for fish - pick random spawn point
-                if obj.name == "fish":
-                    existing_fish = [
-                        sprite
-                        for sprite in self.all_sprites
-                        if isinstance(sprite, NPC) and sprite.name == "fish"
+                # Skip if this enemy type already exists (one at a time spawning)
+                if existing_enemies:
+                    continue
+
+                spawn_pos = (obj.x, obj.y)
+
+                # For enemies with multiple spawn points, pick a random one
+                if obj.name in ["fish", "scheleton", "bat_1", "flame_1"]:
+                    spawn_areas = [
+                        o for o in self.current_map.get_layer_by_name("areas")
+                        if o.name == obj.name
                     ]
-                    if existing_fish:
-                        continue
-                    fish_areas = [
-                        o
-                        for o in self.current_map.get_layer_by_name("areas")
-                        if o.name == "fish"
-                    ]
-                    spawn_area = random.choice(fish_areas)
+                    spawn_area = random.choice(spawn_areas)
                     spawn_pos = (spawn_area.x, spawn_area.y)
-                else:
-                    spawn_pos = (obj.x, obj.y)
 
                 self.monster = NPC(
                     spawn_pos,
@@ -256,20 +248,11 @@ class Game:
                     self.enemies_life[obj.name],
                     self.enemies_damage[obj.name],
                     self.enemies_direction[obj.name],
-                    obj.name
-                    in [
-                        "scheleton",
-                        "dragon",
-                        "bat_1",
-                        "flame_1",
-                        "infernal_fire",
-                        "special_scheleton",
-                        "special_bat",
-                    ],
+                    obj.name in ["scheleton", "dragon", "bat_1", "flame_1", "infernal_fire", "special_scheleton", "special_bat"],
                     self.enemies_immunity[obj.name],
                 )
-
                 self.monster.player = self.player
+                break  # Only spawn one enemy per call
 
     def areas_one(self):
         for obj in self.current_map.get_layer_by_name("areas_one"):
