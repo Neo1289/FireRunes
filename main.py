@@ -693,6 +693,7 @@ class Game:
             hit_projectile = pygame.sprite.spritecollideany(enemy, projectiles)
             if hit_projectile and hit_projectile.name != enemy.immune:
                 enemy.life -= 1
+                hit_projectile.kill()  # Remove projectile after hit
             if hit_projectile and hit_projectile.name == enemy.immune:
                 hit_projectile.kill()
                 self.message = "this spell doesn't work"
@@ -702,12 +703,13 @@ class Game:
                     self.all_sprites,
                     "failed_attack",
                 )
-            if enemy.life <= 0:
+            if enemy.life <= 0 and enemy not in enemies_to_kill:
                 enemies_to_kill.append(enemy)
 
         for enemy in enemies_to_kill:
             enemy.kill()
             self.killed_enemies += 1
+
             if enemy.name == "scheleton":
                 self.player.inventory["scheleton dust"] += 1
             if enemy.name == "fish":
