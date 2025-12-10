@@ -335,8 +335,5 @@ Push to the branch (git push origin feature/AmazingFeature)
 Open a Pull Request
 Please refer to CONTRIBUTING.md for detailed guidelines.
 
-📄 License
-This project is licensed under the MIT License - see the LICENSE file for details.
-
 👏 Credits
 Developer: Neo1289
