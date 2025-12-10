@@ -57,7 +57,7 @@ class GeneralSprite(pygame.sprite.Sprite):
         # determine the enemy attribute
         if name:
             self.name = name
-            if self.name in ("wizard", "scarecrow", "praying statue","necromancer"):
+            if self.name in ("wizard", "scarecrow", "praying statue", "necromancer"):
                 self.human = True
             if self.name == "runes":
                 self.rune = True
@@ -172,7 +172,9 @@ class Animation(pygame.sprite.Sprite, TimeUpdate):
             self.animation_speed = 3
         elif self.name == "portal":
             self.animation_speed = 5
-        elif self.name == 'necromancer':
+        elif self.name == "necromancer":
+            self.animation_speed = 3
+        elif self.name == "grass":
             self.animation_speed = 3
         else:
             self.animation_speed = 10

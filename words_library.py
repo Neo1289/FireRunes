@@ -33,34 +33,36 @@ phrases = {
     "text_15": "do you want to learn a new spell? give me your crystal balls \n"
     "10 crystal balls will buy you an augmented fire spell, press s \n"
     "20 crystall balls will buy you an ice spell, press i \n"
-    "do you want to solve a riddle? press r"
+    "do you want to solve a riddle? press r \n"
+    "do you want to learn the dragon spell? spend one dragon skin and 50 gold and press k",
+    "text_16": "do you want to sell your scheleton dust? \n"
+    "D to sell them, 1 coin a piece",
 }
 
-cipher_dict = {
-    "RBODOSQ": "statue",
-    "SGQNMDD": "throne"
-}
+cipher_dict = {"RBODOSQ": "statue", "SGQNMDD": "throne"}
 
-#"RVPNC": "sword",
-#"OPSJNM": "potion",
-#"RGHKDC": "shield",
-#"RODKKAANNJ": "spellbook",
-#"QTMD": "rune",
-#"BZTKCQN": "cauldron",
-#"BGZKHBD": "chalice",
-#"RBPSSK": "scroll",
-#"SGQNMDD": "throne",
+# "RVPNC": "sword",
+# "OPSJNM": "potion",
+# "RGHKDC": "shield",
+# "RODKKAANNJ": "spellbook",
+# "QTMD": "rune",
+# "BZTKCQN": "cauldron",
+# "BGZKHBD": "chalice",
+# "RBPSSK": "scroll",
+# "SGQNMDD": "throne",
 
 menu_instructions = {
     "instructions": "GAME MENU\n"
     "\n"
     "use the arrows to move \n"
-    "spell cast: z fire, x fire augmented, c ice , v cure \n"
+    "spell cast: z fire, x fire augmented, c ice , v cure, a for the power of the king \n"
     "Press 1 to use the potion \n"
     "Press 2 to break a crystal ball and paralyze enemies\n"
     "Press 3 to drink the holy water \n"
     "Press 4 to use the runic dust\n"
     "\n"
     "the keys are essential to enter some areas\n"
-    "the cure spell can be gained only by trading 50 fire dust with the statue"
+    "the cure spell can be gained only by trading 50 fire dust with the statue \n"
+    "use the mouse to answer riddles \n"
+    " the power of the king can be acquired by solving his riddles or in the maze"
 }

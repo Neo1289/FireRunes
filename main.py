@@ -29,6 +29,9 @@ from libraries_and_settings import (
     necro_frames,
     portal_frames,
     inventory_map,
+    grass_frames,
+    king,
+    player_dragon_frames,
 )
 from words_library import phrases, menu_instructions, cipher_dict
 
@@ -54,6 +57,8 @@ class Game:
         self.last_magic_kill_time = 0
         self.scarecrow_riddle_buffer = 3
         self.riddle_countdown = 0
+        self.dragon_skin_countdown = 0
+        self.dragon_skin_buffer = 50
 
         #####key_pressed[duration time, name, effect]
         self.buffers = buffers
@@ -62,7 +67,7 @@ class Game:
         self.effect = 0
         self.buffer_used = None
         self.mouse_x, self.mouse_y = 0, 0
-        self.riddle_object = None ### when there a riddle to solve with mouse pointer this will be used to store the object coordinates
+        self.riddle_object = None  ### when there a riddle to solve with mouse pointer this will be used to store the object coordinates
 
         self.maps = maps  ##maps dictionary coming for the settings file
         self.current_map = None
@@ -78,13 +83,17 @@ class Game:
         self.enemies_life = enemies_life
         self.enemies_damage = enemies_damage
         self.enemies_immunity = enemies_immunity
+        self.killed_enemies = 0
+
         self.obj_positions_dict = {}
         self.static_frames = {
             "praying statue": statue_frames,
             "in prayer": statue_frames,
             "wizard": wizard_frames,
             "portal": portal_frames,
-            "necromancer": necro_frames
+            "necromancer": necro_frames,
+            "grass": grass_frames,
+            "player_dragon_aura": player_dragon_frames,
         }
         self.inventory_map = inventory_map
 
@@ -96,6 +105,7 @@ class Game:
         self.spell_fire_augmented = False
         self.spell_ice = False
         self.spell_prayer = False
+        self.dragon_spell = False
 
         self.spawning_time = spawning_time
 
@@ -181,7 +191,18 @@ class Game:
                 1,
                 item=True,
             )
-            self.obj_positions_dict[obj.name] = (obj.x, obj.y)
+            if obj.name != "grass":
+                self.obj_positions_dict[obj.name] = (obj.x, obj.y)
+        ###to be used for the random grass animation
+        grass_positions = [
+            (obj.x, obj.y)
+            for obj in self.current_map.get_layer_by_name("objects")
+            if obj.name == "grass"
+        ]
+        if grass_positions:
+            one_grass_pos = random.choice(grass_positions)
+            self.obj_positions_dict["grass"] = one_grass_pos
+
         ###player
         for obj in self.current_map.get_layer_by_name("areas"):
             if obj.name == "player_spawn":
@@ -198,7 +219,7 @@ class Game:
                     obj.x, obj.y, obj.width, obj.height, self.all_sprites, obj.name
                 )
             else:
-                self.monsters()
+                self.monsters()  ###git
 
     def monsters(self):
         # Handle all enemies including fish
@@ -296,7 +317,11 @@ class Game:
                     self.text_surface = font.render(self.text, True, "white")
 
         for obj in self.collision_sprites:
-            if self.object_id(obj) and name not in ("in prayer", "portal"):
+            if self.object_id(obj) and name not in (
+                "in prayer",
+                "portal",
+                "rune floor",
+            ):
                 self.text = f"{self.phrases['text_2']}{obj.name}?"
                 self.text_surface = font.render(self.text, True, "white")
             elif self.human_id(obj):
@@ -304,12 +329,12 @@ class Game:
                     self.text = f"{self.phrases['text_1']}"
                     self.text_surface = font.render(self.text, True, "white")
                 if obj.name == "necromancer":
-                    self.text = f"{self.phrases['text_1']}"
+                    self.text = f"{self.phrases['text_16']}"
                     self.text_surface = font.render(self.text, True, "white")
                 elif obj.name == "scarecrow":
-                    if self.current_area != 'scarecrow house':
+                    if self.current_area != "scarecrow house":
                         self.text = f"{self.phrases['text_10']}"
-                    elif self.current_area == 'scarecrow house':
+                    elif self.current_area == "scarecrow house":
                         self.text = f"{self.phrases['text_15']}"
                     self.text_surface = font.render(self.text, True, "white")
                 elif obj.name == "praying statue":
@@ -324,12 +349,22 @@ class Game:
 
     def collect_resources(self, event):
         for obj in self.collision_sprites:
-            if self.object_id(obj) and obj.name not in ("in prayer", "portal"):
+            if self.object_id(obj) and obj.name not in (
+                "in prayer",
+                "portal",
+                "rune floor",
+            ):
                 if self.key_down(event, "y"):
                     if hasattr(obj, "rune"):
                         self.player.inventory["runes dust"] += 1
                         obj.kill()
                         self.last_item = "runes dust"
+                        if self.current_area == "dungeon":
+                            self.areas_one()
+
+                    elif obj.name == "throne":
+                        self.player.inventory["power of the king"] += 1
+                        self.last_item = "power of king"
                     else:
                         choice = random.choices(
                             self.game_objects, weights=self.weights, k=1
@@ -415,6 +450,12 @@ class Game:
             Animation(
                 self.player.rect.center, cure_frames, self.all_sprites, "cure_spell"
             )
+        if self.player.inventory["power of the king"] >= 3 and self.key_down(
+            event, "a"
+        ):
+            Animation(self.player.rect.center, king, self.all_sprites, "power_of_king")
+        if self.player.inventory["power of the king"] < 3 and self.key_down(event, "a"):
+            self.message = "not enough power of the kings"
 
     def buffer_handlers(self, event):
         ##### buffers --> key_pressed[duration time, name, effect]
@@ -486,28 +527,45 @@ class Game:
                         self.player.inventory["crystal ball"] -= 20
                         self.spell_ice = True
                         self.message = self.phrases["text_12"]
-                if (
-                    self.key_down(event, "r")
-                    and self.current_area == 'scarecrow house'
-                ):
-                    key = random.choice(list(self.cipher.keys()))  ####select a random object for the riddle
-                    self.solution = self.cipher[key] ### get the solution
-                    self.riddle_object = obj_positions[self.solution] ### get the rect for the object to guess
+                if self.key_down(event, "r") and self.current_area == "scarecrow house":
+                    key = random.choice(
+                        list(self.cipher.keys())
+                    )  ####select a random object for the riddle
+                    self.solution = self.cipher[key]  ### get the solution
+                    self.riddle_object = obj_positions[
+                        self.solution
+                    ]  ### get the rect for the object to guess
                     self.message = key
                 if self.riddle_object is not None:
-                    if self.riddle_object.collidepoint(self.mouse_x, self.mouse_y)\
-                        and self.preventing_repetition(self.riddle_event,self.riddle_countdown,self.scarecrow_riddle_buffer):
+                    if self.riddle_object.collidepoint(
+                        self.mouse_x, self.mouse_y
+                    ) and self.preventing_repetition(
+                        self.riddle_event,
+                        self.riddle_countdown,
+                        self.scarecrow_riddle_buffer,
+                    ):
                         self.player.inventory["runes dust"] += 5
                         self.player.inventory["map pieces"] += 1
                         self.riddle_countdown = self.riddle_event
                         for ob in self.collision_sprites:
                             if hasattr(ob, "name") and ob.name == self.solution:
                                 ob.kill()
-                                obj_positions[ob.name] = pygame.Rect(0,0,0,0)
-                                self.mouse_x,self.mouse_y = 100000, 100000
-                                if self.solution == 'throne':
+                                obj_positions[ob.name] = pygame.Rect(0, 0, 0, 0)
+                                self.mouse_x, self.mouse_y = 100000, 100000
+                                if self.solution == "throne":
                                     self.player.inventory["power of the king"] += 1
                         obj.kill()
+
+                if (
+                    self.key_down(event, "k")
+                    and self.current_area == "scarecrow house"
+                    and self.player.inventory["coin"] >= 50
+                    and self.player.inventory["dragon skin"] > 0
+                ):
+                    self.player.inventory["coin"] -= 50
+                    self.player.inventory["dragon skin"] -= 1
+                    self.dragon_spell = True
+                    self.message = "dragon spell learned"
 
                 if obj.name == "praying statue":
                     if (
@@ -523,6 +581,43 @@ class Game:
                             self.all_sprites,
                             "cure_spell",
                         )
+                if obj.name == "necromancer":
+                    if (
+                        self.key_down(event, "d")
+                        and self.player.inventory["scheleton dust"] > 3
+                        and self.player.inventory["coin"] < 40
+                    ):
+                        amount_sold = self.player.inventory["scheleton dust"]
+                        self.player.inventory["coin"] += amount_sold // 3
+                        self.player.inventory["scheleton dust"] = 0
+                        self.message = f"you sold {amount_sold} scheleton dust for {amount_sold // 3} coins"
+                    elif self.key_down(event, "d"):
+                        self.message = "The necromancer is not interested"
+
+    def dragon_spell_magic(self):
+        self.dragon_skin = (pygame.time.get_ticks() - self.start_time) // 1000
+
+        if (
+            self.preventing_repetition(
+                self.dragon_skin, self.dragon_skin_countdown, self.dragon_skin_buffer
+            )
+            and self.dragon_spell
+        ):
+            Animation(
+                self.player.rect.center,
+                player_dragon_frames,
+                self.all_sprites,
+                "player_dragon_aura",
+            )
+            self.player.life += 100
+            for state in ("up", "down", "left", "right"):
+                Fire(
+                    self.player.rect.center,
+                    player_flame_frames,
+                    self.all_sprites,
+                    50,
+                    state,
+                )
 
     def collision_detection(self):
         for obj in self.all_sprites:
@@ -600,6 +695,7 @@ class Game:
     def check_enemies_collision(self):
         enemies = self.enemies_groups()
         projectiles = self.player_projectiles()
+        enemies_to_kill = []
 
         for enemy in enemies:
             hit_projectile = pygame.sprite.spritecollideany(enemy, projectiles)
@@ -607,49 +703,50 @@ class Game:
                 enemy.life -= 1
             if hit_projectile and hit_projectile.name == enemy.immune:
                 hit_projectile.kill()
+                self.message = "this spell doesn't work"
                 Animation(
                     hit_projectile.rect.center,
                     failed_frames,
                     self.all_sprites,
                     "failed_attack",
                 )
-
             if enemy.life <= 0:
-                enemy.kill()
-                if enemy.name == "fish":
-                    self.player.inventory["keys"] += 1
-                    self.last_item = "key"
-                if enemy.name == "dragon":
-                    self.player.inventory["coin"] += 20
-                    self.player.inventory["keys"] += 2
-                    self.player.inventory["crystal ball"] += 2
-                if enemy.name == "magic":
-                    current_time = pygame.time.get_ticks() // 1000
-                    if (
-                        self.preventing_repetition(
-                            current_time, self.last_magic_kill_time, 1
-                        )
-                        and self.regeneration_buffer > 5
-                    ):
-                        self.regeneration_buffer -= 1
-                        self.last_magic_kill_time = current_time
-                        self.message = (
-                            f"your regeneration rank is now {self.regeneration_buffer}"
-                        )
+                enemies_to_kill.append(enemy)
+
+        for enemy in enemies_to_kill:
+            enemy.kill()
+            self.killed_enemies += 1
+            if enemy.name == "scheleton":
+                self.player.inventory["scheleton dust"] += 1
+            if enemy.name == "fish":
+                self.player.inventory["keys"] += 1
+                self.last_item = "key"
+            if enemy.name == "dragon":
+                self.player.inventory["coin"] += 30
+                self.player.inventory["keys"] += 3
+                self.player.inventory["crystal ball"] += 3
+                self.player.inventory["dragon skin"] += 1
+            if enemy.name == "magic":
+                current_time = pygame.time.get_ticks() // 1000
+                if self.preventing_repetition(
+                    current_time, self.last_magic_kill_time, 1
+                ):
+                    self.player.inventory["magic stone dust"] += 1
+                    self.last_magic_kill_time = current_time
+                    self.last_item = "magic stone dust"
                     self.areas_one()
-                if "special" in enemy.name:
-                    self.message = "you got a piece of the map"
-                    self.player.inventory["map pieces"] += 1
-                    self.player.inventory["runes dust"] += 5
-                if enemy.name == 'scheleton':
-                    self.player.inventory['scheleton dust'] += 1
+
+            if "special" in enemy.name:
+                self.message = "you got a piece of the map"
+                self.player.inventory["map pieces"] += 1
+                self.player.inventory["runes dust"] += 5
 
     def display_captions(self):
         time_sec = pygame.time.get_ticks() // 1000
         enemies = self.enemies_groups()
 
         self.caption = (
-            f"\u2665 {self.player.life}     "
+            f"\u2665 {int(self.player.life)}     "
             f"\U0001f9ea {self.player.inventory['potion']}     "
             f"\U0001f52e {self.player.inventory['crystal ball']}     "
             f"\U0001f4b0 {self.player.inventory['coin']}     "
@@ -666,14 +763,15 @@ class Game:
     def draw_caption_panel(self):
         panel_height = 30
         panel_rect = pygame.Rect(0, 0, WINDOW_WIDTH, panel_height)
-        pygame.draw.rect(self.display_surface, (192,192,192), panel_rect)
+        pygame.draw.rect(self.display_surface, (192, 192, 192), panel_rect)
         pygame.draw.rect(self.display_surface, (192, 192, 192), panel_rect, 2)
 
         lines = [
             "Press M to access the Menu",
             f"last item: {self.last_item}",
             self.message,
-            f"scheleton dust: {self.player.inventory["scheleton dust"]}"
+            f"scheleton dust: {self.player.inventory['scheleton dust']}",
+            f"enemies killed: {self.killed_enemies}",
         ]
 
         spacing_px = len(self.last_item) + 15
@@ -718,7 +816,12 @@ class Game:
 
     def player_projectiles(self):
         projectiles = pygame.sprite.Group(
-            [sprite for sprite in self.all_sprites if isinstance(sprite, (Rune, Fire))]
+            [
+                sprite
+                for sprite in self.all_sprites
+                if isinstance(sprite, (Rune, Fire))
+                or getattr(sprite, "name", None) == "power_of_king"
+            ]
         )
         return projectiles
 
@@ -727,9 +830,7 @@ class Game:
 
         try:
             complete_map = (
-                self.inventory_map
-                if self.player.inventory["map pieces"] == 10
-                else None
+                self.inventory_map if self.player.inventory["map pieces"] == 3 else None
             )
             logo_image = pygame.transform.scale(complete_map, (200, 200))
         except:
@@ -790,16 +891,32 @@ class Game:
     def static_animations(self):
         """this method is intended for static animation for objects
         not for players or other dynamic triggers like projectiles"""
-        keys = ["praying statue", "in prayer", "wizard", "portal", "necromancer"]
-
+        keys = [
+            "praying statue",
+            "in prayer",
+            "wizard",
+            "portal",
+            "necromancer",
+            "grass",
+        ]
         for key in keys:
-            if key in self.obj_positions_dict:
+            if key in self.obj_positions_dict and key:
                 Animation(
                     self.obj_positions_dict[key],
                     self.static_frames[key],
                     self.all_sprites,
                     key,
                 )
+
+    def open_portal(self):
+        floor_runes = [
+            sprite
+            for sprite in self.all_sprites
+            if getattr(sprite, "name", None) == "rune floor"
+        ]
+        if self.killed_enemies >= 100:
+            for rune in floor_runes:
+                rune.kill()
 
     def run(self):
         while self.running:
@@ -841,6 +958,8 @@ class Game:
             self.projectiles_hit_walls()
             self.player_buffers()
             self.assign_current_area()
+            self.open_portal()
+            self.dragon_spell_magic()
 
             pygame.display.update()
 

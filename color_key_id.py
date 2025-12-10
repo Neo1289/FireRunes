@@ -4,7 +4,7 @@ import pygame
 pygame.init()
 
 # Load the image
-image_path = r"C:\Users\nrade\Desktop\FireRunes\resources\wizard\0.jpg"
+image_path = r"C:\Users\pc\Desktop\FireRunes\resources\power_of_king\0.png"
 image = pygame.image.load(image_path)
 
 # Get dimensions of the image

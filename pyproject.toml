@@ -5,8 +5,11 @@ description = "these are the requirement for my last piece of art"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
+    "pip>=25.3",
     "pygame-ce>=2.5.5",
+    "pyinstaller>=6.17.0",
     "pymunk>=7.0.1",
     "pytmx>=3.32",
     "ruff>=0.14.5",
+    "uv>=0.9.11",
 ]

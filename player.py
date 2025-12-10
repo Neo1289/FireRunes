@@ -1,4 +1,4 @@
-from libraries_and_settings import pygame, walk, path, join
+from libraries_and_settings import pygame, walk, path, join, get_resource_path
 
 
 class Player(pygame.sprite.Sprite):
@@ -33,17 +33,19 @@ class Player(pygame.sprite.Sprite):
 
         self.inventory = {
             "potion": 1,
-            "crystal ball": 1,
-            "coin": 1,
+            "crystal ball": 0,
+            "coin": 100,
             "keys": 0,
             "holy water": 0,
-            "runes dust": 5,
+            "runes dust": 0,
             "nothing useful": 0,
             "fire dust": 0,
             "ice dust": 0,
             "map pieces": 0,
             "power of the king": 0,
-            "scheleton dust" : 0
+            "scheleton dust": 0,
+            "dragon skin": 0,
+            "magic stone dust": 0,
         }
 
     def _setup_rects(self, pos):
@@ -59,7 +61,7 @@ class Player(pygame.sprite.Sprite):
         self.frames = {direction: [] for direction in ["left", "right", "up", "down"]}
 
         for state in self.frames.keys():
-            folder_path = path.join("resources", "player", state)
+            folder_path = get_resource_path("player", state)
             for folder, _, file_names in walk(folder_path):
                 if file_names:
                     # Sort files numerically and load them
