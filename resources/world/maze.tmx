@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="286">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="318">
  <tileset firstgid="1" source="house_ground.tsx"/>
  <tileset firstgid="65" source="objects_world.tsx"/>
  <layer id="1" name="ground" width="100" height="100">
@@ -338,6 +338,38 @@
   <object id="281" gid="76" x="2094" y="1901" width="41" height="73"/>
   <object id="282" gid="81" x="1470" y="1246" width="33" height="52"/>
   <object id="283" gid="80" x="1085" y="1466" width="31" height="39"/>
+  <object id="286" gid="72" x="1683.67" y="2285" width="95" height="138"/>
+  <object id="287" gid="72" x="1721" y="2334.33" width="95" height="138"/>
+  <object id="288" gid="72" x="1485" y="2355.67" width="95" height="138"/>
+  <object id="289" gid="72" x="1213" y="2323.67" width="95" height="138"/>
+  <object id="290" gid="72" x="1354.33" y="2330.33" width="95" height="138"/>
+  <object id="291" gid="72" x="1354.33" y="2330.33" width="95" height="138"/>
+  <object id="292" gid="72" x="2234.82" y="1941.73" width="95" height="138"/>
+  <object id="293" gid="72" x="2234.82" y="1941.73" width="95" height="138"/>
+  <object id="294" gid="72" x="2228.76" y="1838.7" width="95" height="138"/>
+  <object id="295" gid="72" x="2277.24" y="1778.09" width="95" height="138"/>
+  <object id="296" gid="72" x="1031.79" y="2290.21" width="95" height="138"/>
+  <object id="297" gid="72" x="1031.79" y="2290.21" width="95" height="138"/>
+  <object id="298" gid="72" x="692.394" y="2020.52" width="95" height="138"/>
+  <object id="299" gid="72" x="698.455" y="1681.12" width="95" height="138"/>
+  <object id="300" gid="72" x="716.636" y="1426.58" width="95" height="138"/>
+  <object id="301" gid="72" x="474.212" y="1829.61" width="95" height="138"/>
+  <object id="302" gid="72" x="474.212" y="1829.61" width="95" height="138"/>
+  <object id="303" gid="72" x="474.212" y="1829.61" width="95" height="138"/>
+  <object id="304" gid="72" x="637.848" y="1811.42" width="95" height="138"/>
+  <object id="305" gid="72" x="637.848" y="1811.42" width="95" height="138"/>
+  <object id="306" gid="72" x="637.848" y="1302.33" width="95" height="138"/>
+  <object id="307" gid="72" x="637.848" y="1302.33" width="95" height="138"/>
+  <object id="308" gid="72" x="871.182" y="793.242" width="95" height="138"/>
+  <object id="309" gid="72" x="853" y="1138.7" width="95" height="138"/>
+  <object id="310" gid="72" x="2040.88" y="1108.39" width="95" height="138"/>
+  <object id="311" gid="72" x="2253" y="1375.06" width="95" height="138"/>
+  <object id="312" gid="72" x="2253" y="1375.06" width="95" height="138"/>
+  <object id="313" name="throne" gid="96" x="1165.67" y="1277.33" width="50" height="87"/>
+  <object id="314" gid="66" x="1234.67" y="1233" width="32" height="58"/>
+  <object id="315" gid="66" x="1188" y="1223.67" width="32" height="58"/>
+  <object id="316" gid="66" x="1140" y="1226.33" width="32" height="58"/>
+  <object id="317" gid="66" x="1124" y="1266.33" width="32" height="58"/>
  </objectgroup>
  <objectgroup id="3" name="areas">
   <object id="179" name="player_spawn" x="1818.42" y="1519.82">

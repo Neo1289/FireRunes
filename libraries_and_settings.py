@@ -3,6 +3,7 @@
 # ---------------------------
 import pygame
 import sys
+import os
 from os import path, walk, listdir
 from os.path import join
 import pymunk
@@ -12,9 +13,27 @@ import random
 pygame.init()
 
 # ---------------------------
+# Get the correct base path for resources
+# ---------------------------
+if getattr(sys, "frozen", False):
+    # Running as PyInstaller executable
+    BASE_PATH = sys._MEIPASS
+else:
+    # Running as normal Python script
+    BASE_PATH = os.path.dirname(os.path.abspath(__file__))
+
+
+def get_resource_path(*args):
+    """Get the correct path to resources, whether running as script or executable."""
+    return os.path.join(BASE_PATH, "resources", *args)
+
+
+# ---------------------------
 # Configuration Parameters
 # ---------------------------
-WINDOW_WIDTH, WINDOW_HEIGHT = 1024, 768
+screen_size = pygame.display.get_desktop_sizes()[0]
+WINDOW_WIDTH = int(screen_size[0] * 0.9)
+WINDOW_HEIGHT = int(screen_size[1] * 0.85)
 display_surface = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
 TILE_SIZE = 32
 font = pygame.font.Font(None, 22)
@@ -23,11 +42,11 @@ font = pygame.font.Font(None, 22)
 # maps
 # ---------------------------
 maps = {}
-for dirpath, dirnames, filenames in walk(path.join("resources", "world")):
+for dirpath, dirnames, filenames in walk(get_resource_path("world")):
     for filename in filenames:
         if filename.lower().endswith(".tmx"):
             maps[(filename.split(".")[0])] = load_pygame(
-                path.join("resources", "world", filename)
+                get_resource_path("world", filename)
             )
 
 # ---------------------------
@@ -35,7 +54,7 @@ for dirpath, dirnames, filenames in walk(path.join("resources", "world")):
 # ---------------------------
 
 bat = []
-bat_folder = path.join("resources", "bat")
+bat_folder = get_resource_path("bat")
 for file_name in listdir(bat_folder):
     full_path = path.join(bat_folder, file_name)
     surf = pygame.image.load(full_path).convert_alpha()
@@ -46,7 +65,7 @@ for file_name in listdir(bat_folder):
 # ---------------------------
 
 special_bat = []
-special_bat_folder = path.join("resources", "special_bat")
+special_bat_folder = get_resource_path("special_bat")
 for file_name in listdir(special_bat_folder):
     full_path = path.join(special_bat_folder, file_name)
     surf = pygame.image.load(full_path).convert_alpha()
@@ -57,7 +76,7 @@ for file_name in listdir(special_bat_folder):
 # ---------------------------
 
 bush = []
-bush_folder = path.join("resources", "bush")
+bush_folder = get_resource_path("bush")
 for file_name in listdir(bush_folder):
     full_path = path.join(bush_folder, file_name)
     surf = pygame.image.load(full_path).convert_alpha()
@@ -68,7 +87,7 @@ for file_name in listdir(bush_folder):
 # ---------------------------
 
 scheleton = []
-scheleton_folder = path.join("resources", "skeleton")
+scheleton_folder = get_resource_path("skeleton")
 for file_name in listdir(scheleton_folder):
     full_path = path.join(scheleton_folder, file_name)
     surf = pygame.image.load(full_path).convert_alpha()
@@ -79,7 +98,7 @@ for file_name in listdir(scheleton_folder):
 # ---------------------------
 
 special_scheleton = []
-special_scheleton_folder = path.join("resources", "special_skeleton")
+special_scheleton_folder = get_resource_path("special_skeleton")
 for file_name in listdir(special_scheleton_folder):
     full_path = path.join(special_scheleton_folder, file_name)
     surf = pygame.image.load(full_path).convert_alpha()
@@ -91,7 +110,7 @@ for file_name in listdir(special_scheleton_folder):
 # ---------------------------
 
 flame = []
-flame_folder = path.join("resources", "torch")
+flame_folder = get_resource_path("torch")
 for file_name in listdir(flame_folder):
     full_path = path.join(flame_folder, file_name)
     surf = pygame.image.load(full_path).convert()
@@ -99,15 +118,27 @@ for file_name in listdir(flame_folder):
     flame.append(surf)
 
 # ---------------------------
+# power of king images
+# ---------------------------
+
+king = []
+king_folder = get_resource_path("power_of_king")
+for file_name in listdir(king_folder):
+    full_path = path.join(king_folder, file_name)
+    surf = pygame.image.load(full_path).convert()
+    surf.set_colorkey("black")
+    king.append(surf)
+
+
+# ---------------------------
 # ice images
 # ---------------------------
 
 ice = []
-ice_folder = path.join("resources", "ice_attack")
+ice_folder = get_resource_path("ice_attack")
 for file_name in listdir(ice_folder):
     full_path = path.join(ice_folder, file_name)
-    surf = pygame.image.load(full_path).convert()
-    surf.set_colorkey("black")
+    surf = pygame.image.load(full_path).convert_alpha()
     ice.append(surf)
 
 # ---------------------------
@@ -115,7 +146,7 @@ for file_name in listdir(ice_folder):
 # ---------------------------
 
 dragon = []
-dragon_folder = path.join("resources", "dragon", "left")
+dragon_folder = get_resource_path("dragon", "left")
 for file_name in listdir(dragon_folder):
     full_path = path.join(dragon_folder, file_name)
     surf = pygame.image.load(full_path).convert_alpha()
@@ -126,7 +157,7 @@ for file_name in listdir(dragon_folder):
 # ---------------------------
 
 fish = []
-fish_folder = path.join("resources", "fish")
+fish_folder = get_resource_path("fish")
 for file_name in listdir(fish_folder):
     full_path = path.join(fish_folder, file_name)
     surf = pygame.image.load(full_path).convert_alpha()
@@ -137,7 +168,7 @@ for file_name in listdir(fish_folder):
 # ---------------------------
 
 infernal = []
-infernal_folder = path.join("resources", "fire_attack")
+infernal_folder = get_resource_path("fire_attack")
 for file_name in listdir(infernal_folder):
     full_path = path.join(infernal_folder, file_name)
     surf = pygame.image.load(full_path).convert_alpha()
@@ -150,7 +181,7 @@ for file_name in listdir(infernal_folder):
 
 magic = []
 
-magic_folder = path.join("resources", "magic_stone")
+magic_folder = get_resource_path("magic_stone")
 for file_name in listdir(magic_folder):
     full_path = path.join(magic_folder, file_name)
     surf = pygame.image.load(full_path).convert_alpha()
@@ -162,7 +193,7 @@ for file_name in listdir(magic_folder):
 # ---------------------------
 
 player_flame_frames = []
-player_flame_folder = path.join("resources", "player_flame")
+player_flame_folder = get_resource_path("player_flame")
 for file_name in listdir(player_flame_folder):
     full_path = path.join(player_flame_folder, file_name)
     surf = pygame.image.load(full_path).convert()
@@ -174,7 +205,7 @@ for file_name in listdir(player_flame_folder):
 # ---------------------------
 
 fire_frames = []
-fire_flame_folder = path.join("resources", "dragon_flame")
+fire_flame_folder = get_resource_path("dragon_flame")
 for file_name in listdir(fire_flame_folder):
     full_path = path.join(fire_flame_folder, file_name)
     surf = pygame.image.load(full_path).convert()
@@ -186,7 +217,7 @@ for file_name in listdir(fire_flame_folder):
 # ---------------------------
 
 water_splash_frames = []
-water_splash_folder = path.join("resources", "water_splash")
+water_splash_folder = get_resource_path("water_splash")
 for file_name in listdir(water_splash_folder):
     full_path = path.join(water_splash_folder, file_name)
     surf = pygame.image.load(full_path).convert()
@@ -194,23 +225,47 @@ for file_name in listdir(water_splash_folder):
     water_splash_frames.append(surf)
 
 # ---------------------------
+# player dragon aurea images
+# ---------------------------
+
+player_dragon_frames = []
+player_dragon_folder = get_resource_path("player_dragon_aura")
+for file_name in listdir(player_dragon_folder):
+    full_path = path.join(player_dragon_folder, file_name)
+    surf = pygame.image.load(full_path).convert()
+    surf.set_colorkey("black")
+    player_dragon_frames.append(surf)
+
+# ---------------------------
 # failed attack images
 # ---------------------------
 
 failed_frames = []
-failed_folder = path.join("resources", "failed_attack")
+failed_folder = get_resource_path("failed_attack")
 for file_name in listdir(failed_folder):
     full_path = path.join(failed_folder, file_name)
     surf = pygame.image.load(full_path).convert()
     surf.set_colorkey("black")
     failed_frames.append(surf)
+# ---------------------------
+
+# grass images
+# ---------------------------
+
+grass_frames = []
+grass_folder = get_resource_path("grass")
+for file_name in listdir(grass_folder):
+    full_path = path.join(grass_folder, file_name)
+    surf = pygame.image.load(full_path).convert()
+    surf.set_colorkey("black")
+    grass_frames.append(surf)
 
 # ---------------------------
 # player fire aura
 # ---------------------------
 
 fire_aura_frames = []
-aura_folder = path.join("resources", "player_aura")
+aura_folder = get_resource_path("player_aura")
 for file_name in listdir(aura_folder):
     full_path = path.join(aura_folder, file_name)
     surf = pygame.image.load(full_path).convert()
@@ -221,7 +276,7 @@ for file_name in listdir(aura_folder):
 # ---------------------------
 
 cure_frames = []
-cure_folder = path.join("resources", "cure_spell")
+cure_folder = get_resource_path("cure_spell")
 for file_name in listdir(cure_folder):
     full_path = path.join(cure_folder, file_name)
     surf = pygame.image.load(full_path).convert()
@@ -233,7 +288,7 @@ for file_name in listdir(cure_folder):
 # ---------------------------
 
 statue_frames = []
-statue_folder = path.join("resources", "statue_energy")
+statue_folder = get_resource_path("statue_energy")
 for file_name in listdir(statue_folder):
     full_path = path.join(statue_folder, file_name)
     surf = pygame.image.load(full_path).convert()
@@ -245,7 +300,7 @@ for file_name in listdir(statue_folder):
 # ---------------------------
 
 wizard_frames = []
-wizard_folder = path.join("resources", "wizard")
+wizard_folder = get_resource_path("wizard")
 for file_name in listdir(wizard_folder):
     full_path = path.join(wizard_folder, file_name)
     surf = pygame.image.load(full_path).convert()
@@ -257,7 +312,7 @@ for file_name in listdir(wizard_folder):
 # ---------------------------
 
 necro_frames = []
-necro_folder = path.join("resources", "necromancer")
+necro_folder = get_resource_path("necromancer")
 for file_name in listdir(necro_folder):
     full_path = path.join(necro_folder, file_name)
     surf = pygame.image.load(full_path).convert()
@@ -269,7 +324,7 @@ for file_name in listdir(necro_folder):
 # ---------------------------
 
 portal_frames = []
-portal_folder = path.join("resources", "portal")
+portal_folder = get_resource_path("portal")
 for file_name in listdir(portal_folder):
     full_path = path.join(portal_folder, file_name)
     surf = pygame.image.load(full_path).convert()
@@ -280,7 +335,7 @@ for file_name in listdir(portal_folder):
 # ---------------------------
 # inventory map
 # ---------------------------
-inventory_map = pygame.image.load(path.join("resources", "map.png")).convert()
+inventory_map = pygame.image.load(get_resource_path("map.png")).convert()
 
 # ------------------------------------
 # dictionaries and lists of useful stuff
@@ -290,14 +345,14 @@ enemies_damage = {
     "dragon": 4,
     "bat": 0.5,
     "bat_1": 1,
-    "special_bat": 5,
+    "special_bat": 3,
     "scheleton": 0.5,
     "fish": 0.1,
     "flame": 3,
     "flame_1": 3,
     "ice": 3,
-    "infernal_fire": 20,
-    "magic": 10,
+    "infernal_fire": 5,
+    "magic": 0.5,
     "bush": 1,
     "special_scheleton": 3,
 }
@@ -312,7 +367,7 @@ enemies_life = {
     "flame_1": 10,
     "ice": 1000,
     "infernal_fire": 10000,
-    "magic": 30,
+    "magic": 3,
     "bush": 1,
     "special_scheleton": 100,
 }
@@ -372,12 +427,12 @@ enemies_immunity = {
     "flame_1": "fire",
     "ice": "ice",
     "infernal_fire": "fire",
-    "magic": "fire",
+    "magic": None,
     "bush": None,
     "special_scheleton": "ice",
 }
 spawning_time = {
-    "world": 5000,
+    "world": 20000,
     "house": 2000,
     "forest": 7000,
     "cemetery": 5000,
@@ -410,6 +465,8 @@ lasting_time = {
     "magic": 5000,
     "bush": 2000,
     "failed_attack": 100,
+    "power_of_king": 600,
+    "grass": 1000,
     "dragon_fire": 1000,
     "river_zone": 50,
     "player_aura": 100,
@@ -417,9 +474,10 @@ lasting_time = {
     "praying statue": 700,
     "in prayer": 600,
     "wizard": 10000,
-    "necromancer": 5000,
-    "portal": 10000,
+    "necromancer": 20000,
+    "portal": 20000,
     "special_scheleton": 30000000,
+    "player_dragon_aura": 100,
 }
 
 game_objects = [
