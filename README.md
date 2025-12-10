@@ -1,4 +1,3 @@
-📋 README Contents:
 🎮 Game Overview - Description of FireRunes as an immersive 2D adventure game with magic spells and exploration
 
 ✨ Key Features:
