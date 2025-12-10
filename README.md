@@ -8,6 +8,7 @@ Enemy variety (Bats, Skeletons, Dragons, Bushes)
 Interactive puzzle-solving with cipher riddles
 Inventory system with collectible items
 Boss encounters and dangerous zones
+
 🎯 Core Mechanics section explaining:
 
 Spell casting and magic system
@@ -15,16 +16,19 @@ Combat and enemy encounters
 Exploration and level transitions
 NPC dialogue and interactions
 Inventory management
+
 ⌨️ Controls Guide with all keyboard bindings:
 
 Movement, jumping, spell casting
 Item usage, menu access
 Special abilities
+
 🚀 Getting Started with:
 
 Python 3.7+ requirement
 Pygame installation
 Quick start command
+
 📁 Project Structure showing:
 
 resources/ (assets, sprites, maps)
@@ -32,14 +36,6 @@ src/ (game modules)
 Main entry point
 🛠️ Game Architecture explaining core components like Player, NPC, Spells, and Camera system
 
-👥 Credits to you as the developer
-
-The README is now live in your repository and ready for anyone visiting your project! It provides a complete picture of what FireRunes is about with clear formatting and helpful icons throughout. 🎉
-
-Make these code changes?
-README.md
-
-md
 # 🔥 FireRunes
 
 > A dynamic action-adventure game where ancient fire runes meet modern gameplay mechanics
