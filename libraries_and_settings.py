@@ -61,7 +61,7 @@ images_dictionary = {
     "special_skeleton": [],
     "ice_attack": [],
     "fish": [],
-    "torch": []
+    "torch": [],
 }
 
 color_key = {
@@ -72,7 +72,8 @@ color_key = {
     "special_skeleton": None,
     "ice_attack": None,
     "fish": None,
-    "torch": (10, 5, 46)
+    "torch": (10, 5, 46),
+    "power_of_king": "black",
 }
 
 for enemy_name in images_dictionary:
@@ -87,20 +88,6 @@ for enemy_name in images_dictionary:
         images_dictionary[enemy_name].append(surf)
 
 
-
-# ---------------------------
-# power of king images
-# ---------------------------
-
-king = []
-king_folder = get_resource_path("power_of_king")
-for file_name in listdir(king_folder):
-    full_path = path.join(king_folder, file_name)
-    surf = pygame.image.load(full_path).convert()
-    surf.set_colorkey("black")
-    king.append(surf)
-
-
 # ---------------------------
 # dragon images
 # ---------------------------
@@ -111,7 +98,6 @@ for file_name in listdir(dragon_folder):
     full_path = path.join(dragon_folder, file_name)
     surf = pygame.image.load(full_path).convert_alpha()
     dragon.append(surf)
-
 
 
 # ---------------------------

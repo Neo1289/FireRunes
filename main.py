@@ -9,7 +9,7 @@ from libraries_and_settings import (
     WINDOW_HEIGHT,
     WINDOW_WIDTH,
     font,
-    enemies_images,
+    images_dictionary,
     enemies_speed,
     enemies_direction,
     spawning_time,
@@ -30,7 +30,6 @@ from libraries_and_settings import (
     portal_frames,
     inventory_map,
     grass_frames,
-    king,
     player_dragon_frames,
 )
 from words_library import phrases, menu_instructions, cipher_dict
@@ -232,7 +231,8 @@ class Game:
                 # For enemies with multiple spawn points, pick a random one
                 if obj.name in ["fish", "scheleton", "bat_1", "flame_1"]:
                     spawn_areas = [
-                        o for o in self.current_map.get_layer_by_name("areas")
+                        o
+                        for o in self.current_map.get_layer_by_name("areas")
                         if o.name == obj.name
                     ]
                     spawn_area = random.choice(spawn_areas)
@@ -248,7 +248,16 @@ class Game:
                     self.enemies_life[obj.name],
                     self.enemies_damage[obj.name],
                     self.enemies_direction[obj.name],
-                    obj.name in ["scheleton", "dragon", "bat_1", "flame_1", "infernal_fire", "special_scheleton", "special_bat"],
+                    obj.name
+                    in [
+                        "scheleton",
+                        "dragon",
+                        "bat_1",
+                        "flame_1",
+                        "infernal_fire",
+                        "special_scheleton",
+                        "special_bat",
+                    ],
                     self.enemies_immunity[obj.name],
                 )
                 self.monster.player = self.player
@@ -428,7 +437,12 @@ class Game:
         if self.player.inventory["power of the king"] >= 3 and self.key_down(
             event, "a"
         ):
-            Animation(self.player.rect.center, king, self.all_sprites, "power_of_king")
+            Animation(
+                self.player.rect.center,
+                images_dictionary["king"],
+                self.all_sprites,
+                "power_of_king",
+            )
         if self.player.inventory["power of the king"] < 3 and self.key_down(event, "a"):
             self.message = "not enough power of the kings"
 
