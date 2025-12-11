@@ -62,6 +62,7 @@ images_dictionary = {
     "ice_attack": [],
     "fish": [],
     "torch": [],
+    "fire_attack": []
 }
 
 color_key = {
@@ -74,6 +75,7 @@ color_key = {
     "fish": None,
     "torch": (10, 5, 46),
     "power_of_king": "black",
+    "fire_attack": (31, 16, 42)
 }
 
 for enemy_name in images_dictionary:
@@ -99,18 +101,6 @@ for file_name in listdir(dragon_folder):
     surf = pygame.image.load(full_path).convert_alpha()
     dragon.append(surf)
 
-
-# ---------------------------
-# infernal fire images
-# ---------------------------
-
-infernal = []
-infernal_folder = get_resource_path("fire_attack")
-for file_name in listdir(infernal_folder):
-    full_path = path.join(infernal_folder, file_name)
-    surf = pygame.image.load(full_path).convert_alpha()
-    surf.set_colorkey((31, 16, 42))
-    infernal.append(surf)
 
 # ---------------------------
 # magic stone images
@@ -318,7 +308,7 @@ enemies_images = {
     "flame": images_dictionary["torch"],
     "flame_1": images_dictionary["torch"],
     "ice": images_dictionary["ice_attack"],
-    "infernal_fire": infernal,
+    "infernal_fire": images_dictionary["fire_attack"],
     "magic": magic,
     "bush": images_dictionary["bush"],
     "special_scheleton": images_dictionary["special_skeleton"],
