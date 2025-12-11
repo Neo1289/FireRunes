@@ -49,73 +49,44 @@ for dirpath, dirnames, filenames in walk(get_resource_path("world")):
                 get_resource_path("world", filename)
             )
 
-# ---------------------------
-# bats images
-# ---------------------------
+# ------------------------------------------
+# images
+# ------------------------------------------
 
-bat = []
-bat_folder = get_resource_path("bat")
-for file_name in listdir(bat_folder):
-    full_path = path.join(bat_folder, file_name)
-    surf = pygame.image.load(full_path).convert_alpha()
-    bat.append(surf)
+images_dictionary = {
+    "bat": [],
+    "special_bat": [],
+    "bush": [],
+    "skeleton": [],
+    "special_skeleton": [],
+    "ice_attack": [],
+    "fish": [],
+    "torch": []
+}
 
-# ---------------------------
-# special bats images
-# ---------------------------
+color_key = {
+    "bat": None,
+    "special_bat": None,
+    "bush": None,
+    "skeleton": None,
+    "special_skeleton": None,
+    "ice_attack": None,
+    "fish": None,
+    "torch": (10, 5, 46)
+}
 
-special_bat = []
-special_bat_folder = get_resource_path("special_bat")
-for file_name in listdir(special_bat_folder):
-    full_path = path.join(special_bat_folder, file_name)
-    surf = pygame.image.load(full_path).convert_alpha()
-    special_bat.append(surf)
-
-# ---------------------------
-# bush images
-# ---------------------------
-
-bush = []
-bush_folder = get_resource_path("bush")
-for file_name in listdir(bush_folder):
-    full_path = path.join(bush_folder, file_name)
-    surf = pygame.image.load(full_path).convert_alpha()
-    bush.append(surf)
-
-# ---------------------------
-# scheletons images
-# ---------------------------
-
-scheleton = []
-scheleton_folder = get_resource_path("skeleton")
-for file_name in listdir(scheleton_folder):
-    full_path = path.join(scheleton_folder, file_name)
-    surf = pygame.image.load(full_path).convert_alpha()
-    scheleton.append(surf)
-
-# ---------------------------
-# scheletons images
-# ---------------------------
-
-special_scheleton = []
-special_scheleton_folder = get_resource_path("special_skeleton")
-for file_name in listdir(special_scheleton_folder):
-    full_path = path.join(special_scheleton_folder, file_name)
-    surf = pygame.image.load(full_path).convert_alpha()
-    special_scheleton.append(surf)
+for enemy_name in images_dictionary:
+    folder = get_resource_path(enemy_name)
+    for file_name in listdir(folder):
+        full_path = path.join(folder, file_name)
+        if color_key[enemy_name] is None:
+            surf = pygame.image.load(full_path).convert_alpha()
+        elif color_key[enemy_name] is not None:
+            surf = pygame.image.load(full_path).convert()
+            surf.set_colorkey((10, 5, 46))
+        images_dictionary[enemy_name].append(surf)
 
 
-# ---------------------------
-# flames images
-# ---------------------------
-
-flame = []
-flame_folder = get_resource_path("torch")
-for file_name in listdir(flame_folder):
-    full_path = path.join(flame_folder, file_name)
-    surf = pygame.image.load(full_path).convert()
-    surf.set_colorkey((10, 5, 46))
-    flame.append(surf)
 
 # ---------------------------
 # power of king images
@@ -131,17 +102,6 @@ for file_name in listdir(king_folder):
 
 
 # ---------------------------
-# ice images
-# ---------------------------
-
-ice = []
-ice_folder = get_resource_path("ice_attack")
-for file_name in listdir(ice_folder):
-    full_path = path.join(ice_folder, file_name)
-    surf = pygame.image.load(full_path).convert_alpha()
-    ice.append(surf)
-
-# ---------------------------
 # dragon images
 # ---------------------------
 
@@ -152,16 +112,7 @@ for file_name in listdir(dragon_folder):
     surf = pygame.image.load(full_path).convert_alpha()
     dragon.append(surf)
 
-# ---------------------------
-# fish images
-# ---------------------------
 
-fish = []
-fish_folder = get_resource_path("fish")
-for file_name in listdir(fish_folder):
-    full_path = path.join(fish_folder, file_name)
-    surf = pygame.image.load(full_path).convert_alpha()
-    fish.append(surf)
 
 # ---------------------------
 # infernal fire images
@@ -373,19 +324,20 @@ enemies_life = {
 }
 enemies_images = {
     "dragon": dragon,
-    "bat": bat,
-    "bat_1": bat,
-    "special_bat": special_bat,
-    "scheleton": scheleton,
-    "fish": fish,
-    "flame": flame,
-    "flame_1": flame,
-    "ice": ice,
+    "bat": images_dictionary["bat"],
+    "bat_1": images_dictionary["bat"],
+    "special_bat": images_dictionary["special_bat"],
+    "scheleton": images_dictionary["skeleton"],
+    "fish": images_dictionary["fish"],
+    "flame": images_dictionary["torch"],
+    "flame_1": images_dictionary["torch"],
+    "ice": images_dictionary["ice_attack"],
     "infernal_fire": infernal,
     "magic": magic,
-    "bush": bush,
-    "special_scheleton": special_scheleton,
+    "bush": images_dictionary["bush"],
+    "special_scheleton": images_dictionary["special_skeleton"],
 }
+
 enemies_speed = {
     "dragon": 110,
     "bat": 80,

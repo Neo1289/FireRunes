@@ -18,7 +18,7 @@ from libraries_and_settings import (
     enemies_life,
     game_objects,
     enemies_damage,
-    ice,
+    enemies_images,
     enemies_immunity,
     failed_frames,
     water_splash_frames,
@@ -402,12 +402,12 @@ class Game:
             self.player.inventory["fire dust"] -= 5
         if (
             self.key_down(event, "c")
-            and self.player.inventory["ice dust"] > 0
+            and self.player.inventory["ice dust"]
             and self.spell_ice == True
         ):
             Fire(
                 self.player.rect.center,
-                ice,
+                enemies_images["ice_attack"],
                 self.all_sprites,
                 50,
                 self.player.state,
