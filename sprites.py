@@ -1,4 +1,4 @@
-from libraries_and_settings import pygame, random, path, lasting_time, fire_frames
+from libraries_and_settings import pygame, random, path, lasting_time, images_dictionary
 
 
 class TimeUpdate:
@@ -27,7 +27,7 @@ class ShootFire:
                 fire_pos,
                 self.fire_frames,
                 self.all_sprites,
-                150,
+                100,
                 "right",
                 "dragon_fire",
             )
@@ -119,8 +119,8 @@ class NPC(pygame.sprite.Sprite, TimeUpdate):
         self.spawn_time = pygame.time.get_ticks()
         self.life = life
         self.damage = damage
-        if name == "dragon" and fire_frames:
-            self.shooter = ShootFire(fire_frames, groups)
+        if name == "dragon" and images_dictionary:
+            self.shooter = ShootFire(images_dictionary["dragon_flame"], groups)
         else:
             self.shooter = None
         self.immune = immune
