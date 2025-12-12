@@ -1,5 +1,5 @@
 ###LIBRARIES
-from libraries_and_settings import pygame, sys, random, path
+from libraries_and_settings import pygame, sys, random
 
 ###CONFIGURATIONS
 from libraries_and_settings import (
@@ -14,24 +14,14 @@ from libraries_and_settings import (
     enemies_direction,
     spawning_time,
     buffers,
-    player_flame_frames,
     enemies_life,
     game_objects,
     enemies_damage,
     enemies_images,
     enemies_immunity,
-    failed_frames,
-    water_splash_frames,
-    fire_aura_frames,
-    cure_frames,
-    statue_frames,
-    wizard_frames,
-    necro_frames,
-    portal_frames,
     inventory_map,
-    grass_frames,
-    player_dragon_frames,
 )
+
 from words_library import phrases, menu_instructions, cipher_dict
 
 ###SPRITES
@@ -86,13 +76,13 @@ class Game:
 
         self.obj_positions_dict = {}
         self.static_frames = {
-            "praying statue": statue_frames,
-            "in prayer": statue_frames,
-            "wizard": wizard_frames,
-            "portal": portal_frames,
-            "necromancer": necro_frames,
-            "grass": grass_frames,
-            "player_dragon_aura": player_dragon_frames,
+            "praying statue": images_dictionary["statue_energy"],
+            "in prayer": images_dictionary["statue_energy"],
+            "wizard": images_dictionary["wizard"],
+            "portal": images_dictionary["portal"],
+            "necromancer": images_dictionary["necromancer"],
+            "grass": images_dictionary["grass"],
+            "player_dragon_aura": images_dictionary["player_dragon_aura"],
         }
         self.inventory_map = inventory_map
 
@@ -389,7 +379,7 @@ class Game:
         if self.key_down(event, "z") and self.player.inventory["fire dust"] > 0:
             Fire(
                 self.player.rect.center,
-                player_flame_frames,
+                images_dictionary["player_flame"],
                 self.all_sprites,
                 50,
                 self.player.state,
@@ -403,7 +393,7 @@ class Game:
             for state in ("up", "down", "left", "right"):
                 Fire(
                     self.player.rect.center,
-                    player_flame_frames,
+                    images_dictionary["player_flame"],
                     self.all_sprites,
                     50,
                     state,
@@ -432,7 +422,7 @@ class Game:
             self.player.inventory["fire dust"] -= 3
             self.player.life += 10
             Animation(
-                self.player.rect.center, cure_frames, self.all_sprites, "cure_spell"
+                self.player.rect.center, images_dictionary["cure_spell"], self.all_sprites, "cure_spell"
             )
         if self.player.inventory["power of the king"] >= 3 and self.key_down(
             event, "a"
@@ -566,7 +556,7 @@ class Game:
                         self.message = self.phrases["text_14"]
                         Animation(
                             self.player.rect.center,
-                            cure_frames,
+                            images_dictionary["cure_spell"],
                             self.all_sprites,
                             "cure_spell",
                         )
@@ -594,7 +584,7 @@ class Game:
         ):
             Animation(
                 self.player.rect.center,
-                player_dragon_frames,
+                images_dictionary["player_dragon_aura"],
                 self.all_sprites,
                 "player_dragon_aura",
             )
@@ -602,7 +592,7 @@ class Game:
             for state in ("up", "down", "left", "right"):
                 Fire(
                     self.player.rect.center,
-                    player_flame_frames,
+                    images_dictionary["player_flame"],
                     self.all_sprites,
                     50,
                     state,
@@ -627,7 +617,7 @@ class Game:
             self.player.kill()
             if self.current_area == "river":
                 Animation(
-                    death_position, water_splash_frames, self.all_sprites, "river_zone"
+                    death_position, images_dictionary["water_splash"], self.all_sprites, "river_zone"
                 )
 
         if self.player_dead:
@@ -645,7 +635,7 @@ class Game:
         if self.player.inventory["fire dust"] == 50:
             Animation(
                 (self.player.rect.centerx + 20, self.player.rect.centery + 20),
-                fire_aura_frames,
+                images_dictionary["player_aura"],
                 self.all_sprites,
                 "player_aura",
             )
@@ -676,7 +666,7 @@ class Game:
                 hit_general.kill()
                 Animation(
                     hit_general.rect.center,
-                    failed_frames,
+                    images_dictionary["failed_attack"],
                     self.all_sprites,
                     "failed_attack",
                 )
@@ -696,7 +686,7 @@ class Game:
                 self.message = "this spell doesn't work"
                 Animation(
                     hit_projectile.rect.center,
-                    failed_frames,
+                    images_dictionary["failed_attack"],
                     self.all_sprites,
                     "failed_attack",
                 )

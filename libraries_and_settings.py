@@ -62,7 +62,20 @@ images_dictionary = {
     "ice_attack": [],
     "fish": [],
     "torch": [],
-    "fire_attack": []
+    "fire_attack": [],
+    "magic_stone": [],
+    "player_flame": [],
+    "dragon_flame": [],
+    "water_splash": [],
+    "player_dragon_aura": [],
+    "failed_attack": [],
+    "grass": [],
+    "player_aura": [],
+    "cure_spell": [],
+    "statue_energy": [],
+    "wizard": [],
+    "necromancer": [],
+    "portal": []
 }
 
 color_key = {
@@ -75,7 +88,20 @@ color_key = {
     "fish": None,
     "torch": (10, 5, 46),
     "power_of_king": "black",
-    "fire_attack": (31, 16, 42)
+    "fire_attack": (31, 16, 42),
+    "magic_stone": "black",
+    "player_flame": (31, 16, 42),
+    "dragon_flame": (31, 16, 42),
+    "water_splash": "black",
+    "player_dragon_aura": "black",
+    "failed_attack": "black",
+    "grass": "black",
+    "player_aura": (31, 16, 42),
+    "cure_spell": (0, 128, 128),
+    "statue_energy": (0, 128, 128),
+    "wizard": "black",
+    "necromancer": "black",
+    "portal": "black"
 }
 
 for enemy_name in images_dictionary:
@@ -86,7 +112,7 @@ for enemy_name in images_dictionary:
             surf = pygame.image.load(full_path).convert_alpha()
         elif color_key[enemy_name] is not None:
             surf = pygame.image.load(full_path).convert()
-            surf.set_colorkey((10, 5, 46))
+            surf.set_colorkey(color_key[enemy_name])
         images_dictionary[enemy_name].append(surf)
 
 
@@ -100,163 +126,6 @@ for file_name in listdir(dragon_folder):
     full_path = path.join(dragon_folder, file_name)
     surf = pygame.image.load(full_path).convert_alpha()
     dragon.append(surf)
-
-
-# ---------------------------
-# magic stone images
-# ---------------------------
-
-magic = []
-
-magic_folder = get_resource_path("magic_stone")
-for file_name in listdir(magic_folder):
-    full_path = path.join(magic_folder, file_name)
-    surf = pygame.image.load(full_path).convert_alpha()
-    surf.set_colorkey((31, 16, 42))
-    magic.append(surf)
-
-# ---------------------------
-# player flame images
-# ---------------------------
-
-player_flame_frames = []
-player_flame_folder = get_resource_path("player_flame")
-for file_name in listdir(player_flame_folder):
-    full_path = path.join(player_flame_folder, file_name)
-    surf = pygame.image.load(full_path).convert()
-    surf.set_colorkey((31, 16, 42))
-    player_flame_frames.append(surf)
-
-# ---------------------------
-# dragon flame images
-# ---------------------------
-
-fire_frames = []
-fire_flame_folder = get_resource_path("dragon_flame")
-for file_name in listdir(fire_flame_folder):
-    full_path = path.join(fire_flame_folder, file_name)
-    surf = pygame.image.load(full_path).convert()
-    surf.set_colorkey((31, 16, 42))
-    fire_frames.append(surf)
-
-# ---------------------------
-# water splash images
-# ---------------------------
-
-water_splash_frames = []
-water_splash_folder = get_resource_path("water_splash")
-for file_name in listdir(water_splash_folder):
-    full_path = path.join(water_splash_folder, file_name)
-    surf = pygame.image.load(full_path).convert()
-    surf.set_colorkey("black")
-    water_splash_frames.append(surf)
-
-# ---------------------------
-# player dragon aurea images
-# ---------------------------
-
-player_dragon_frames = []
-player_dragon_folder = get_resource_path("player_dragon_aura")
-for file_name in listdir(player_dragon_folder):
-    full_path = path.join(player_dragon_folder, file_name)
-    surf = pygame.image.load(full_path).convert()
-    surf.set_colorkey("black")
-    player_dragon_frames.append(surf)
-
-# ---------------------------
-# failed attack images
-# ---------------------------
-
-failed_frames = []
-failed_folder = get_resource_path("failed_attack")
-for file_name in listdir(failed_folder):
-    full_path = path.join(failed_folder, file_name)
-    surf = pygame.image.load(full_path).convert()
-    surf.set_colorkey("black")
-    failed_frames.append(surf)
-# ---------------------------
-
-# grass images
-# ---------------------------
-
-grass_frames = []
-grass_folder = get_resource_path("grass")
-for file_name in listdir(grass_folder):
-    full_path = path.join(grass_folder, file_name)
-    surf = pygame.image.load(full_path).convert()
-    surf.set_colorkey("black")
-    grass_frames.append(surf)
-
-# ---------------------------
-# player fire aura
-# ---------------------------
-
-fire_aura_frames = []
-aura_folder = get_resource_path("player_aura")
-for file_name in listdir(aura_folder):
-    full_path = path.join(aura_folder, file_name)
-    surf = pygame.image.load(full_path).convert()
-    surf.set_colorkey((31, 16, 42))
-    fire_aura_frames.append(surf)
-# ---------------------------
-# player fire aura
-# ---------------------------
-
-cure_frames = []
-cure_folder = get_resource_path("cure_spell")
-for file_name in listdir(cure_folder):
-    full_path = path.join(cure_folder, file_name)
-    surf = pygame.image.load(full_path).convert()
-    surf.set_colorkey((0, 128, 128))
-    cure_frames.append(surf)
-
-# ---------------------------
-# praying statue aura
-# ---------------------------
-
-statue_frames = []
-statue_folder = get_resource_path("statue_energy")
-for file_name in listdir(statue_folder):
-    full_path = path.join(statue_folder, file_name)
-    surf = pygame.image.load(full_path).convert()
-    surf.set_colorkey((0, 128, 128))
-    statue_frames.append(surf)
-
-# ---------------------------
-# wizard
-# ---------------------------
-
-wizard_frames = []
-wizard_folder = get_resource_path("wizard")
-for file_name in listdir(wizard_folder):
-    full_path = path.join(wizard_folder, file_name)
-    surf = pygame.image.load(full_path).convert()
-    surf.set_colorkey("black")
-    wizard_frames.append(surf)
-
-# ---------------------------
-# wizard
-# ---------------------------
-
-necro_frames = []
-necro_folder = get_resource_path("necromancer")
-for file_name in listdir(necro_folder):
-    full_path = path.join(necro_folder, file_name)
-    surf = pygame.image.load(full_path).convert()
-    surf.set_colorkey("black")
-    necro_frames.append(surf)
-
-# ---------------------------
-# portal
-# ---------------------------
-
-portal_frames = []
-portal_folder = get_resource_path("portal")
-for file_name in listdir(portal_folder):
-    full_path = path.join(portal_folder, file_name)
-    surf = pygame.image.load(full_path).convert()
-    surf.set_colorkey("black")
-    portal_frames.append(surf)
 
 
 # ---------------------------
@@ -309,7 +178,7 @@ enemies_images = {
     "flame_1": images_dictionary["torch"],
     "ice": images_dictionary["ice_attack"],
     "infernal_fire": images_dictionary["fire_attack"],
-    "magic": magic,
+    "magic": images_dictionary["magic_stone"],
     "bush": images_dictionary["bush"],
     "special_scheleton": images_dictionary["special_skeleton"],
 }
