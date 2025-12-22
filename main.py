@@ -83,6 +83,7 @@ class Game:
             "necromancer": images_dictionary["necromancer"],
             "grass": images_dictionary["grass"],
             "player_dragon_aura": images_dictionary["player_dragon_aura"],
+            "cauldron": images_dictionary["cauldron"]
         }
         self.inventory_map = inventory_map
 
@@ -879,6 +880,7 @@ class Game:
             "portal",
             "necromancer",
             "grass",
+            "cauldron"
         ]
         for key in keys:
             if key in self.obj_positions_dict and key:

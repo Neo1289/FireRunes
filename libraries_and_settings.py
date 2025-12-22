@@ -76,7 +76,8 @@ images_dictionary = {
     "wizard": [],
     "necromancer": [],
     "portal": [],
-    "dragon": []
+    "dragon": [],
+    "cauldron": []
 }
 
 color_key = {
@@ -103,7 +104,8 @@ color_key = {
     "wizard": "black",
     "necromancer": "black",
     "portal": "black",
-    "dragon": None
+    "dragon": None,
+    "cauldron": (106, 90, 116)
 }
 
 for enemy_name in images_dictionary:
@@ -264,6 +266,7 @@ lasting_time = {
     "portal": 20000,
     "special_scheleton": 30000000,
     "player_dragon_aura": 100,
+    "cauldron": 500
 }
 
 game_objects = [
