@@ -33,19 +33,19 @@ class Player(pygame.sprite.Sprite):
 
         self.inventory = {
             "potion": 1,
-            "crystal ball": 0,
+            "crystal ball": 20,
             "coin": 100,
-            "keys": 0,
+            "keys": 100,
             "holy water": 0,
-            "runes dust": 0,
+            "runes dust": 100,
             "nothing useful": 0,
             "fire dust": 0,
-            "ice dust": 0,
+            "ice dust": 100,
             "map pieces": 0,
             "power of the king": 0,
-            "scheleton dust": 0,
-            "dragon skin": 0,
-            "magic stone dust": 0,
+            "scheleton dust": 100,
+            "dragon skin": 10,
+            "magic stone dust": 10,
         }
 
     def _setup_rects(self, pos):

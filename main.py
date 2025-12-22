@@ -406,7 +406,7 @@ class Game:
         ):
             Fire(
                 self.player.rect.center,
-                enemies_images["ice_attack"],
+                images_dictionary["ice_attack"],
                 self.all_sprites,
                 50,
                 self.player.state,

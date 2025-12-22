@@ -75,7 +75,8 @@ images_dictionary = {
     "statue_energy": [],
     "wizard": [],
     "necromancer": [],
-    "portal": []
+    "portal": [],
+    "dragon": []
 }
 
 color_key = {
@@ -101,7 +102,8 @@ color_key = {
     "statue_energy": (0, 128, 128),
     "wizard": "black",
     "necromancer": "black",
-    "portal": "black"
+    "portal": "black",
+    "dragon": None
 }
 
 for enemy_name in images_dictionary:
@@ -114,19 +116,6 @@ for enemy_name in images_dictionary:
             surf = pygame.image.load(full_path).convert()
             surf.set_colorkey(color_key[enemy_name])
         images_dictionary[enemy_name].append(surf)
-
-
-# ---------------------------
-# dragon images
-# ---------------------------
-
-dragon = []
-dragon_folder = get_resource_path("dragon", "left")
-for file_name in listdir(dragon_folder):
-    full_path = path.join(dragon_folder, file_name)
-    surf = pygame.image.load(full_path).convert_alpha()
-    dragon.append(surf)
-
 
 # ---------------------------
 # inventory map
@@ -168,7 +157,7 @@ enemies_life = {
     "special_scheleton": 100,
 }
 enemies_images = {
-    "dragon": dragon,
+    "dragon": images_dictionary["dragon"],
     "bat": images_dictionary["bat"],
     "bat_1": images_dictionary["bat"],
     "special_bat": images_dictionary["special_bat"],
