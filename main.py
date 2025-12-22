@@ -83,6 +83,7 @@ class Game:
             "necromancer": images_dictionary["necromancer"],
             "grass": images_dictionary["grass"],
             "player_dragon_aura": images_dictionary["player_dragon_aura"],
+            "cauldron": images_dictionary["cauldron"]
         }
         self.inventory_map = inventory_map
 
@@ -406,7 +407,7 @@ class Game:
         ):
             Fire(
                 self.player.rect.center,
-                enemies_images["ice_attack"],
+                images_dictionary["ice_attack"],
                 self.all_sprites,
                 50,
                 self.player.state,
@@ -879,6 +880,7 @@ class Game:
             "portal",
             "necromancer",
             "grass",
+            "cauldron"
         ]
         for key in keys:
             if key in self.obj_positions_dict and key:

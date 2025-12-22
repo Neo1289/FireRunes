@@ -4,7 +4,7 @@ import pygame
 pygame.init()
 
 # Load the image
-image_path = r"C:\Users\nrade\Desktop\FireRunes\resources\player_flame\0.png"
+image_path = r"C:\Users\nrade\Desktop\FireRunes\resources\cauldron\0.png"
 image = pygame.image.load(image_path)
 
 # Get dimensions of the image

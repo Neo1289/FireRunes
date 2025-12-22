@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="64" height="64" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="171">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="64" height="64" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="217">
  <tileset firstgid="1" source="house_ground.tsx"/>
  <tileset firstgid="65" source="objects_world.tsx"/>
  <tileset firstgid="98" source="stone_ground.tsx"/>
@@ -102,6 +102,52 @@
   <object id="166" name="scarecrow" gid="82" x="1001" y="966" width="50" height="77"/>
   <object id="167" name="statue" gid="76" x="845" y="906" width="41" height="73"/>
   <object id="170" name="throne" gid="96" x="1126" y="927" width="50" height="87"/>
+  <object id="171" gid="71" x="1221" y="885" width="112" height="141"/>
+  <object id="172" gid="71" x="1274" y="992" width="112" height="141"/>
+  <object id="173" gid="71" x="1307" y="1131" width="112" height="141"/>
+  <object id="174" gid="71" x="1258" y="1299" width="112" height="141"/>
+  <object id="175" gid="71" x="1187" y="1463" width="112" height="141"/>
+  <object id="176" gid="71" x="1066" y="1430" width="112" height="141"/>
+  <object id="177" gid="71" x="931" y="1424" width="112" height="141"/>
+  <object id="178" gid="71" x="800" y="1408" width="112" height="141"/>
+  <object id="179" gid="71" x="754" y="1379" width="112" height="141"/>
+  <object id="180" gid="71" x="714" y="1279" width="112" height="141"/>
+  <object id="181" gid="71" x="681" y="1193" width="112" height="141"/>
+  <object id="182" gid="71" x="642" y="1116" width="112" height="141"/>
+  <object id="183" gid="71" x="616" y="930" width="112" height="141"/>
+  <object id="184" gid="71" x="703" y="766" width="112" height="141"/>
+  <object id="185" gid="71" x="873" y="759" width="112" height="141"/>
+  <object id="186" gid="71" x="992" y="775" width="112" height="141"/>
+  <object id="187" gid="71" x="1099" y="776" width="112" height="141"/>
+  <object id="188" gid="71" x="1204" y="805" width="112" height="141"/>
+  <object id="189" gid="71" x="1290" y="838" width="112" height="141"/>
+  <object id="190" gid="71" x="1321" y="871" width="112" height="141"/>
+  <object id="191" gid="71" x="1349" y="902" width="112" height="141"/>
+  <object id="192" gid="71" x="1348" y="812" width="112" height="141"/>
+  <object id="193" gid="71" x="1322" y="774" width="112" height="141"/>
+  <object id="194" gid="71" x="1298" y="759" width="112" height="141"/>
+  <object id="195" gid="71" x="1350" y="931" width="112" height="141"/>
+  <object id="196" gid="71" x="1361" y="977" width="112" height="141"/>
+  <object id="197" gid="71" x="1385" y="1097" width="112" height="141"/>
+  <object id="198" gid="71" x="1359" y="1275" width="112" height="141"/>
+  <object id="199" gid="71" x="1264" y="1399" width="112" height="141"/>
+  <object id="200" gid="71" x="1217" y="1451" width="112" height="141"/>
+  <object id="201" gid="71" x="1033" y="1436" width="112" height="141"/>
+  <object id="202" gid="71" x="897" y="1419" width="112" height="141"/>
+  <object id="203" gid="71" x="862" y="1420" width="112" height="141"/>
+  <object id="204" gid="71" x="799" y="1409" width="112" height="141"/>
+  <object id="205" gid="71" x="672" y="1254" width="112" height="141"/>
+  <object id="206" gid="71" x="669" y="1047" width="112" height="141"/>
+  <object id="207" gid="71" x="717" y="876" width="112" height="141"/>
+  <object id="208" gid="71" x="738" y="795" width="112" height="141"/>
+  <object id="209" gid="71" x="839" y="799" width="112" height="141"/>
+  <object id="210" gid="71" x="967" y="810" width="112" height="141"/>
+  <object id="211" gid="71" x="1024" y="807" width="112" height="141"/>
+  <object id="212" gid="71" x="1043" y="810" width="112" height="141"/>
+  <object id="213" gid="71" x="1098" y="814" width="112" height="141"/>
+  <object id="214" gid="71" x="1145" y="812" width="112" height="141"/>
+  <object id="215" gid="71" x="1345" y="1016" width="112" height="141"/>
+  <object id="216" gid="71" x="1375" y="1243" width="112" height="141"/>
  </objectgroup>
  <objectgroup id="4" name="areas">
   <object id="46" name="player_spawn" x="968.21" y="1180.27">
