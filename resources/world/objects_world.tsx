@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tileset version="1.10" tiledversion="1.11.2" name="objects" tilewidth="112" tileheight="141" tilecount="33" columns="0">
+<tileset version="1.10" tiledversion="1.11.2" name="objects" tilewidth="112" tileheight="141" tilecount="34" columns="0">
  <grid orientation="orthogonal" width="1" height="1"/>
  <tile id="0">
   <image source="bush.png" width="47" height="43"/>
@@ -99,5 +99,8 @@
  </tile>
  <tile id="32">
   <image source="../grass/2.png" width="16" height="9"/>
+ </tile>
+ <tile id="33">
+  <image source="cauldron.png" width="40" height="32"/>
  </tile>
 </tileset>
