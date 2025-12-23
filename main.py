@@ -290,12 +290,17 @@ class Game:
                     self.text_surface = font.render(self.text, True, "white")
 
         for obj in self.collision_sprites:
-            if self.object_id(obj) and name not in (
+            obj_name = getattr(obj, "name", None)
+            if self.object_id(obj) and obj_name not in (
                 "in prayer",
                 "portal",
                 "rune floor",
+                "cauldron"
             ):
-                self.text = f"{self.phrases['text_2']}{obj.name}?"
+                self.text = f"{self.phrases['text_2']}{obj_name}?"
+                self.text_surface = font.render(self.text, True, "white")
+            elif self.object_id(obj) and obj_name == "cauldron":
+                self.text = f"{self.phrases['text_17']}"
                 self.text_surface = font.render(self.text, True, "white")
             elif self.human_id(obj):
                 if obj.name == "wizard":
