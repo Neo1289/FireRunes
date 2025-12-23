@@ -60,7 +60,7 @@ class Game:
 
         self.maps = maps  ##maps dictionary coming for the settings file
         self.current_map = None
-        self.current_area = "house"
+        self.current_area = "world"
         self.area_group = {}  ###dictionary with the areas where is possible to enter in a map
         self.transition_bool = True
         self.phrases = phrases
@@ -83,7 +83,7 @@ class Game:
             "necromancer": images_dictionary["necromancer"],
             "grass": images_dictionary["grass"],
             "player_dragon_aura": images_dictionary["player_dragon_aura"],
-            "cauldron": images_dictionary["cauldron"]
+            "cauldron": images_dictionary["cauldron"],
         }
         self.inventory_map = inventory_map
 
@@ -105,8 +105,6 @@ class Game:
 
         self.custom_event = pygame.event.custom_type()
         self.message = ""
-
-        self.music_loaded = False
 
     def cleaning_area(self):  ####removes all elements within groups
         self.all_sprites.empty()
@@ -322,6 +320,11 @@ class Game:
             )
             self.display_surface.blit(self.text_surface, text_rect)
 
+    def making_potions(self):
+        for obj in self.collision_sprites:
+            if getattr(obj, "name", None) == "cauldron" and self.object_id(obj):
+                print("ok")
+
     def collect_resources(self, event):
         for obj in self.collision_sprites:
             if self.object_id(obj) and obj.name not in (
@@ -423,7 +426,10 @@ class Game:
             self.player.inventory["fire dust"] -= 3
             self.player.life += 10
             Animation(
-                self.player.rect.center, images_dictionary["cure_spell"], self.all_sprites, "cure_spell"
+                self.player.rect.center,
+                images_dictionary["cure_spell"],
+                self.all_sprites,
+                "cure_spell",
             )
         if self.player.inventory["power of the king"] >= 3 and self.key_down(
             event, "a"
@@ -618,7 +624,10 @@ class Game:
             self.player.kill()
             if self.current_area == "river":
                 Animation(
-                    death_position, images_dictionary["water_splash"], self.all_sprites, "river_zone"
+                    death_position,
+                    images_dictionary["water_splash"],
+                    self.all_sprites,
+                    "river_zone",
                 )
 
         if self.player_dead:
@@ -880,7 +889,7 @@ class Game:
             "portal",
             "necromancer",
             "grass",
-            "cauldron"
+            "cauldron",
         ]
         for key in keys:
             if key in self.obj_positions_dict and key:
@@ -943,6 +952,7 @@ class Game:
             self.assign_current_area()
             self.open_portal()
             self.dragon_spell_magic()
+            self.making_potions()
 
             pygame.display.update()
 
