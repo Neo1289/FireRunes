@@ -176,6 +176,8 @@ class Animation(pygame.sprite.Sprite, TimeUpdate):
             self.animation_speed = 3
         elif self.name == "grass":
             self.animation_speed = 3
+        elif self.name == "cauldron":
+            self.animation_speed = 5
         else:
             self.animation_speed = 10
 
