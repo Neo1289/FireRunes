@@ -37,7 +37,10 @@ phrases = {
     "do you want to learn the dragon spell? spend one dragon skin and 50 gold and press k",
     "text_16": "do you want to sell your scheleton dust? \n"
     "D to sell them, 1 coin a piece",
-    "text_17": "do you want to make a potion? press p"
+    "text_17": "do you want to make a potion? \n"
+    "h: for potion 1 \n"
+    "k: for potion 2 \n"
+    "l: for potion 3 \n"
 }
 
 cipher_dict = {"RBODOSQ": "statue", "SGQNMDD": "throne"}

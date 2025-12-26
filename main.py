@@ -325,10 +325,11 @@ class Game:
             )
             self.display_surface.blit(self.text_surface, text_rect)
 
-    def making_potions(self):
+    def making_potions(self,event):
         for obj in self.collision_sprites:
             if getattr(obj, "name", None) == "cauldron" and self.object_id(obj):
-                print("ok")
+                if self.key_down(event, "j") and self.player.inventory["crystal ball"] > 0:
+                    pass
 
     def collect_resources(self, event):
         for obj in self.collision_sprites:
@@ -929,6 +930,7 @@ class Game:
                 self.buffer_handlers(event)
                 self.player_fire(event)
                 self.end_game(event)
+                self.making_potions(event)
                 if event.type == self.custom_event:
                     self.monsters()
                     self.static_animations()
@@ -957,7 +959,6 @@ class Game:
             self.assign_current_area()
             self.open_portal()
             self.dragon_spell_magic()
-            self.making_potions()
 
             pygame.display.update()
 
