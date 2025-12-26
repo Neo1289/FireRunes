@@ -295,7 +295,7 @@ class Game:
                 "in prayer",
                 "portal",
                 "rune floor",
-                "cauldron"
+                "cauldron",
             ):
                 self.text = f"{self.phrases['text_2']}{obj_name}?"
                 self.text_surface = font.render(self.text, True, "white")
@@ -325,11 +325,17 @@ class Game:
             )
             self.display_surface.blit(self.text_surface, text_rect)
 
-    def making_potions(self,event):
+    def making_potions(self, event):
         for obj in self.collision_sprites:
             if getattr(obj, "name", None) == "cauldron" and self.object_id(obj):
-                if self.key_down(event, "j") and self.player.inventory["crystal ball"] > 0:
-                    pass
+                if (
+                    self.key_down(event, "j")
+                    and self.player.inventory["crystal ball"] > 0
+                    and self.player_inventory["coin"] > 0
+                ):
+                    self.player.inventory["coin"] -= 1
+                    self.player.inventory["crystal ball"] -= 1
+                    self.player.inventory["potion one"] += 1
 
     def collect_resources(self, event):
         for obj in self.collision_sprites:

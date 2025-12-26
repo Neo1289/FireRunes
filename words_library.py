@@ -40,7 +40,7 @@ phrases = {
     "text_17": "do you want to make a potion? \n"
     "h: for potion 1 \n"
     "k: for potion 2 \n"
-    "l: for potion 3 \n"
+    "l: for potion 3 \n",
 }
 
 cipher_dict = {"RBODOSQ": "statue", "SGQNMDD": "throne"}
