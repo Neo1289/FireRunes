@@ -295,7 +295,7 @@ class Game:
                 "in prayer",
                 "portal",
                 "rune floor",
-                "cauldron"
+                "cauldron",
             ):
                 self.text = f"{self.phrases['text_2']}{obj_name}?"
                 self.text_surface = font.render(self.text, True, "white")
@@ -325,10 +325,17 @@ class Game:
             )
             self.display_surface.blit(self.text_surface, text_rect)
 
-    def making_potions(self):
+    def making_potions(self, event):
         for obj in self.collision_sprites:
             if getattr(obj, "name", None) == "cauldron" and self.object_id(obj):
-                print("ok")
+                if (
+                    self.key_down(event, "j")
+                    and self.player.inventory["crystal ball"] > 0
+                    and self.player_inventory["coin"] > 0
+                ):
+                    self.player.inventory["coin"] -= 1
+                    self.player.inventory["crystal ball"] -= 1
+                    self.player.inventory["potion one"] += 1
 
     def collect_resources(self, event):
         for obj in self.collision_sprites:
@@ -458,7 +465,7 @@ class Game:
                 self.effect = value[2]
                 self.buffer_used = value[1]
 
-    def player_buffers(self):
+    def player_buffers(self):  ####extra effects for buffers besides healing
         self.time_event = (pygame.time.get_ticks() - self.start_time) // 1000
 
         if self.duration_time >= self.time_event:
@@ -475,6 +482,19 @@ class Game:
                 for enemy in self.enemies_groups():
                     if enemy.name != "dragon":
                         enemy.speed = 0
+            elif self.buffer_used == "potion one":
+                position = (
+                    random.choice([100, -100, 50, -50, 200, -200, 0])
+                    + self.player.rect.x,
+                    random.choice([100, -100, 50, -50, 200, -200, 0])
+                    + self.player.rect.y,
+                )
+                Animation(
+                    position,
+                    images_dictionary["cure_spell"],
+                    self.all_sprites,
+                    "cure_spell",
+                )
             else:
                 self.player.life += self.effect
         else:
@@ -817,6 +837,7 @@ class Game:
                 for sprite in self.all_sprites
                 if isinstance(sprite, (Rune, Fire))
                 or getattr(sprite, "name", None) == "power_of_king"
+                or getattr(sprite,"name", None) == "cure_spell"
             ]
         )
         return projectiles
@@ -929,6 +950,7 @@ class Game:
                 self.buffer_handlers(event)
                 self.player_fire(event)
                 self.end_game(event)
+                self.making_potions(event)
                 if event.type == self.custom_event:
                     self.monsters()
                     self.static_animations()
@@ -957,7 +979,6 @@ class Game:
             self.assign_current_area()
             self.open_portal()
             self.dragon_spell_magic()
-            self.making_potions()
 
             pygame.display.update()
 
