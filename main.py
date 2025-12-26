@@ -465,7 +465,7 @@ class Game:
                 self.effect = value[2]
                 self.buffer_used = value[1]
 
-    def player_buffers(self):
+    def player_buffers(self):  ####extra effects for buffers besides healing
         self.time_event = (pygame.time.get_ticks() - self.start_time) // 1000
 
         if self.duration_time >= self.time_event:
@@ -482,6 +482,19 @@ class Game:
                 for enemy in self.enemies_groups():
                     if enemy.name != "dragon":
                         enemy.speed = 0
+            elif self.buffer_used == "potion one":
+                position = (
+                    random.choice([100, -100, 50, -50, 200, -200, 0])
+                    + self.player.rect.x,
+                    random.choice([100, -100, 50, -50, 200, -200, 0])
+                    + self.player.rect.y,
+                )
+                Animation(
+                    position,
+                    images_dictionary["cure_spell"],
+                    self.all_sprites,
+                    "cure_spell",
+                )
             else:
                 self.player.life += self.effect
         else:
