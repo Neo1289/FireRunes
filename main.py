@@ -837,7 +837,7 @@ class Game:
                 for sprite in self.all_sprites
                 if isinstance(sprite, (Rune, Fire))
                 or getattr(sprite, "name", None) == "power_of_king"
-                or getattr(sprite,"name", None) == "cure_spell"
+                or getattr(sprite, "name", None) == "cure_spell"
             ]
         )
         return projectiles

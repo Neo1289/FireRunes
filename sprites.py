@@ -35,6 +35,25 @@ class ShootFire:
 
 
 class GeneralSprite(pygame.sprite.Sprite):
+    COLLISION_SHRINK = {
+        "generic": 8,
+        "bush": 12,
+        "portal": 0,
+        "tree": 12,
+        "runes": 0,
+        "well": 8,
+        "grass": 15,
+        "necromancer": -2,
+        "rune floor": -1,
+        "scarecrow": -2,
+        "praying statue": 8,
+        "wizard": -2,
+        "cauldron": 6,
+        "cross": 5,
+        "fish": 0,
+        "chest": 2,
+    }
+
     def __init__(
         self,
         pos,
@@ -51,7 +70,7 @@ class GeneralSprite(pygame.sprite.Sprite):
         if ground_att:
             self.ground = True
         self.image = surf
-        self.rect = self.image.get_rect(topleft=pos)
+        self.first_rect = self.image.get_rect(topleft=pos)
         if item:
             self.item = item
         # determine the enemy attribute
@@ -61,7 +80,19 @@ class GeneralSprite(pygame.sprite.Sprite):
                 self.human = True
             if self.name == "runes":
                 self.rune = True
+            shrink_mask = (
+                -self.COLLISION_SHRINK[name],
+                -self.COLLISION_SHRINK[name],
+            )
+        else:
+            shrink_mask = (
+                -self.COLLISION_SHRINK["generic"],
+                -self.COLLISION_SHRINK["generic"],
+            )
+
         self.general = True
+
+        self.rect = self.first_rect.inflate(shrink_mask)
 
 
 #######################
