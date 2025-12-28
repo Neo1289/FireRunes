@@ -35,9 +35,24 @@ class ShootFire:
 
 
 class GeneralSprite(pygame.sprite.Sprite):
-    COLLISION_SHRINK = {"generic": 8, "bush": 12, "portal": 0, "tree": 12, "runes": 0, "well": 8,"grass": 15,
-                        "necromancer": -2, "rune floor": -1, "scarecrow": -2,"praying statue": 8, "wizard": -2,
-                        "cauldron": 6, "cross": 5, "fish": 0, "chest": 2}
+    COLLISION_SHRINK = {
+        "generic": 8,
+        "bush": 12,
+        "portal": 0,
+        "tree": 12,
+        "runes": 0,
+        "well": 8,
+        "grass": 15,
+        "necromancer": -2,
+        "rune floor": -1,
+        "scarecrow": -2,
+        "praying statue": 8,
+        "wizard": -2,
+        "cauldron": 6,
+        "cross": 5,
+        "fish": 0,
+        "chest": 2,
+    }
 
     def __init__(
         self,
