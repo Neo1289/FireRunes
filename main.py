@@ -331,11 +331,23 @@ class Game:
                 if (
                     self.key_down(event, "j")
                     and self.player.inventory["crystal ball"] > 0
-                    and self.player_inventory["coin"] > 0
+                    and self.player_inventory["coin"] > 10
                 ):
-                    self.player.inventory["coin"] -= 1
+                    self.player.inventory["coin"] -= 10
                     self.player.inventory["crystal ball"] -= 1
-                    self.player.inventory["potion one"] += 1
+                    self.player.inventory["white potion"] += 1
+                    self.last_item = "white potion"
+                if (
+                    self.key_down(event, "k")
+                    and self.player.inventory["crystal ball"] > 3
+                    and self.player_inventory["coin"] > 30
+                    and self.player_inventory["magic stone dust"] > 2
+                ):
+                    self.player.inventory["coin"] -= 30
+                    self.player.inventory["crystal ball"] -= 3
+                    self.player_inventory["magic stone dust"] -= 2
+                    self.player.inventory["red potion"] += 1
+                    self.last_item = "red potion"
 
     def collect_resources(self, event):
         for obj in self.collision_sprites:
@@ -482,7 +494,7 @@ class Game:
                 for enemy in self.enemies_groups():
                     if enemy.name != "dragon":
                         enemy.speed = 0
-            elif self.buffer_used == "potion one":
+            elif self.buffer_used == "white potion":
                 position = (
                     random.choice([100, -100, 50, -50, 200, -200, 0])
                     + self.player.rect.x,
@@ -494,6 +506,19 @@ class Game:
                     images_dictionary["cure_spell"],
                     self.all_sprites,
                     "cure_spell",
+                )
+            elif self.buffer_used == "red potion":
+                position = (
+                    random.choice([100, -100, 50, -50, 200, -200, 0])
+                    + self.player.rect.x,
+                    random.choice([100, -100, 50, -50, 200, -200, 0])
+                    + self.player.rect.y,
+                )
+                Animation(
+                    position,
+                    images_dictionary["torch"],
+                    self.all_sprites,
+                    "torch",
                 )
             else:
                 self.player.life += self.effect
@@ -838,6 +863,7 @@ class Game:
                 if isinstance(sprite, (Rune, Fire))
                 or getattr(sprite, "name", None) == "power_of_king"
                 or getattr(sprite, "name", None) == "cure_spell"
+                or getattr(sprite,"name", None) == "torch"
             ]
         )
         return projectiles

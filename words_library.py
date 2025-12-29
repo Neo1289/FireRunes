@@ -38,9 +38,9 @@ phrases = {
     "text_16": "do you want to sell your scheleton dust? \n"
     "D to sell them, 1 coin a piece",
     "text_17": "do you want to make a potion? \n"
-    "h: for potion 1 \n"
-    "k: for potion 2 \n"
-    "l: for potion 3 \n",
+    "j: for the white potion \n"
+    "k: for the red potion \n"
+    "l: for the black potion \n",
 }
 
 cipher_dict = {"RBODOSQ": "statue", "SGQNMDD": "throne"}
