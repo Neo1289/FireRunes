@@ -267,6 +267,7 @@ lasting_time = {
     "special_scheleton": 30000000,
     "player_dragon_aura": 100,
     "cauldron": 1000,
+    "torch": 1000
 }
 
 game_objects = [
@@ -282,8 +283,9 @@ game_objects = [
 
 buffers = {
     "1": [0, "potion", 2],
-    "3": [10, "holy water", 1],
+    "3": [5, "holy water", 1],
     "2": [0, "crystal ball", 0],
     "4": [1, "runes dust", 0],
-    "5": [1, "potion one", 0],
+    "5": [0, "white potion", 0],
+    "6": [3, "red potion", 0],
 }
