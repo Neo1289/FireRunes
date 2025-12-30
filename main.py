@@ -416,6 +416,7 @@ class Game:
         ):
             self.player.life += 1
             self.regeneration_countdown = self.regeneration_event
+            self.companion_spawned = 0 ###resetting the black potion
 
     def player_fire(self, event):
         if self.key_down(event, "z") and self.player.inventory["fire dust"] > 0:
