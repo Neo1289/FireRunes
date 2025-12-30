@@ -73,6 +73,7 @@ class Game:
         self.enemies_damage = enemies_damage
         self.enemies_immunity = enemies_immunity
         self.killed_enemies = 0
+        self.companion_spawned = 0
 
         self.obj_positions_dict = {}
         self.static_frames = {
@@ -534,25 +535,28 @@ class Game:
                     "torch",
                 )
             elif self.buffer_used == "black potion":
-                self.companion = NPC(
-                    (self.player.rect.x + 10, self.player.rect.y + 10),
-                    self.enemies_images["special_scheleton"],
-                    self.all_sprites,
-                    "special_scheleton",
-                    enemies_speed["special_scheleton"],
-                    False,
-                    self.enemies_life["special_scheleton"],
-                    self.enemies_damage["special_scheleton"],
-                    self.enemies_direction["special_scheleton"],
-                    follow_player= True
-                )
+                if self.companion_spawned == 0:
+                    self.companion = NPC(
+                        (self.player.rect.x + 10, self.player.rect.y + 10),
+                        self.enemies_images["special_scheleton"],
+                        self.all_sprites,
+                        "special_scheleton",
+                        enemies_speed["special_scheleton"],
+                        False,
+                        self.enemies_life["special_scheleton"],
+                        self.enemies_damage["special_scheleton"],
+                        self.enemies_direction["special_scheleton"],
+                        follow_player=True
+                    )
+                    self.companion.player = self.player
+                    self.companion_spawned += 1
 
-                self.monster.player = self.player
 
             else:
                 self.player.life += self.effect
         else:
             self.buffer_used = None
+
 
     def trading(self, event):
         obj_positions = {
