@@ -534,7 +534,21 @@ class Game:
                     "torch",
                 )
             elif self.buffer_used == "black potion":
-                print('line 524 for effects')
+                self.companion = NPC(
+                    (self.player.rect.x + 10, self.player.rect.y + 10),
+                    self.enemies_images["special_scheleton"],
+                    self.all_sprites,
+                    "special_scheleton",
+                    enemies_speed["special_scheleton"],
+                    False,
+                    self.enemies_life["special_scheleton"],
+                    self.enemies_damage["special_scheleton"],
+                    self.enemies_direction["special_scheleton"],
+                    follow_player= True
+                )
+
+                self.monster.player = self.player
+
             else:
                 self.player.life += self.effect
         else:
@@ -878,7 +892,7 @@ class Game:
                 if isinstance(sprite, (Rune, Fire))
                 or getattr(sprite, "name", None) == "power_of_king"
                 or getattr(sprite, "name", None) == "cure_spell"
-                or getattr(sprite,"name", None) == "torch"
+                or getattr(sprite, "name", None) == "torch"
             ]
         )
         return projectiles

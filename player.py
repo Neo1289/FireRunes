@@ -48,7 +48,7 @@ class Player(pygame.sprite.Sprite):
             "magic stone dust": 0,
             "white potion": 0,
             "red potion": 0,
-            "black potion": 0
+            "black potion": 3,
         }
 
     def _setup_rects(self, pos):

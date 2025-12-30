@@ -267,7 +267,7 @@ lasting_time = {
     "special_scheleton": 30000000,
     "player_dragon_aura": 100,
     "cauldron": 1000,
-    "torch": 1000
+    "torch": 1000,
 }
 
 game_objects = [
