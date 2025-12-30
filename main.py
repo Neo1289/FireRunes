@@ -73,6 +73,7 @@ class Game:
         self.enemies_damage = enemies_damage
         self.enemies_immunity = enemies_immunity
         self.killed_enemies = 0
+        self.companion_spawned = 0
 
         self.obj_positions_dict = {}
         self.static_frames = {
@@ -348,6 +349,19 @@ class Game:
                     self.player_inventory["magic stone dust"] -= 2
                     self.player.inventory["red potion"] += 1
                     self.last_item = "red potion"
+                if (
+                    self.key_down(event, "l")
+                    and self.player.inventory["crystal ball"] > 3
+                    and self.player_inventory["coin"] > 30
+                    and self.player_inventory["magic stone dust"] > 2
+                    and self.player_inventory["scheleton dust"] > 20
+                ):
+                    self.player.inventory["coin"] -= 30
+                    self.player.inventory["crystal ball"] -= 3
+                    self.player_inventory["magic stone dust"] -= 2
+                    self.player_inventory["scheleton dust"] -= 20
+                    self.player.inventory["black potion"] += 1
+                    self.last_item = "black potion"
 
     def collect_resources(self, event):
         for obj in self.collision_sprites:
@@ -520,10 +534,29 @@ class Game:
                     self.all_sprites,
                     "torch",
                 )
+            elif self.buffer_used == "black potion":
+                if self.companion_spawned == 0:
+                    self.companion = NPC(
+                        (self.player.rect.x + 10, self.player.rect.y + 10),
+                        self.enemies_images["special_scheleton"],
+                        self.all_sprites,
+                        "special_scheleton",
+                        enemies_speed["special_scheleton"],
+                        False,
+                        self.enemies_life["special_scheleton"],
+                        self.enemies_damage["special_scheleton"],
+                        self.enemies_direction["special_scheleton"],
+                        follow_player=True
+                    )
+                    self.companion.player = self.player
+                    self.companion_spawned += 1
+
+
             else:
                 self.player.life += self.effect
         else:
             self.buffer_used = None
+
 
     def trading(self, event):
         obj_positions = {
@@ -863,7 +896,7 @@ class Game:
                 if isinstance(sprite, (Rune, Fire))
                 or getattr(sprite, "name", None) == "power_of_king"
                 or getattr(sprite, "name", None) == "cure_spell"
-                or getattr(sprite,"name", None) == "torch"
+                or getattr(sprite, "name", None) == "torch"
             ]
         )
         return projectiles

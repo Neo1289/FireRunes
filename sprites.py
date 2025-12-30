@@ -36,7 +36,7 @@ class ShootFire:
 
 class GeneralSprite(pygame.sprite.Sprite):
     COLLISION_SHRINK = {
-        "generic": 8,
+        "generic": 9,
         "bush": 12,
         "portal": 0,
         "tree": 12,
