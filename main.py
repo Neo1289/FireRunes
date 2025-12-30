@@ -348,6 +348,19 @@ class Game:
                     self.player_inventory["magic stone dust"] -= 2
                     self.player.inventory["red potion"] += 1
                     self.last_item = "red potion"
+                if (
+                    self.key_down(event, "l")
+                    and self.player.inventory["crystal ball"] > 3
+                    and self.player_inventory["coin"] > 30
+                    and self.player_inventory["magic stone dust"] > 2
+                    and self.player_inventory["scheleton dust"] > 20
+                ):
+                    self.player.inventory["coin"] -= 30
+                    self.player.inventory["crystal ball"] -= 3
+                    self.player_inventory["magic stone dust"] -= 2
+                    self.player_inventory["scheleton dust"] -= 20
+                    self.player.inventory["black potion"] += 1
+                    self.last_item = "black potion"
 
     def collect_resources(self, event):
         for obj in self.collision_sprites:
@@ -520,6 +533,8 @@ class Game:
                     self.all_sprites,
                     "torch",
                 )
+            elif self.buffer_used == "black potion":
+                print('line 524 for effects')
             else:
                 self.player.life += self.effect
         else:
