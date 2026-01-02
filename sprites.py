@@ -175,6 +175,11 @@ class NPC(pygame.sprite.Sprite, TimeUpdate):
             self.shooter.update(self.rect)
         TimeUpdate.update(self, dt, self.name)
 
+class Companion(NPC):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+
 
 class Rune(pygame.sprite.Sprite, TimeUpdate):
     def __init__(self, pos, groups, name="rune"):

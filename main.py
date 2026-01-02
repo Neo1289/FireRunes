@@ -27,7 +27,7 @@ from words_library import phrases, menu_instructions, cipher_dict
 ###SPRITES
 from player import Player
 from camera import allSpritesOffset
-from sprites import GeneralSprite, AreaSprite, NPC, Rune, Fire, Animation
+from sprites import GeneralSprite, AreaSprite, NPC, Rune, Fire, Animation, Companion
 
 pygame.init()
 pygame.mixer.init()
@@ -894,7 +894,7 @@ class Game:
             [
                 sprite
                 for sprite in self.all_sprites
-                if isinstance(sprite, (Rune, Fire))
+                if isinstance(sprite, (Rune, Fire, Companion))
                 or getattr(sprite, "name", None) == "power_of_king"
                 or getattr(sprite, "name", None) == "cure_spell"
                 or getattr(sprite, "name", None) == "torch"
