@@ -27,7 +27,7 @@ from words_library import phrases, menu_instructions, cipher_dict
 ###SPRITES
 from player import Player
 from camera import allSpritesOffset
-from sprites import GeneralSprite, AreaSprite, NPC, Rune, Fire, Animation
+from sprites import GeneralSprite, AreaSprite, NPC, Rune, Fire, Animation, Companion
 
 pygame.init()
 pygame.mixer.init()
@@ -73,6 +73,7 @@ class Game:
         self.enemies_damage = enemies_damage
         self.enemies_immunity = enemies_immunity
         self.killed_enemies = 0
+        self.companion_spawned = 0
 
         self.obj_positions_dict = {}
         self.static_frames = {
@@ -520,6 +521,24 @@ class Game:
                     self.all_sprites,
                     "torch",
                 )
+            elif self.buffer_used == "black potion":
+                if self.companion_spawned == 0:
+                    Companion(
+                        (self.player.rect.centery -10,self.player.rect.centerx - 10),
+                        self.enemies_images["special_scheleton"],
+                        self.all_sprites,
+                        "special_scheleton",
+                        enemies_speed["special_scheleton"],
+                        False,
+                        self.enemies_life["special_scheleton"],
+                        self.enemies_damage["special_scheleton"],
+                        self.enemies_direction["special_scheleton"],
+                        True,
+                        self.enemies_immunity["special_scheleton"],
+                    )
+                    self.monster.player = self.player
+                    self.companion_spawned += 1
+
             else:
                 self.player.life += self.effect
         else:
@@ -860,10 +879,11 @@ class Game:
             [
                 sprite
                 for sprite in self.all_sprites
-                if isinstance(sprite, (Rune, Fire))
+                if isinstance(sprite, (Rune, Fire, Companion))
                 or getattr(sprite, "name", None) == "power_of_king"
                 or getattr(sprite, "name", None) == "cure_spell"
                 or getattr(sprite,"name", None) == "torch"
+
             ]
         )
         return projectiles

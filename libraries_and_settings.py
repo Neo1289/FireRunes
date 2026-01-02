@@ -288,4 +288,5 @@ buffers = {
     "4": [1, "runes dust", 0],
     "5": [0, "white potion", 0],
     "6": [3, "red potion", 0],
+    "7": [10000, "black potion", 0],
 }
