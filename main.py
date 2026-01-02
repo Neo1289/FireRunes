@@ -537,7 +537,7 @@ class Game:
                 )
             elif self.buffer_used == "black potion":
                 if self.companion_spawned == 0:
-                    self.companion = NPC(
+                    self.companion = Companion(
                         (self.player.rect.x + 10, self.player.rect.y + 10),
                         self.enemies_images["special_scheleton"],
                         self.all_sprites,
