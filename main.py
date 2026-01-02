@@ -416,7 +416,7 @@ class Game:
         ):
             self.player.life += 1
             self.regeneration_countdown = self.regeneration_event
-            self.companion_spawned = 0 ###resetting the black potion
+            self.companion_spawned = 0  ###resetting the black potion
 
     def player_fire(self, event):
         if self.key_down(event, "z") and self.player.inventory["fire dust"] > 0:
@@ -547,17 +547,15 @@ class Game:
                         self.enemies_life["special_scheleton"],
                         self.enemies_damage["special_scheleton"],
                         self.enemies_direction["special_scheleton"],
-                        follow_player=True
+                        follow_player=True,
                     )
                     self.companion.player = self.player
                     self.companion_spawned += 1
-
 
             else:
                 self.player.life += self.effect
         else:
             self.buffer_used = None
-
 
     def trading(self, event):
         obj_positions = {
