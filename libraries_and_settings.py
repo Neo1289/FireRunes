@@ -187,7 +187,7 @@ enemies_speed = {
     "infernal_fire": 100,
     "magic": 0,
     "bush": 0,
-    "special_scheleton": 30,
+    "special_scheleton": 50,
 }
 enemies_direction = {
     "dragon": [-1, 1],

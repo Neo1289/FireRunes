@@ -494,6 +494,7 @@ class Game:
 
     def player_buffers(self):  ####extra effects for buffers besides healing
         self.time_event = (pygame.time.get_ticks() - self.start_time) // 1000
+        enemies = self.enemies_groups()
 
         if self.duration_time >= self.time_event:
             if self.buffer_used == "runes dust":
@@ -551,6 +552,13 @@ class Game:
                     )
                     self.companion.player = self.player
                     self.companion_spawned += 1
+
+                for enemy in enemies:
+                    if pygame.sprite.collide_rect(enemy, self.companion):
+                        enemy.life -= 1
+                    if enemy.life <= 0:
+                        enemy.kill()
+
 
             else:
                 self.player.life += self.effect
