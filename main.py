@@ -416,7 +416,7 @@ class Game:
         ):
             self.player.life += 1
             self.regeneration_countdown = self.regeneration_event
-            self.companion_spawned = 0  ###resetting the black potion
+
 
     def player_fire(self, event):
         if self.key_down(event, "z") and self.player.inventory["fire dust"] > 0:
@@ -763,6 +763,7 @@ class Game:
                     "failed_attack",
                 )
 
+
     def check_enemies_collision(self):
         enemies = self.enemies_groups()
         projectiles = self.player_projectiles()
@@ -880,7 +881,7 @@ class Game:
         return event.type == pygame.KEYDOWN and event.key == getattr(pygame, f"K_{key}")
 
     def enemies_groups(self):
-        return [sprite for sprite in self.all_sprites if isinstance(sprite, NPC)]
+        return [sprite for sprite in self.all_sprites if isinstance(sprite, NPC)and not isinstance(sprite, Companion)]
 
     def preventing_repetition(self, time_event, any_time_attribute, buffer: int):
         """Prevent duplicate actions
@@ -892,7 +893,7 @@ class Game:
             [
                 sprite
                 for sprite in self.all_sprites
-                if isinstance(sprite, (Rune, Fire, Companion))
+                if isinstance(sprite, (Rune, Fire))
                 or getattr(sprite, "name", None) == "power_of_king"
                 or getattr(sprite, "name", None) == "cure_spell"
                 or getattr(sprite, "name", None) == "torch"
