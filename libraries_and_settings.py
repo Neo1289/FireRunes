@@ -187,7 +187,7 @@ enemies_speed = {
     "infernal_fire": 100,
     "magic": 0,
     "bush": 0,
-    "special_scheleton": 30,
+    "special_scheleton": 50,
 }
 enemies_direction = {
     "dragon": [-1, 1],
@@ -288,5 +288,5 @@ buffers = {
     "4": [1, "runes dust", 0],
     "5": [0, "white potion", 0],
     "6": [3, "red potion", 0],
-    "7": [0, "black potion", 0],
+    "7": [100, "black potion", 0],
 }

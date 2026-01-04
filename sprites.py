@@ -179,6 +179,7 @@ class NPC(pygame.sprite.Sprite, TimeUpdate):
 class Companion(NPC):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.companion = True
 
 
 class Rune(pygame.sprite.Sprite, TimeUpdate):
