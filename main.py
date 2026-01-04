@@ -417,7 +417,6 @@ class Game:
             self.player.life += 1
             self.regeneration_countdown = self.regeneration_event
 
-
     def player_fire(self, event):
         if self.key_down(event, "z") and self.player.inventory["fire dust"] > 0:
             Fire(
@@ -553,12 +552,12 @@ class Game:
                     self.companion.player = self.player
                     self.companion_spawned += 1
 
+
                 for enemy in enemies:
                     if pygame.sprite.collide_rect(enemy, self.companion):
                         enemy.life -= 1
                     if enemy.life <= 0:
                         enemy.kill()
-
 
             else:
                 self.player.life += self.effect
@@ -771,7 +770,6 @@ class Game:
                     "failed_attack",
                 )
 
-
     def check_enemies_collision(self):
         enemies = self.enemies_groups()
         projectiles = self.player_projectiles()
@@ -889,7 +887,11 @@ class Game:
         return event.type == pygame.KEYDOWN and event.key == getattr(pygame, f"K_{key}")
 
     def enemies_groups(self):
-        return [sprite for sprite in self.all_sprites if isinstance(sprite, NPC)and not isinstance(sprite, Companion)]
+        return [
+            sprite
+            for sprite in self.all_sprites
+            if isinstance(sprite, NPC) and not isinstance(sprite, Companion)
+        ]
 
     def preventing_repetition(self, time_event, any_time_attribute, buffer: int):
         """Prevent duplicate actions
