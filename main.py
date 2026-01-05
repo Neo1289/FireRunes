@@ -539,14 +539,14 @@ class Game:
                 if self.companion_spawned == 0:
                     self.companion = Companion(
                         (self.player.rect.x + 10, self.player.rect.y + 10),
-                        self.enemies_images["special_scheleton"],
+                        images_dictionary["black_potion"],
                         self.all_sprites,
-                        "special_scheleton",
-                        enemies_speed["special_scheleton"],
+                        "black_potion",
+                        enemies_speed["black_potion"],
                         False,
-                        self.enemies_life["special_scheleton"],
-                        self.enemies_damage["special_scheleton"],
-                        self.enemies_direction["special_scheleton"],
+                        self.enemies_life["black_potion"],
+                        self.enemies_damage["black_potion"],
+                        self.enemies_direction["black_potion"],
                         follow_player=True,
                     )
                     self.companion.player = self.player
@@ -563,6 +563,7 @@ class Game:
                 self.player.life += self.effect
         else:
             self.buffer_used = None
+
 
     def trading(self, event):
         obj_positions = {
