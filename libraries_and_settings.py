@@ -78,6 +78,7 @@ images_dictionary = {
     "portal": [],
     "dragon": [],
     "cauldron": [],
+    "black_potion": [],
 }
 
 color_key = {
@@ -106,6 +107,7 @@ color_key = {
     "portal": "black",
     "dragon": None,
     "cauldron": (0, 0, 0),
+    "black_potion": (0, 128, 128)
 }
 
 for enemy_name in images_dictionary:
@@ -142,6 +144,7 @@ enemies_damage = {
     "magic": 0.5,
     "bush": 1,
     "special_scheleton": 3,
+    "black_potion": 1
 }
 enemies_life = {
     "dragon": 500,
@@ -157,6 +160,7 @@ enemies_life = {
     "magic": 3,
     "bush": 1,
     "special_scheleton": 100,
+    "black_potion": 10
 }
 enemies_images = {
     "dragon": images_dictionary["dragon"],
@@ -187,7 +191,8 @@ enemies_speed = {
     "infernal_fire": 100,
     "magic": 0,
     "bush": 0,
-    "special_scheleton": 50,
+    "special_scheleton": 40,
+    "black_potion": 100
 }
 enemies_direction = {
     "dragon": [-1, 1],
@@ -203,6 +208,7 @@ enemies_direction = {
     "magic": [-1, 1],
     "bush": [-1, 1],
     "special_scheleton": [-1, 1],
+    "black_potion": [-1, 1]
 }
 enemies_immunity = {
     "dragon": "fire",
@@ -218,6 +224,7 @@ enemies_immunity = {
     "magic": None,
     "bush": None,
     "special_scheleton": "ice",
+    "black_potion": "fire"
 }
 spawning_time = {
     "world": 20000,
@@ -268,6 +275,7 @@ lasting_time = {
     "player_dragon_aura": 100,
     "cauldron": 1000,
     "torch": 1000,
+    "black_potion": 10000,
 }
 
 game_objects = [
@@ -288,5 +296,5 @@ buffers = {
     "4": [1, "runes dust", 0],
     "5": [0, "white potion", 0],
     "6": [3, "red potion", 0],
-    "7": [100, "black potion", 0],
+    "7": [10, "black potion", 0],
 }
