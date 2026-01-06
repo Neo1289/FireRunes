@@ -107,7 +107,7 @@ color_key = {
     "portal": "black",
     "dragon": None,
     "cauldron": (0, 0, 0),
-    "black_potion": (0, 128, 128)
+    "black_potion": (0, 128, 128),
 }
 
 for enemy_name in images_dictionary:
@@ -144,7 +144,7 @@ enemies_damage = {
     "magic": 0.5,
     "bush": 1,
     "special_scheleton": 3,
-    "black_potion": 1
+    "black_potion": 1,
 }
 enemies_life = {
     "dragon": 500,
@@ -160,7 +160,7 @@ enemies_life = {
     "magic": 3,
     "bush": 1,
     "special_scheleton": 100,
-    "black_potion": 10
+    "black_potion": 10,
 }
 enemies_images = {
     "dragon": images_dictionary["dragon"],
@@ -192,7 +192,7 @@ enemies_speed = {
     "magic": 0,
     "bush": 0,
     "special_scheleton": 40,
-    "black_potion": 100
+    "black_potion": 100,
 }
 enemies_direction = {
     "dragon": [-1, 1],
@@ -208,7 +208,7 @@ enemies_direction = {
     "magic": [-1, 1],
     "bush": [-1, 1],
     "special_scheleton": [-1, 1],
-    "black_potion": [-1, 1]
+    "black_potion": [-1, 1],
 }
 enemies_immunity = {
     "dragon": "fire",
@@ -224,7 +224,7 @@ enemies_immunity = {
     "magic": None,
     "bush": None,
     "special_scheleton": "ice",
-    "black_potion": "fire"
+    "black_potion": "fire",
 }
 spawning_time = {
     "world": 20000,
