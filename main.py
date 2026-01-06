@@ -562,7 +562,7 @@ class Game:
                         follow_player=True,
                     )
                     self.companion.player = self.player
-                    self.companion.closest_enemy = closest
+                    self.companion.closest_enemy = self.closest_enemy
                     self.companion_spawned += 1
 
                 for enemy in enemies:
