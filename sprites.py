@@ -177,9 +177,22 @@ class NPC(pygame.sprite.Sprite, TimeUpdate):
 
 
 class Companion(NPC):
-    def __init__(self, *args, **kwargs):
+    def __init__(self,closest_enemy, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.companion = True
+        self.closest_enemy = closest_enemy
+
+    def move(self, dt):
+        if self.closest_enemy:
+            enemy_pos = pygame.Vector2(self.closest_enemy.rect.center)
+            self.direction = (enemy_pos - self.pos).normalize()
+
+        elif self.follow_player and self.player:
+            player_pos = pygame.Vector2(self.player.rect.center)
+            self.direction = (player_pos - self.pos).normalize()
+
+        self.pos += self.direction * self.speed * dt
+        self.rect.center = self.pos
 
 
 class Rune(pygame.sprite.Sprite, TimeUpdate):
