@@ -570,6 +570,7 @@ class Game:
                         enemy.life -= 1
                     if enemy.life <= 0:
                         enemy.kill()
+                        self.companion.enemy_killed += 1
 
             else:
                 self.player.life += self.effect
