@@ -74,7 +74,6 @@ class Game:
         self.enemies_immunity = enemies_immunity
         self.killed_enemies = 0
         self.companion_spawned = 0
-        self.closest_enemy = None
 
         self.obj_positions_dict = {}
         self.static_frames = {
@@ -492,17 +491,6 @@ class Game:
                 self.effect = value[2]
                 self.buffer_used = value[1]
 
-    def closest_enemy_func(self):
-        enemies = self.enemies_groups()
-
-        if self.closest_enemy is None or self.closest_enemy not in enemies:
-            self.closest_enemy = min(
-                enemies,
-                key=lambda e: pygame.math.Vector2(e.rect.center).distance_to(
-                    self.player.rect.center
-                ),
-            )
-
     def player_buffers(self):  ####extra effects for buffers besides healing
         self.time_event = (pygame.time.get_ticks() - self.start_time) // 1000
         enemies = self.enemies_groups()
@@ -550,6 +538,7 @@ class Game:
             elif self.buffer_used == "black potion":
                 if self.companion_spawned == 0:
                     self.companion = Companion(
+                        enemies,
                         (self.player.rect.x + 10, self.player.rect.y + 10),
                         images_dictionary["black_potion"],
                         self.all_sprites,
@@ -562,7 +551,7 @@ class Game:
                         follow_player=True,
                     )
                     self.companion.player = self.player
-                    self.companion.closest_enemy = self.closest_enemy
+
                     self.companion_spawned += 1
 
                 for enemy in enemies:
@@ -1061,7 +1050,6 @@ class Game:
             self.assign_current_area()
             self.open_portal()
             self.dragon_spell_magic()
-            self.closest_enemy_func()
 
             pygame.display.update()
 
