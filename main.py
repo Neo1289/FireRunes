@@ -564,6 +564,9 @@ class Game:
             else:
                 self.player.life += self.effect
         else:
+            # Reset companion_spawned when black potion expires
+            if self.buffer_used == "black potion":
+                self.companion_spawned = 0
             self.buffer_used = None
 
     def trading(self, event):

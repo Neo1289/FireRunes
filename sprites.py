@@ -192,17 +192,16 @@ class Companion(NPC):
         )
 
     def move(self, dt):
-        if self.enemies is not None:
+        try:
             enemy_to_follow = self.order_enemy()
             enemy_pos = pygame.Vector2(enemy_to_follow[self.enemy_killed].rect.center)
             self.direction = (enemy_pos - self.pos).normalize()
+        except:
+            player_pos = pygame.Vector2(self.player.rect.center)
+            self.direction = (player_pos - self.pos).normalize()
 
-            # if self.follow_player and self.player:
-            # player_pos = pygame.Vector2(self.player.rect.center)
-            # self.direction = (player_pos - self.pos).normalize()
-
-            self.pos += self.direction * self.speed * dt
-            self.rect.center = self.pos
+        self.pos += self.direction * self.speed * dt
+        self.rect.center = self.pos
 
 
 class Rune(pygame.sprite.Sprite, TimeUpdate):
