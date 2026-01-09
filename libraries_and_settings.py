@@ -262,7 +262,7 @@ lasting_time = {
     "failed_attack": 100,
     "power_of_king": 600,
     "grass": 1000,
-    "dragon_fire": 1000,
+    "dragon_fire": 10000,
     "river_zone": 50,
     "player_aura": 100,
     "cure_spell": 500,
